@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button, ButtonGroup, Col, Dropdown, DropdownButton, Form, InputGroup, Row} from 'react-bootstrap'
-import '../css/RegisterPage.css';
+import { Button, Col, Form, InputGroup, Row} from 'react-bootstrap'
 
 const RegisterStaffPage = () => {
   return (
