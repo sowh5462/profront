@@ -3,7 +3,8 @@ import React, { useContext, useState } from 'react'
 import { Button, Row, Col, Card, Form } from 'react-bootstrap'
 import { AlertContext } from '../AlertContext'
 import logo from '../../images/로고.png'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 const LoginPage = ({history}) => {
     const {setBox} = useContext(AlertContext);
@@ -22,20 +23,19 @@ const LoginPage = ({history}) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);
         console.log(res.data);
-        if(res.data.result===0) {
-            // setBox({
-            //     show: true,
-            //     message: '아이디가 존재하지않습니다!'
-            // });
-        }else if(res.data.result===2) {
-            alert(res.data.result)
-            // setBox({
-            //     show: true,
-            //     message: '비밀번호가 존재하지않습니다!'
-            // });
-        }else if(res.data.result===1) {
+        if(res.data[0]===0) {
+            setBox({
+                show: true,
+                message: '아이디가 존재하지않습니다!'
+            });
+        }else if(res.data[0]===2) {
+            setBox({
+                show: true,
+                message: '비밀번호가 존재하지않습니다!'
+            });
+        }else if(res.data[0]===1) {
             sessionStorage.setItem('use_login_id', use_login_id);
-                history.push('/');
+            if(res.data[1] === 1 ){ history.push('/user/boss')/* 사장 메인페이지 */ } else { history.push('/user/staff')/* 직원 메인페이지 */ }
         }
     }
 
