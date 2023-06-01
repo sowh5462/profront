@@ -6,6 +6,11 @@ import RegisterPage from './User/RegisterPage';
 import RegisterBossPage from './User/RegisterBossPage';
 import RegisterStaffPage from './User/RegisterStaffPage';
 import Homepage from './HomePage';
+import StaffPage from './Staff/StaffPage';
+import SchedulePage from './Staff/SchedulePage';
+import TimePage from './Staff/TimePage';
+import PayPage from './Staff/PayPage';
+import CheckPage from './Staff/CheckPage';
 
 
 const RouterPage = ({ history }) => {
@@ -23,6 +28,11 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register" component={RegisterPage} exact={true}/>
                     <Route path="/user/register/boss" component={RegisterBossPage}/>
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
+                    <Route path="/staff" component={StaffPage} exact={true}/>
+                    <Route path="/staff/schedule" component={SchedulePage}/>
+                    <Route path="/staff/time" component={TimePage}/>
+                    <Route path="/staff/pay" component={PayPage}/>
+                    <Route path="/staff/check" component={CheckPage}/>
                 </Switch>
     )
 }
