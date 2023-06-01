@@ -6,6 +6,8 @@ import RegisterPage from './User/RegisterPage';
 import RegisterBossPage from './User/RegisterBossPage';
 import RegisterStaffPage from './User/RegisterStaffPage';
 import Homepage from './HomePage';
+import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
+import WorkplaceMenu from './WorkPlaceMenu';
 
 
 const RouterPage = ({ history }) => {
@@ -23,6 +25,7 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register" component={RegisterPage} exact={true}/>
                     <Route path="/user/register/boss" component={RegisterBossPage}/>
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
+                    <Route path="/workplace" component={WorkplaceMenu} exact={true}></Route>
                 </Switch>
     )
 }
