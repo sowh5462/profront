@@ -8,6 +8,7 @@ import { AlertContext } from './components/AlertContext';
 import RegisterPage from './components/User/RegisterPage';
 import RegisterBossPage from './components/User/RegisterBossPage';
 import RegisterStaffPage from './components/User/RegisterStaffPage';
+import MasterListPage from './components/Master/MasterListPage';
 
 function App() {
     const [box, setBox] = useState({
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/register" component={RegisterPage} exact={true}/>
                 <Route path="/register/boss" component={RegisterBossPage}/>
                 <Route path="/register/staff" component={RegisterStaffPage}/>
+                <Route path="/master/list" component={MasterListPage}/>
             </Switch>
             { box.show && <AlertModal/> }
         </div>
