@@ -22,18 +22,8 @@ const LoginPage = ({history}) => {
     const onSubmit = async(e) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);
-        // console.log(res.data);
-        if(use_login_id === ''){
-            setBox({
-                show: true,
-                message: '아이디를 입력하세요'
-            });
-        }else if(use_login_pass === ''){
-            setBox({
-                show: true,
-                message: '비밀번호를 입력하세요'
-            });
-        }else if(res.data[0]===0) {
+        console.log(res.data);
+        if(res.data[0]===0) {
             setBox({
                 show: true,
                 message: '아이디가 존재하지않습니다!'
@@ -45,7 +35,7 @@ const LoginPage = ({history}) => {
             });
         }else if(res.data[0]===1) {
             sessionStorage.setItem('use_login_id', use_login_id);
-            if(res.data[1] === 1 ){ history.push('/user/boss/mypage')/* 사장 메인페이지 */ } else { history.push('/user/staff/mypage')/* 직원 메인페이지 */ }
+            if(res.data[1] === 1 ){ history.push('/user/boss')/* 사장 메인페이지 */ } else { history.push('/user/staff')/* 직원 메인페이지 */ }
         }
     }
 
