@@ -1,11 +1,12 @@
 import React from 'react'
-import { Link, Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import { Route, withRouter } from 'react-router-dom';
 import LoginPage from './User/LoginPage';
 import RegisterPage from './User/RegisterPage';
 import RegisterBossPage from './User/RegisterBossPage';
 import RegisterStaffPage from './User/RegisterStaffPage';
 import Homepage from './HomePage';
+import PayRollPage from './Master/PayRollPage';
 
 
 const RouterPage = ({ history }) => {
@@ -23,6 +24,7 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register" component={RegisterPage} exact={true}/>
                     <Route path="/user/register/boss" component={RegisterBossPage}/>
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
+                    <Route path="/workplace/payroll" component={PayRollPage}/>
                 </Switch>
     )
 }
