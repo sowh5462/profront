@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nivo/bar": "^0.83.0",
+    "@nivo/core": "^0.83.0",
+    "@nivo/pie": "^0.83.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -13,6 +16,7 @@
     "react-bootstrap": "^2.7.2",
     "react-calendar": "^4.2.1",
     "react-dom": "^18.2.0",
+    "react-google-charts": "^4.0.0",
     "react-icon": "^1.0.0",
     "react-icons": "^4.9.0",
     "react-js-pagination": "^3.0.3",

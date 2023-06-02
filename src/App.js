@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import HomePage from './components/HomePage';
-import LoginPage from './components/User/LoginPage';
 import AlertModal from './components/AlertModal';
 import { AlertContext } from './components/AlertContext';
 
