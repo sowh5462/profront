@@ -19,24 +19,25 @@ function App() {
     });
 
     return (
-        <AlertContext.Provider value={{box, setBox}}>
-        <div className="App">
+        <AlertContext.Provider value={{ box, setBox }}>
+            <div className="App">
+                <RouterPage />
+                <Switch>
+                    <Route path="/" component={HomePage} exact={true} />
+                    <Route path="/user/login" component={LoginPage} />
+                    <Route path="/register" component={RegisterPage} exact={true} />
+                    <Route path="/register/boss" component={RegisterBossPage} />
+                    <Route path="/register/staff" component={RegisterStaffPage} />
+                    <Route path="/master/list" component={MasterListPage} />
+                </Switch>
 
-            <RouterPage/>
-
-            <Switch>
-                <Route path="/" component={HomePage} exact={true}/>
-                <Route path="/user/login" component={LoginPage}/>
-                <Route path="/register" component={RegisterPage} exact={true}/>
-                <Route path="/register/boss" component={RegisterBossPage}/>
-                <Route path="/register/staff" component={RegisterStaffPage}/>
-                <Route path="/master/list" component={MasterListPage}/>
-            </Switch>
-
-            { box.show && <AlertModal/> }
-        </div>
+                {box.show && <AlertModal />}
+            </div>
         </AlertContext.Provider>
     );
 }
+// 
+
+
 
 export default App;
