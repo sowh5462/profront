@@ -34,6 +34,11 @@
   margin-right: 10px;
 }
 
+.checkUser{
+  width: 60px;
+  border-radius: 20%;
+}
+
 .userbox{
   text-align: left;
   padding-left: 30px;
@@ -168,4 +173,14 @@
   height: 30px;
 }
 
+.chkBtn{
+  margin-left: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 2px 8px;
+  border: none;
+  background-color: #88B5F9;
+  color:white;
+  font-weight: bold;
+}
 
