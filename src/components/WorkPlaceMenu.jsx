@@ -14,7 +14,7 @@ import AttendancePage from './Master/AttendancePage';
 const Design = () => {
   return (
     <div className="content">
-        <Tab.Container id="list-group-tabs-example" defaultActiveKey="#link1">
+        <Tab.Container id="list-group-tabs-example" defaultActiveKey="#Info">
           <Row>
             <Col sm={2}>
                 <div className="userbox">
@@ -27,7 +27,7 @@ const Design = () => {
                   <BiHomeAlt2/> 홈화면
                 </ListGroup.Item>
 
-                <ListGroup.Item action href="#Info" className="py-3" defalt>
+                <ListGroup.Item action href="#Info" className="py-3">
                   <MdWorkOutline/> 사업장정보
                 </ListGroup.Item>
 
