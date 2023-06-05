@@ -2,8 +2,185 @@
   text-align: center;
 }
 
+* {
+  box-sizing: border-box;
+  padding: 0 0;
+  margin: 0 0;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+}
+
 .title {
  width :100%;
  text-align: center;
  margin:0 auto;
 }
+
+
+.highlight {
+  background: #16abab;
+}
+
+.content{
+  padding-left: 20px;
+}
+
+.user{
+  width:50px;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.checkUser{
+  width: 60px;
+  border-radius: 20%;
+}
+
+.userbox{
+  text-align: left;
+  padding-left: 30px;
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
+.back{
+  width: 100%;
+  height: 100%;
+  border-left: solid 3px rgb(232, 232, 232);
+  background-color: #F9FAFB;
+  padding-bottom: 400px;
+}
+
+.back2{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  margin-left: 20px;
+  padding-bottom: 300px;
+}
+
+/*MasterListpage*/
+#staff-list .search-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+#staff-list .search-wrap select {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #eee;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+#staff-list .search-wrap .search-box {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  box-shadow: 2px 5px 5px rgba(0,0,0,0.05);
+  margin-left: 10px;
+  position: relative;
+}
+#staff-list .search-box input {
+  border: 0;
+  font-size: 0.875rem;
+  width: 100%;
+  padding: 0 10px;
+}
+#staff-list .search-box svg {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  fill: #666;
+}
+#staff-list input:focus {
+  outline: 0;
+}
+#staff-list {
+  width: 100%;
+}
+#staff-list h1 {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 20px;
+}
+#staff-list table {
+  width: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 20px;
+}
+#staff-list table th {
+  height: 40px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  color: #666;
+}
+#staff-list table tr {
+  height: 40px;
+  border-bottom: 1px solid #eee;
+}
+#staff-list table td {
+  vertical-align: middle;
+}
+#staff-list table button {
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  padding: 0 10px;
+  height: 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+}
+#staff-list table button.btn-delete {
+  background-color: firebrick;
+  margin-left: 5px;
+}
+
+#edit-modal .form-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+#edit-modal .form-content p {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+#edit-modal .input-form {
+  width: 50%;
+  padding: 0 5px;
+  margin-top: 10px;
+}
+
+#edit-modal input, #edit-modal select {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-top: 5px;
+  font-size: 0.875rem;
+  height: 30px;
+}
+
+.chkBtn{
+  margin-left: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 2px 8px;
+  border: none;
+  background-color: #88B5F9;
+  color:white;
+  font-weight: bold;
+}
+
