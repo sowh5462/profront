@@ -40,12 +40,12 @@ const LoginPage = ({history}) => {
     }
 
     return (
-        
+        <div className='home-page'>
             <Row className="justify-content-center m-5">
-                <Col className='' style={{background:"#F0F0F0"}}>
+                <Col md={6} className='p-0' style={{background:"#F0F0F0"}}>
                     <h1 className='text-center'><b>누구나</b> 쉽게 다루는<br/>아르바이트 간편 <b>매니저</b></h1>
                 </Col>
-                <Col>
+                <Col md={6} className='p-0'> 
                     <Card>
                     <h1><img src={logo} width='50px'/>일해요</h1>
                         <Card.Body>
@@ -63,6 +63,8 @@ const LoginPage = ({history}) => {
                     </Card>
                 </Col>
             </Row>
+        </div>
+            
     )
 }
 
