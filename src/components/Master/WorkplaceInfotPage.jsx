@@ -31,8 +31,8 @@ const WorkplaceInfotPage = () => {
     const [event, setEvent] = useState([]); 
     const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
     const [form, setForm] = useState({
-      use_id:2,
-      use_work_num:1288663802,
+      use_id: sessionStorage.getItem("use_id"),
+      use_work_num: sessionStorage.getItem("use_work_num"),
       event_name:"",
       event_start:"",
       event_end:""
@@ -51,8 +51,9 @@ const WorkplaceInfotPage = () => {
 
     //사업장 정보 출력
     const getWorkPlace = async () =>{
-      const result2 = await axios.get(`/workplace/?use_id=${use_id}`);
+      const result2 = await axios.get(`/workplace/about?use_work_num=${use_work_num}`);
       setWorkplace(result2.data);
+      console.log(result2.data);
     };
     
     //캘린터 날짜 변경
@@ -137,7 +138,7 @@ const WorkplaceInfotPage = () => {
     <div className="back">
       <div className="back2"> 
           <Row>
-              <Col md={3}>
+              <Col md={4}>
                   <div className="text-start py-4 px-5">
                       <h4 className="pt-5 pb-2"> 
                         매장명
@@ -170,25 +171,24 @@ const WorkplaceInfotPage = () => {
           </Row>
 
           <Row className="py-3">
-              <Col md={3}>
+              <Col md={4}>
                 <div className="text-start py-5 px-5">
-                    <div>
-                        <h3 className='py-2'>🎊 이달의 행사  
-                          <span className="fs-4" style={{ color:"#4286ED",float:'right', cursor:"pointer"}} onClick={onClickInsert}>
-                            <BsPlusCircleFill/>
-                          </span>
-                        </h3>                
-                    </div>
+                   <div className='mb-3'>
+                      <span className='py-2 me-4 pe-5 fs-3 event'>🎊 이달의 행사</span>   
+                      <span className="fs-4 ms-5" style={{ color:"#4286ED", cursor:"pointer"}} onClick={onClickInsert}>
+                          <BsPlusCircleFill className='ms-5'/>
+                      </span>    
+                  </div>           
                     <Calendar
                       onChange={onDayChange}
                       value={value}
-                      locale="en-EN"                                                              
+                      locale="en-EN"                                                             
                       />  
                 </div>               
               </Col>
               <Col md={4}>
                 <div className="text-start py-5 px-5">
-                    <h3 className='py-2'>행사내용</h3>
+                    <h3 className='py-2 mb-3'>행사내용</h3>
                     <div>
                         {event.map(e=>(
                           <div key={e.use_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>

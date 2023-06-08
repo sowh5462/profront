@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 const LoginPage = ({history}) => {
     const {setBox} = useContext(AlertContext);
     const [form, setForm] = useState({
+        use_id:'',
         use_login_id:'',
         use_login_pass: ''
     });
-    const {use_login_id, use_login_pass} = form;
+    const {use_id, use_login_id, use_login_pass} = form;
     const onChange = (e) => {
         setForm({
             ...form,
@@ -22,7 +23,7 @@ const LoginPage = ({history}) => {
     const onSubmit = async(e) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);
-        console.log(res.data);
+        // console.log(res.data);
         if(res.data[0]===0) {
             setBox({
                 show: true,
@@ -34,18 +35,19 @@ const LoginPage = ({history}) => {
                 message: '비밀번호가 존재하지않습니다!'
             });
         }else if(res.data[0]===1) {
+            sessionStorage.setItem('use_id', use_id);
             sessionStorage.setItem('use_login_id', use_login_id);
             if(res.data[1] === 1 ){ history.push('/user/boss')/* 사장 메인페이지 */ } else { history.push('/user/staff')/* 직원 메인페이지 */ }
         }
     }
 
     return (
-        
+        <div className='home-page'>
             <Row className="justify-content-center m-5">
-                <Col className='' style={{background:"#F0F0F0"}}>
+                <Col md={6} className='p-0' style={{background:"#F0F0F0"}}>
                     <h1 className='text-center'><b>누구나</b> 쉽게 다루는<br/>아르바이트 간편 <b>매니저</b></h1>
                 </Col>
-                <Col>
+                <Col md={6} className='p-0'> 
                     <Card>
                     <h1><img src={logo} width='50px'/>일해요</h1>
                         <Card.Body>
@@ -63,6 +65,8 @@ const LoginPage = ({history}) => {
                     </Card>
                 </Col>
             </Row>
+        </div>
+            
     )
 }
 

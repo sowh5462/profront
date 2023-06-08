@@ -3,15 +3,18 @@ import {Row,Col,Tab} from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
+import {BsCalculator} from "react-icons/bs";
 import {MdWorkOutline} from "react-icons/md";
 import {AiOutlineSchedule} from "react-icons/ai";
-import {TbMoneybag} from "react-icons/tb";
+import {LuCalendarClock} from "react-icons/lu"
 import { AlertContext } from './AlertContext'
-import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
-import AttendancePage from './Master/AttendancePage';
+import StaffPage from './Staff/StaffPage';
+import PayPage from './Staff/PayPage';
+import CheckPage from './Staff/CheckPage';
 
-const WorkPlaceMenu = ({history}) => {
-  const {setBox} = useContext(AlertContext);
+
+const StaffMenu = ({history}) => {
+   const {setBox} = useContext(AlertContext);
    const onLogout = (e) => {
     setBox({
       show:true,
@@ -42,19 +45,23 @@ const WorkPlaceMenu = ({history}) => {
                 </ListGroup.Item>
 
                 <ListGroup.Item action href="#Info" className="py-3">
-                  <MdWorkOutline/> 사업장정보
+                  <MdWorkOutline/> 근무지관리
                 </ListGroup.Item>
 
-                <ListGroup.Item action href="#staff" className="py-3">
-                <BsPeople/> 직원관리
+                <ListGroup.Item action href="#worktime" className="py-3">
+                  <LuCalendarClock/> 근무내역
+                </ListGroup.Item>
+
+                <ListGroup.Item action href="#check" className="py-3">
+                  <AiOutlineSchedule/> 결재신청
                 </ListGroup.Item>
 
                 <ListGroup.Item action href="#payroll" className="py-3">
-                  <TbMoneybag/> 급여관리
+                  <BsCalculator/> 급여관리
                 </ListGroup.Item>
 
-                <ListGroup.Item action href="#attendance" className="py-3">
-                  <AiOutlineSchedule/> 결재 및 근태관리
+                <ListGroup.Item action href="#mypage" className="py-3">
+                  <BsPeople/> 마이페이지
                 </ListGroup.Item>
 
                 <ListGroup.Item  className="py-3" style={{cursor:"pointer"}} onClick={onLogout}>
@@ -66,10 +73,11 @@ const WorkPlaceMenu = ({history}) => {
             <Col sm={10}>
               <Tab.Content>
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
-                <Tab.Pane eventKey="#Info"><WorkplaceInfotPage/></Tab.Pane>
-                <Tab.Pane eventKey="#staff"></Tab.Pane>
-                <Tab.Pane eventKey="#payroll"></Tab.Pane>
-                <Tab.Pane eventKey="#attendance"><AttendancePage/></Tab.Pane>
+                <Tab.Pane eventKey="#Info"><StaffPage/></Tab.Pane>
+                <Tab.Pane eventKey="#worktime"></Tab.Pane>
+                <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
+                <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
+                <Tab.Pane eventKey="#mypage"></Tab.Pane>
               </Tab.Content>
             </Col>
         </Row>
@@ -79,4 +87,4 @@ const WorkPlaceMenu = ({history}) => {
   )
 }
 
-export default WorkPlaceMenu;
+export default StaffMenu
