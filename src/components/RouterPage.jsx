@@ -12,6 +12,8 @@ import SchedulePage from './Staff/SchedulePage';
 import TimePage from './Staff/TimePage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import BossMyPage from './User/BossMyPage';
+import MyPage from './User/MyPage';
 
 
 const RouterPage = ({ history }) => {
@@ -29,6 +31,8 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register" component={RegisterPage} exact={true}/>
                     <Route path="/user/register/boss" component={RegisterBossPage}/>
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
+                    <Route path="/user/staff" component={MyPage}/>
+                    <Route path="/user/boss" component={BossMyPage}/>
                     <Route path="/workplace" component={WorkplaceMenu} exact={true}/>
                     <Route path="/staff" component={StaffPage} exact={true}/>
                     <Route path="/staff/schedule" component={SchedulePage}/>

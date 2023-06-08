@@ -13,11 +13,10 @@ const BossMyPage = ({history}) => {
         use_email:'',
         use_join:'',
         use_type:'',
-        use_phone:'',
-        work_address:'',
-        work_name:''
+        use_phone:''
     });
-    const {use_login_id, use_login_pass, use_work_num, use_name, use_birth, use_address, use_email, use_join, use_type, use_phone, work_address, work_name} = form;
+    const {use_login_id, use_login_pass, use_work_num, use_name, use_birth, 
+            use_address, use_email, use_join, use_type, use_phone} = form;
     const getUser = async () => {
         const result = await axios.get(
         `/user/wread?use_login_id=${sessionStorage.getItem('use_login_id')}`);
@@ -36,7 +35,7 @@ const BossMyPage = ({history}) => {
         e.preventDefault();
         if(!window.confirm('정보를 수정 할까요?')) return;
         await axios.post('/user/wupdate', form);
-        history.push('/');
+        history.push('/user/boss');
     }
 
 
