@@ -52,15 +52,16 @@ const StaffPage = () => {
      getEventList();
      getWorkPlace();
    }, [date]);
+
     return (
         <div className="back">
       <div className="back2"> 
       <Tabs defaultActiveKey="tab1" className="pt-3 ps-2">
-          <Tab eventKey="tab1" title="매장정보" className="p-5">
+          <Tab eventKey="tab1" title="매장정보" className="ps-3 pt-4">
             <Row>
-                <Col md={4}>
-                    <div className="text-start pb-5 px-5">
-                        <h4 className="pt-5 pb-2"> 
+                <Col md={5}>
+                    <div className="text-start pb-4 px-5">
+                        <h4 className="pt-3 pb-2"> 
                           매장명
                         </h4>
                         <p className="text-secondary fs-6">
@@ -80,7 +81,7 @@ const StaffPage = () => {
 
                 <Col>
                     <div className="text-start pb-4 px-5">
-                          <h4 className="pt-5 pb-2"> 
+                          <h4 className="pt-3 pb-2"> 
                             사업자번호
                           </h4>
                           <p className="text-secondary fs-6">
@@ -91,8 +92,8 @@ const StaffPage = () => {
             </Row>
 
             <Row className="py-3">
-                <Col md={4}>
-                  <div className="text-start py-5 px-5">
+                <Col md={5}>
+                  <div className="text-start py-5 ps-5">
                     <div className='mb-3'>
                         <span className='py-2 me-4 pe-5 fs-3 event'>🎊 이달의 행사</span>    
                     </div>           
@@ -104,7 +105,7 @@ const StaffPage = () => {
                   </div>               
                 </Col>
                 <Col md={4}>
-                  <div className="text-start py-5 px-5">
+                  <div className="text-start py-5 ps-5">
                       <h3 className='py-2 mb-3'>행사내용</h3>
                       <div>
                           {event.map(e=>(
