@@ -30,9 +30,9 @@ const PayStubPage = () => {
   const pay_all = pay_regular + pay_more + pay_meal + pay_night + pay_holiday; //지급액 합계
 
   const tax = 115530;
-  const ens1 = pay_regular * 0.045; //국민연금
-  const ens2 = pay_regular * 0.009;  //고용보험
-  const ens3 = pay_regular * 0.03545  //건강보험
+  const ens1 = Math.round((pay_regular * 0.045) / 10) * 10; //국민연금
+  const ens2 = Math.round((pay_regular * 0.009) / 10) * 10;  //고용보험
+  const ens3 = Math.round((pay_regular * 0.03545) / 10) * 10;  //건강보험
   const ens4 = Math.round((ens3 * 0.1281) / 10) * 10; //장기요양보험
   const union = 10000;
   const pay_not = tax + ens1 + ens2 + ens3 + ens4 + union;
@@ -51,7 +51,7 @@ const PayStubPage = () => {
 
   //select박스에 들어갈 직원리스트
   const getStaffList = async () => {
-    const use_work_num = 1288663802;
+    const use_work_num = sessionStorage.getItem("use_work_num");
     const res = await axios.get(`/staff/list.json?use_work_num=${use_work_num}`);
     //console.log(res.data);
     setStaffList(res.data);
@@ -62,7 +62,7 @@ const PayStubPage = () => {
     setPay_regular(0);
     const staffName = e.target.value;
     setName(staffName)
-    const use_work_num = 1288663802;
+    const use_work_num = sessionStorage.getItem("use_work_num");
     setLoading(true);
 
     //명세서 리스트
@@ -93,7 +93,7 @@ const PayStubPage = () => {
       uploadString(storageRef, image, 'data_url').then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
           const use_id = staff.use_id;
-          const use_work_num = 1288663802;
+          const use_work_num = sessionStorage.getItem("use_work_num");
           const stub_name = year_month + " " + name + ".jpg";
           const stub_url = url;
           axios.post(`/payroll/stub/insert`,
