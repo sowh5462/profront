@@ -8,9 +8,11 @@ import {AiOutlineSchedule} from "react-icons/ai";
 import {TbMoneybag} from "react-icons/tb";
 import { AlertContext } from './AlertContext'
 import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
+import MasterListPage from './Master/MasterListPage';
 import AttendancePage from './Master/AttendancePage';
 import PayControllPage from './Master/PayControllPage';
 import axios from 'axios';
+
 
 const WorkPlaceMenu = ({history}) => {
    //폼모달창
@@ -106,7 +108,7 @@ const WorkPlaceMenu = ({history}) => {
                   <MdWorkOutline/> 사업장정보
                 </ListGroup.Item>
 
-                <ListGroup.Item action href="/master/list" className="py-3">
+                <ListGroup.Item action href="#list" className="py-3">
                 <BsPeople/> 직원관리
                 </ListGroup.Item>
 
@@ -129,7 +131,13 @@ const WorkPlaceMenu = ({history}) => {
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><WorkplaceInfotPage/></Tab.Pane>
                 <Tab.Pane eventKey="#staff"></Tab.Pane>
+
                 <Tab.Pane eventKey="#payroll"><PayControllPage/></Tab.Pane>
+
+                <Tab.Pane eventKey="#list"><MasterListPage/></Tab.Pane>
+
+                <Tab.Pane eventKey="#payroll"></Tab.Pane>
+
                 <Tab.Pane eventKey="#attendance"><AttendancePage/></Tab.Pane>
               </Tab.Content>
             </Col>
