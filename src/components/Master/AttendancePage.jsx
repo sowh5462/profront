@@ -10,6 +10,7 @@ import { AiOutlineSchedule } from "react-icons/ai";
 import { AlertContext } from '../AlertContext';
 import Modal from 'react-bootstrap/Modal';
 import dayjs from 'dayjs';
+import WorkerList from "./WorkerList";
 
 const AttendancePage = () => {
   //로딩바
@@ -72,6 +73,7 @@ const AttendancePage = () => {
     const dayresult = await axios.get(
       `/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
     setDayList(dayresult.data);
+    console.log(dayresult.data);
   };
 
 	//select박스 필터링
@@ -129,7 +131,7 @@ const AttendancePage = () => {
     <div className="back">
       <div className="back2">
         <Tabs defaultActiveKey="tab1" className="pt-3 ps-2">
-          <Tab eventKey="tab1" title="근무현황" className="p-5"></Tab>
+          <Tab eventKey="tab1" title="근무현황" className="p-5"><WorkerList/></Tab>
           <Tab eventKey="tab2" title="결재 및 연차관리" className="p-5">
             <Row>
               <Col md={3}>

@@ -90,6 +90,8 @@ const MasterListPage = () => {
 
   }
 
+  
+
   //저장버튼을 누른경우
   const editUserInfo = async () => {
     try {
@@ -148,8 +150,8 @@ const MasterListPage = () => {
             return (
               <tr key={item.use_id}>
                 <td>🙍‍♂️{item.use_name}</td>
-                <td>{item.start}</td>
-                <td>{item.end}</td>
+                <td>{item.sta_start}</td>
+                <td>{item.sta_end}</td>
                 <td>
                   {staType.filter(el => el.value === item.sta_type)[0].text}
                 </td>

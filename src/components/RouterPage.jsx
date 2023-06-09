@@ -13,6 +13,7 @@ import SchedulePage from './Staff/SchedulePage';
 import TimePage from './Staff/TimePage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import MasterListPage from './Master/MasterListPage';
 
 
 
@@ -38,6 +39,7 @@ const RouterPage = ({ history }) => {
                     <Route path="/staff/time" component={TimePage}/>
                     <Route path="/staff/pay" component={PayPage}/>
                     <Route path="/staff/check" component={CheckPage}/>
+                    <Route path="/master/list" component={MasterListPage}/>
                 </Switch>
     )
 }

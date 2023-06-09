@@ -31,7 +31,7 @@ const Design = () => {
                   <MdWorkOutline/> 사업장정보
                 </ListGroup.Item>
 
-                <ListGroup.Item action href="#staff" className="py-3">
+                <ListGroup.Item action href="/master/list" className="py-3">
                 <BsPeople/> 직원관리
                 </ListGroup.Item>
 
