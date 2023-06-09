@@ -9,6 +9,7 @@ import {TbMoneybag} from "react-icons/tb";
 import HomePage from './HomePage';
 import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
 import AttendancePage from './Master/AttendancePage';
+import PayControllPage from './Master/PayControllPage';
 
 
 const Design = () => {
@@ -50,7 +51,7 @@ const Design = () => {
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><WorkplaceInfotPage/></Tab.Pane>
                 <Tab.Pane eventKey="#staff"></Tab.Pane>
-                <Tab.Pane eventKey="#payroll"></Tab.Pane>
+                <Tab.Pane eventKey="#payroll"><PayControllPage/></Tab.Pane>
                 <Tab.Pane eventKey="#attendance"><AttendancePage/></Tab.Pane>
               </Tab.Content>
             </Col>
