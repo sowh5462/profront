@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import { Route, withRouter } from 'react-router-dom';
 import LoginPage from './User/LoginPage2';
 import RegisterPage from './User/RegisterPage2';
-import RegisterBossPage from './User/RegisterBossPage';
+import RegisterBossPage from './User/RegisterBossPage2';
 import RegisterStaffPage from './User/RegisterStaffPage';
 import Homepage from './HomePage';
 import PayRollPage from './Master/PayRollPage';
