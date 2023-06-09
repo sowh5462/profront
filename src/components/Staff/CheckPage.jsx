@@ -12,6 +12,7 @@ const CheckPage = () => {
     const [selectedCheckbox, setSelectedCheckbox] = useState(null);
     const handleCheckboxChange = (event) => {
         setSelectedCheckbox(event.target.value);
+        console.log(event.target.value)
     };
 
     //유저정보
@@ -38,8 +39,8 @@ const CheckPage = () => {
                                 type="checkbox"
                                 id="option1"
                                 label="연장"
-                                value="option1"
-                                checked={selectedCheckbox === 'option1'}
+                                value="연장"
+                                checked={selectedCheckbox === '연장'}
                                 onChange={handleCheckboxChange}
                             />
 
@@ -47,8 +48,8 @@ const CheckPage = () => {
                                 type="checkbox"
                                 id="option2"
                                 label="조퇴"
-                                value="option2"
-                                checked={selectedCheckbox === 'option2'}
+                                value="조퇴"
+                                checked={selectedCheckbox === '조퇴'}
                                 onChange={handleCheckboxChange}
                             />
 
@@ -56,8 +57,8 @@ const CheckPage = () => {
                                 type="checkbox"
                                 id="option3"
                                 label="대체"
-                                value="option3"
-                                checked={selectedCheckbox === 'option3'}
+                                value="대체"
+                                checked={selectedCheckbox === '대체'}
                                 onChange={handleCheckboxChange}
                             />
                             </Form>

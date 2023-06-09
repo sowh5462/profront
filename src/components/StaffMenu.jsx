@@ -19,7 +19,7 @@ const StaffMenu = ({history}) => {
    const onLogout = (e) => {
     setBox({
       show:true,
-      message:"로그이웃 하시겠습니까?",
+      message:"로그아웃 하시겠습니까?",
       action:()=>{
         sessionStorage.removeItem("use_login_id");
         sessionStorage.removeItem("use_id");

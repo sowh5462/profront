@@ -22,8 +22,8 @@ const MyPage = ({history}) => {
         work_name:'',
         file: null
     });
-    const {use_id, use_login_id, use_login_pass, use_work_num, use_name, use_birth, use_address, use_email, use_join, use_type, use_phone, sta_bank, sta_account, sta_type,
-         sta_image, sta_employ, sta_end, sta_contract, start, end, ujoin, work_address, work_name, file} = form;
+    const {use_id, use_name, use_birth, use_address,  use_join,  sta_bank, sta_account, sta_type,
+         sta_image, sta_contract, start, end, ujoin, work_address, work_name, file} = form;
     const getUser = async () => {
         const result = await axios.get(
         `/user/sread?use_login_id=${sessionStorage.getItem('use_login_id')}`);

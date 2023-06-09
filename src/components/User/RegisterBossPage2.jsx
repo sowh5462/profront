@@ -12,7 +12,7 @@ const RegisterBossPage = ({history}) => {
     use_id:sessionStorage.getItem("use_id"),
     use_work_num:sessionStorage.getItem("use_work_num"),
     work_address:'',
-    work_name:''
+    work_name:sessionStorage.getItem("workname")
   });
   
   const {use_work_num, work_address, work_name} = form;
@@ -59,13 +59,13 @@ const RegisterBossPage = ({history}) => {
                     <InputGroup>
                       <Form.Control name='use_work_num' value={use_work_num} readOnly/>     
                     </InputGroup>
+                    <Form.Label className="mt-2">사업장명</Form.Label>
+                    <InputGroup>
+                      <Form.Control name='work_name' value={work_name} readOnly />     
+                    </InputGroup>
                     <Form.Label className="mt-2">사업자주소</Form.Label>
                     <InputGroup>
                       <Form.Control name='work_address' value={work_address} onChange={onChange} />     
-                    </InputGroup>
-                    <Form.Label className="mt-2">사업장명</Form.Label>
-                    <InputGroup>
-                      <Form.Control name='work_name' value={work_name} onChange={onChange} />     
                     </InputGroup>
                 </Form>      
             <Button className="my-5 px-3" onClick={onRegister}>등록하기</Button>        

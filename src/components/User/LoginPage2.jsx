@@ -42,8 +42,10 @@ const LoginPage2 = ({history}) => {
             sessionStorage.setItem('use_id', res.data.use_id);
             sessionStorage.setItem('use_work_num', res.data.use_work_num);
             if(res.data.role===1){
+                 console.log(res.data);
                 history.push('/workplace'); //사장페이지
-            }else{
+            }else if(res.data.role===0){
+                console.log(res.data);
                 history.push('/staff'); //직원페이지
             } 
         }
