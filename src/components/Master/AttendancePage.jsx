@@ -11,6 +11,7 @@ import { BsFillCaretRightSquareFill } from "react-icons/bs";
 import { AlertContext } from '../AlertContext';
 import Modal from 'react-bootstrap/Modal';
 import dayjs from 'dayjs';
+import WorkerList from './WorkerList';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
@@ -156,7 +157,7 @@ const AttendancePage = () => {
     <div className="back">
       <div className="back2">
         <Tabs defaultActiveKey="tab1" className="pt-3 ps-2">
-          <Tab eventKey="tab1" title="근무현황" className="p-5"><WorkerList/></Tab>
+          <Tab eventKey="tab1" title="근무현황" className="p-5"><WorkerList></WorkerList></Tab>
           <Tab eventKey="tab2" title="결재 및 연차관리" className="p-5">
             <Row>
                 <Col md={3}>

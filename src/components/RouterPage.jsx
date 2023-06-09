@@ -15,8 +15,6 @@ import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import MasterListPage from './Master/MasterListPage';
 
-import MasterListPage from './Master/MasterListPage';
-
 
 import BossMyPage from './User/BossMyPage';
 import MyPage from './User/MyPage';
