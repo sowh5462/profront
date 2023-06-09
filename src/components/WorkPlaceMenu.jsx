@@ -9,6 +9,7 @@ import {TbMoneybag} from "react-icons/tb";
 import { AlertContext } from './AlertContext'
 import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
 import AttendancePage from './Master/AttendancePage';
+import PayControllPage from './Master/PayControllPage';
 import axios from 'axios';
 
 const WorkPlaceMenu = ({history}) => {
@@ -128,7 +129,7 @@ const WorkPlaceMenu = ({history}) => {
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><WorkplaceInfotPage/></Tab.Pane>
                 <Tab.Pane eventKey="#staff"></Tab.Pane>
-                <Tab.Pane eventKey="#payroll"></Tab.Pane>
+                <Tab.Pane eventKey="#payroll"><PayControllPage/></Tab.Pane>
                 <Tab.Pane eventKey="#attendance"><AttendancePage/></Tab.Pane>
               </Tab.Content>
             </Col>

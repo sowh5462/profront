@@ -13,7 +13,7 @@ const PayChart2 = () => {
         const result = await axios.get(`/payroll/month?use_work_num=${use_work_num}`);
         setSum(result.data);
         setLoading(false);
-        console.log(sum);
+        // console.log(sum);
     };
 
     useEffect(()=>{
@@ -24,7 +24,7 @@ const PayChart2 = () => {
     if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '300px', height: '300px', margin: '0 auto' }}>
+        <div style={{ width: '400px', height: '400px', margin: '0 auto' }}>
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
