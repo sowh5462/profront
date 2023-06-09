@@ -14,15 +14,17 @@ function App() {
     });
 
     return (
-        <AlertContext.Provider value={{box, setBox}}>
-        <div className="App">
+        <AlertContext.Provider value={{ box, setBox }}>
+            <div className="App">
+                <RouterPage />
 
-            <RouterPage/>
-
-            { box.show && <AlertModal/> }
-        </div>
+                {box.show && <AlertModal />}
+            </div>
         </AlertContext.Provider>
     );
 }
+// 
+
+
 
 export default App;
