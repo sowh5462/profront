@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { Row, Col,Form } from 'react-bootstrap'
 import { AlertContext } from '../AlertContext'
-import logo from '../../images/illhaeyo_logo.png'
+import logo from '../../images/로고.png'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import '../css/Home.css';
 
@@ -42,8 +42,10 @@ const LoginPage2 = ({history}) => {
             sessionStorage.setItem('use_id', res.data.use_id);
             sessionStorage.setItem('use_work_num', res.data.use_work_num);
             if(res.data.role===1){
+                 console.log(res.data);
                 history.push('/workplace'); //사장페이지
-            }else{
+            }else if(res.data.role===0){
+                console.log(res.data);
                 history.push('/staff'); //직원페이지
             } 
         }

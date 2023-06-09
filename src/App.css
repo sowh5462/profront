@@ -63,6 +63,12 @@
   padding-bottom: 300px;
 }
 
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
 /*MasterListpage*/
 #staff-list .search-wrap {
   width: 100%;
@@ -187,3 +193,12 @@
 .event{
   font-weight: 500;
 }
+
+.type{
+  background-color: white;
+  color: gray;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+}
+

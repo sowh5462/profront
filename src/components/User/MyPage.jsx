@@ -1,50 +1,48 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
 import { Button, Card, Col, Form, InputGroup, Row, Table } from 'react-bootstrap'
 import { AlertContext } from '../AlertContext';
+import { withRouter } from 'react-router-dom/cjs/react-router-dom';
 
 const MyPage = ({history}) => {
     const {setBox} = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
+    const [userImage, setUserImage] = useState('');
+    const fileInput = useRef(null);
     const [form, setForm] = useState({
-        use_id:'',
-        use_login_id:'',
-        use_login_pass:'',
-        use_work_num:'',
         use_name:'',
-        use_birth:'',
-        use_address:'',
-        use_email:'',
-        use_join:'',
-        use_type:'',
-        use_phone:'',
         sta_bank:'',
         sta_account:'',
         sta_type:'',
         sta_image:'',
-        sta_employ:'',
-        sta_end:'',
         sta_contract:'',
         start:'',
         end: '',
-        ujoin:'',
         work_address:'',
         work_name:'',
         file: null
     });
-    const {use_id, use_login_id, use_login_pass, use_work_num, use_name, use_birth, use_address, use_email, use_join, use_type, use_phone, sta_bank, sta_account, sta_type,
-         sta_image, sta_employ, sta_end, sta_contract, start, end, ujoin, work_address, work_name, file} = form;
+    const {use_id, use_name, use_birth, use_address,  use_join,  sta_bank, sta_account, sta_type,
+         sta_image, sta_contract, start, end, ujoin, work_address, work_name, file} = form;
     const getUser = async () => {
         const result = await axios.get(
         `/user/sread?use_login_id=${sessionStorage.getItem('use_login_id')}`);
+
         setForm(result.data);
         setFileName(result.data.sta_contract ?
             `/images/photos/${result.data.sta_contract}`:"https://via.placeholder.com/50x50");
+            // console.log(fileName);
+        setUserImage(result.data.sta_image ? `/images/photos/${result.data.sta_image}`:"https://via.placeholder.com/50x50" );
     }
     
       useEffect(() => {
         getUser();
     },[])
+
+    const onChangeUserImage = (e) => {
+        setUserImage(URL.createObjectURL(e.target.files[0]));
+        setForm({...form, file:e.target.files[0]});
+    }
 
     const onChangeFile = (e) => {
         setFileName(URL.createObjectURL(e.target.files[0]));
@@ -64,6 +62,7 @@ const MyPage = ({history}) => {
     }
     const onUpdate = async() => {
         const formData = new FormData();
+        formData.append('use_id',use_id);
         formData.append('sta_bank', sta_bank);
         formData.append('sta_account', sta_account);
         formData.append('sta_image', sta_image);
@@ -73,7 +72,8 @@ const MyPage = ({history}) => {
             headers: {"content-type":"multipart/form-data"}
         }
         await axios.post('/user/supdate', formData, config);
-        history.push('/');
+        history.push('/staff');
+        console.log(form);
     }
 
     const onClickUpdate = () => {
@@ -84,17 +84,30 @@ const MyPage = ({history}) => {
         });
     }
 
+    const handleImageClick = () => {
+        fileInput.current.click();
+    };
+    
+    const selectedFile = (e) => {
+        setUserImage(URL.createObjectURL(e.target.files[0]));
+        setForm({...form, sta_image:e.target.files[0].name});
+        // console.log(e.target.files[0].name);
+    }
+
   return (
     <div>
-        <div>
-            <h4 className="text-start">마이페이지</h4>
-        </div>
         <Row className='justify-content-center m-5'>
             <Col>
                 <Card>
                     <Card.Title className='m-3'>
-                    {sta_image ?
-                    <img src={sta_image} width='10%'/> : <img src="http://via.placeholder.com/50x50" width='10%'/>}
+                        {sta_image ?
+                        <img src={userImage} width='10%' onClick={handleImageClick}/> : <img src="http://via.placeholder.com/50x50" 
+                            onClick={handleImageClick} width='10%'/>}
+                            <Form.Control type='file'
+                                onChange={selectedFile}
+                                ref={fileInput}
+                                style={{display:'none'}}
+                            />
                     <h3><b>{use_name}</b>님의 정보</h3>
                     </Card.Title>
                     <Card.Body>
@@ -126,7 +139,7 @@ const MyPage = ({history}) => {
                         </Card>
                     <Card>
                         <Card.Title>
-                            <Button>근로계약서 업로드</Button>
+                            <div>근로계약서</div>
                         </Card.Title>
                             <Card.Body>
                                 <div>
@@ -166,4 +179,4 @@ const MyPage = ({history}) => {
   )
 }
 
-export default MyPage
+export default withRouter(MyPage)

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import { Button, Row, Col, Card, Form } from 'react-bootstrap'
 import { AlertContext } from '../AlertContext'
-import logo from '../../images/로고.png'
+import logo from '../../images/illhaeyo_logo.png'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 
