@@ -6,20 +6,17 @@ import RegisterPage from './User/RegisterPage2';
 import RegisterBossPage from './User/RegisterBossPage2';
 import RegisterStaffPage from './User/RegisterStaffPage';
 import Homepage from './HomePage';
-import PayRollPage from './Master/PayRollPage';
 import WorkplaceMenu from './WorkPlaceMenu';
 import StaffMenu from './StaffMenu';
 import SchedulePage from './Staff/SchedulePage';
 import TimePage from './Staff/TimePage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import PayRollPage from './Master/PayRollPage';
 import MasterListPage from './Master/MasterListPage';
-
-import MasterListPage from './Master/MasterListPage';
-
-
 import BossMyPage from './User/BossMyPage';
 import MyPage from './User/MyPage';
+
 
 
 
@@ -33,12 +30,10 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register" component={RegisterPage} exact={true}/>
                     <Route path="/user/register/boss" component={RegisterBossPage}/>
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
-                    <Route path="/workplace/payroll" component={PayRollPage}/>
-
                     <Route path="/staff/mypage" component={MyPage}/>
                     <Route path="/boss/mypage" component={BossMyPage}/>
-
                     <Route path="/workplace" component={WorkplaceMenu} exact={true}/>
+                    <Route path="/workplace/payroll" component={PayRollPage}/>
                     <Route path="/staff" component={StaffMenu} exact={true}/>
                     <Route path="/staff/schedule" component={SchedulePage}/>
                     <Route path="/staff/time" component={TimePage}/>
