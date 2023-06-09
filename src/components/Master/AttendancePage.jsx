@@ -236,6 +236,7 @@ const AttendancePage = () => {
                             </Row>
                       </Col>
                     ))}
+                    {staff.length > 0 &&  
                     <Pagination
                       activePage={page}
                       itemsCountPerPage={size}
@@ -245,12 +246,15 @@ const AttendancePage = () => {
                       nextPageText={">"}
                       onChange={setPage}
                     />
+                  }
                   </Row>
                 
                 </Col>
+                {staff.length > 0 &&  
                 <Col className="d-flex align-items-center">
                   <BsFillCaretRightSquareFill style={{ fontSize: '2rem' }} onClick={getOff}/>
                 </Col>
+                }
               </Row>
           </Tab>
         </Tabs>

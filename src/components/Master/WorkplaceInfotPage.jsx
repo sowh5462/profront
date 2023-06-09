@@ -44,16 +44,14 @@ const WorkplaceInfotPage = () => {
     
     //행사 리스트 출력
     const getEventList = async () => {
-      const result = await axios.get(`/event/?event_start=${date}`);
+      const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
       setEvent(result.data);
-      console.log(date);
     };
 
     //사업장 정보 출력
     const getWorkPlace = async () =>{
       const result2 = await axios.get(`/workplace/about?use_work_num=${use_work_num}`);
       setWorkplace(result2.data);
-      console.log(result2.data);
     };
     
     //캘린터 날짜 변경
@@ -76,22 +74,12 @@ const WorkplaceInfotPage = () => {
     };
 
     //행사등록 - 유효성검사
-    const onSubmit = async() =>{   
-      const isValidDate = (formatDate) => {
-        const pattern = /^\d{4}-\d{2}-\d{2}$/;
-        return pattern.test(formatDate);
-      };  //날짜 형식 체크
-    
+    const onSubmit = async() =>{      
     if(event_name==="" || event_start==="" || event_end===""){
       setBox({
         show:true,
         message:"작성하지 않은 부분이 존재합니다!"
       }) 
-    }else if(!isValidDate(event_start) || !isValidDate(event_end)){
-      setBox({
-        show:true,
-        message:"날짜 형식이 틀립니다. 다시 작성해주세요!"
-      })
     }else if(event_start < moment(new Date()).format("YYYY-MM-DD") || 
             event_end <= moment(new Date()).format("YYYY-MM-DD")){
       setBox({
@@ -138,7 +126,7 @@ const WorkplaceInfotPage = () => {
     <div className="back">
       <div className="back2"> 
           <Row>
-              <Col md={4}>
+              <Col md={5}>
                   <div className="text-start py-4 px-5">
                       <h4 className="pt-5 pb-2"> 
                         매장명
@@ -171,10 +159,10 @@ const WorkplaceInfotPage = () => {
           </Row>
 
           <Row className="py-3">
-              <Col md={4}>
+              <Col md={5}>
                 <div className="text-start py-5 px-5">
                    <div className='mb-3'>
-                      <span className='py-2 me-4 pe-5 fs-3 event'>🎊 이달의 행사</span>   
+                      <span className='py-2 me-4 pe-4 fs-3 event'>🎊 이달의 행사</span>   
                       <span className="fs-4 ms-5" style={{ color:"#4286ED", cursor:"pointer"}} onClick={onClickInsert}>
                           <BsPlusCircleFill className='ms-5'/>
                       </span>    
@@ -187,8 +175,8 @@ const WorkplaceInfotPage = () => {
                 </div>               
               </Col>
               <Col md={4}>
-                <div className="text-start py-5 px-5">
-                    <h3 className='py-2 mb-3'>행사내용</h3>
+                <div className="text-start py-5 ps-5">
+                    <h3 className='pt-2 mb-3'>행사내용</h3>
                     <div>
                         {event.map(e=>(
                           <div key={e.use_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
@@ -222,11 +210,11 @@ const WorkplaceInfotPage = () => {
               </InputGroup>
               <InputGroup className="mb-2">
                   <InputGroup.Text>행사시작일</InputGroup.Text>
-                  <Form.Control value={event_start} name="event_start" onChange={onFormChange} placeholder="ex) yyyy-mm-dd"/>
+                  <Form.Control type="date" value={event_start} name="event_start" onChange={onFormChange}/>
               </InputGroup>
               <InputGroup>
                   <InputGroup.Text>행사종료일</InputGroup.Text>
-                  <Form.Control value={event_end} name="event_end" onChange={onFormChange} placeholder="ex) yyyy-mm-dd"/>
+                  <Form.Control type="date" value={event_end} name="event_end" onChange={onFormChange}/>
               </InputGroup>
             </Form>
         </Modal.Body>
