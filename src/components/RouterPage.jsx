@@ -34,8 +34,8 @@ const RouterPage = ({ history }) => {
                     <Route path="/user/register/staff" component={RegisterStaffPage}/>
                     <Route path="/workplace/payroll" component={PayRollPage}/>
 
-                    <Route path="/user/staff" component={MyPage}/>
-                    <Route path="/user/boss" component={BossMyPage}/>
+                    <Route path="/staff/mypage" component={MyPage}/>
+                    <Route path="/boss/mypage" component={BossMyPage}/>
 
                     <Route path="/workplace" component={WorkplaceMenu} exact={true}/>
                     <Route path="/staff" component={StaffMenu} exact={true}/>

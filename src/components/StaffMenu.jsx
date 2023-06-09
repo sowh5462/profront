@@ -11,6 +11,7 @@ import { AlertContext } from './AlertContext'
 import StaffPage from './Staff/StaffPage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import MyPage from './User/MyPage';
 
 
 const StaffMenu = ({history}) => {
@@ -67,7 +68,7 @@ const StaffMenu = ({history}) => {
                 <ListGroup.Item  className="py-3" style={{cursor:"pointer"}} onClick={onLogout}>
                   <BiLogOut/> 로그아웃
                 </ListGroup.Item>
-
+                
               </ListGroup>
             </Col>
             <Col sm={10}>
@@ -77,7 +78,7 @@ const StaffMenu = ({history}) => {
                 <Tab.Pane eventKey="#worktime"></Tab.Pane>
                 <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
-                <Tab.Pane eventKey="#mypage"></Tab.Pane>
+                <Tab.Pane eventKey="#mypage"><MyPage/></Tab.Pane>
               </Tab.Content>
             </Col>
         </Row>
