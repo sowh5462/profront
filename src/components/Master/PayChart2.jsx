@@ -9,7 +9,7 @@ const PayChart2 = () => {
 
     const getSum = async () => {
         setLoading(true);
-        const use_work_num = 1288663802;
+        const use_work_num = sessionStorage.getItem("use_work_num");
         const result = await axios.get(`/payroll/month?use_work_num=${use_work_num}`);
         setSum(result.data);
         setLoading(false);

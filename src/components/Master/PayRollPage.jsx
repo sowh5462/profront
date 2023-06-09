@@ -19,7 +19,7 @@ const PayRollPage = () => {
 
     const getPayRoll = async () => {
         setLoading(true);
-        const use_work_num = 1288663802;
+        const use_work_num = sessionStorage.getItem("use_work_num");
         setTimeout(async () => {
             try {
               const result3 = await axios.get(`/payroll/temp?use_work_num=${use_work_num}`);
