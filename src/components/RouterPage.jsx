@@ -13,6 +13,7 @@ import SchedulePage from './Staff/SchedulePage';
 import TimePage from './Staff/TimePage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import MasterListPage from './Master/MasterListPage';
 
 import MasterListPage from './Master/MasterListPage';
 
