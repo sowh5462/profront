@@ -9,7 +9,7 @@ const PayChart = () => {
 
     const getType = async () => {
         setLoading(true);
-        const use_work_num = 1288663802;
+        const use_work_num = sessionStorage.getItem("use_work_num");
         const result4 = await axios.get(`/payroll/type?use_work_num=${use_work_num}`);
         setType(result4.data);
         setLoading(false);
