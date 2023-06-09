@@ -22,6 +22,7 @@ function App() {
         <AlertContext.Provider value={{ box, setBox }}>
             <div className="App">
                 <RouterPage />
+
                 {box.show && <AlertModal />}
             </div>
         </AlertContext.Provider>

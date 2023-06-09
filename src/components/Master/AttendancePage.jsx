@@ -11,11 +11,9 @@ import { BsFillCaretRightSquareFill } from "react-icons/bs";
 import { AlertContext } from '../AlertContext';
 import Modal from 'react-bootstrap/Modal';
 import dayjs from 'dayjs';
+
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-/* 결재 및 연차관리 page 
-결재 신청중 - 1 , 신청완료 2, 반려 -3
-*/
 
 const AttendancePage = () => {
   //폼모달창
@@ -104,7 +102,9 @@ const AttendancePage = () => {
   const getDayCheckList = async () => {
     const dayresult = await axios.get(
       `/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
+
     setDayList(dayresult.data);    
+
   };
 
 	//결재승인
@@ -156,7 +156,7 @@ const AttendancePage = () => {
     <div className="back">
       <div className="back2">
         <Tabs defaultActiveKey="tab1" className="pt-3 ps-2">
-          <Tab eventKey="tab1" title="근무현황" className="p-5"></Tab>
+          <Tab eventKey="tab1" title="근무현황" className="p-5"><WorkerList/></Tab>
           <Tab eventKey="tab2" title="결재 및 연차관리" className="p-5">
             <Row>
                 <Col md={3}>
