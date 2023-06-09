@@ -1,0 +1,88 @@
+/* 홈페이지, 로그인 페이지 css */
+.home-page{
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+  }
+/* 요소 높이 뷰포트 100%로 설정, 자식요소 수직정렬 */
+  .home-page .row{
+    flex: 1;
+  }
+/* row요소 수직늘림 */
+  .right{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+/* 절대요소로 설정,부모요소 전체 영역 차지 */
+  .main{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+/* 너비, 높이 부모 100%
+넘치는 부분 화면에 맞게 크기 조정
+*/  
+  .home-page .content{
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+/* flexbox안 요소 세로 정렬*/
+
+  .hbtn{
+    background-color: rgb(182, 182, 182);
+    padding: 0.7rem 6rem;
+    border-radius: 30px;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .title{
+    margin: 0px auto;
+    padding-bottom: 10rem; 
+  }
+  /* 상하여백 0, 수평가운데 정렬*/
+
+  .ltitle{
+    margin-bottom: 7rem;
+    margin-top: 3rem;
+  }
+
+  .loginbox{
+    padding: 0px 13%;
+    margin-top: 2rem; 
+    margin-bottom: 10rem;
+  }
+  
+  .loginbox form{
+    padding: 0px 13%;
+    margin-top: 2rem; 
+    margin-bottom: 0.8rem;
+  }
+
+  .loginbox form .form-control {
+    border: 2px solid #207198;
+    border-radius: 15px;
+  }
+
+  .loginbox form button{
+    background-color: #5272E9;
+    border-radius: 13px;
+    color: white;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  .jbox{
+    padding: 0px 13%;
+  }
+  .join{
+    color: #207198;
+  }
+  

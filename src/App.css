@@ -184,3 +184,15 @@
   font-weight: bold;
 }
 
+.event{
+  font-weight: 500;
+}
+
+.type{
+  background-color: white;
+  color: gray;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+}
+
