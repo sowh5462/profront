@@ -9,7 +9,7 @@ import PayChart2 from './PayChart2';
 const PayRollPage = () => {
     const [pay, setPay] = useState();
     const [total, setTotal] = useState();
-    const [temp, setTemp] = useState();
+    const [temp, setTemp] = useState("");
     const [info, setInfo] = useState([]);
     const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
@@ -19,46 +19,65 @@ const PayRollPage = () => {
 
     const getPayRoll = async () => {
         setLoading(true);
-        const use_work_num = 1288663802;
+        const use_work_num = sessionStorage.getItem("use_work_num");
+        setTimeout(async () => {
+            try {
+              const result3 = await axios.get(`/payroll/temp?use_work_num=${use_work_num}`);
+              setTemp(result3.data);
+              setLoading(false);
+            } catch (error) {
+              console.error('Error while fetching payroll info:', error);
+              // 오류 처리 로직 추가
+              setLoading(false);
+            }
+          }, 3000);
         const result = await axios.get(`/payroll/sum?use_work_num=${use_work_num}`);
         setPay(result.data);
         const result2 = await axios.get(`/payroll/total?use_work_num=${use_work_num}`);
         setTotal(result2.data);
-        const result3 = await axios.get(`/payroll/temp?use_work_num=${use_work_num}`);
-        setTemp(result3.data);
-        const result4 = await axios.get(`/payroll/info?use_work_num=${use_work_num}`);
-        setInfo(result4.data);
+        setTimeout(async () => {
+            try {
+              const result4 = await axios.get(`/payroll/info?use_work_num=${use_work_num}`);
+              setInfo(result4.data);
+              setLoading(false);
+            } catch (error) {
+              console.error('Error while fetching payroll info:', error);
+              // 오류 처리 로직 추가
+              setLoading(false);
+            }
+          }, 3000);
         setLoading(false);
     };
+    
 
     useEffect(() => {
         getPayRoll();
-    }, []);
+    },[]);
 
 
 
     if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
     return (
         <>
-            <Row className='justify-content-center'>
-                <Col md={6}>
-                    <Card>
+            <Row className='ms-5 mt-5'>
+                <Col md={8}>
+                    <Card className='py-3'>
                         <Row>
-                            <Col>
+                            <Col className='mb-2'>
                                 <h4>인건비</h4>
-                                <br />
+                                
                                 <h2>{pay}원</h2>
                             </Col>
                             <Col>
                                 <h4>직원수</h4>
-                                <br />
+                                
                                 <h2>{total}명</h2>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
                                 <h4>일용직</h4>
-                                <br />
+                                
                                 <h2>{temp}원</h2>
                             </Col>
                             <Col>
@@ -68,11 +87,11 @@ const PayRollPage = () => {
                     </Card>
                 </Col>
             </Row>
-            <Row className='justify-content-center mt-3'>
-                <Col md={3}>
+            <Row className='mt-3'>
+                <Col md={4}>
                     <PayChart />
                 </Col>
-                <Col md={3}>
+                <Col md={4}>
                     <PayChart2 />
                 </Col>
             </Row>
@@ -93,7 +112,7 @@ const PayRollPage = () => {
                         </thead>
                         <tbody>
                             {info.map(i =>
-                                <tr>
+                                <tr key={i.use_name + i.pay_month}>
                                     <td>{i.use_name}</td>
                                     <td>{i.sta_type === 0 ? "정규직" :
                                         i.sta_type === 1 ? "계약직" :

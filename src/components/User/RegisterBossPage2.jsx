@@ -4,7 +4,7 @@ import { AlertContext } from '../AlertContext';
 import logo from '../../images/illhaeyo_logo.png';
 import axios from 'axios';
 
-const RegisterBossPage = ({history}) => {
+const RegisterBossPage2 = ({history}) => {
   const {setBox} = useContext(AlertContext);
 
   //회원폼 - default(사장)
@@ -12,7 +12,7 @@ const RegisterBossPage = ({history}) => {
     use_id:sessionStorage.getItem("use_id"),
     use_work_num:sessionStorage.getItem("use_work_num"),
     work_address:'',
-    work_name:''
+    work_name:sessionStorage.getItem("workname")
   });
   
   const {use_work_num, work_address, work_name} = form;
@@ -30,7 +30,7 @@ const RegisterBossPage = ({history}) => {
     if(work_address==="" || work_name===""){
       setBox({
         show:true,
-        message:"정보를 빠짐없이 작성해주세요!"
+        message:"정보를 빠짐없이 작성해 주세요!"
       })
     }else{
       setBox({
@@ -59,13 +59,13 @@ const RegisterBossPage = ({history}) => {
                     <InputGroup>
                       <Form.Control name='use_work_num' value={use_work_num} readOnly/>     
                     </InputGroup>
-                    <Form.Label className="mt-2">사업자주소</Form.Label>
-                    <InputGroup>
-                      <Form.Control name='work_address' value={work_address} onChange={onChange} />     
-                    </InputGroup>
                     <Form.Label className="mt-2">사업장명</Form.Label>
                     <InputGroup>
                       <Form.Control name='work_name' value={work_name} onChange={onChange} />     
+                    </InputGroup>
+                    <Form.Label className="mt-2">사업자주소</Form.Label>
+                    <InputGroup>
+                      <Form.Control name='work_address' value={work_address} onChange={onChange} />     
                     </InputGroup>
                 </Form>      
             <Button className="my-5 px-3" onClick={onRegister}>등록하기</Button>        
@@ -77,4 +77,4 @@ const RegisterBossPage = ({history}) => {
   )
 }
 
-export default RegisterBossPage
+export default RegisterBossPage2

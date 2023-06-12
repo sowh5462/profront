@@ -26,7 +26,7 @@ const LoginPage2 = ({history}) => {
     const onSubmit = async(e) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);      
-        console.log(res.data);
+        //console.log(res.data);
         if(res.data.status===0) {
             setBox({
                 show: true,
@@ -42,8 +42,10 @@ const LoginPage2 = ({history}) => {
             sessionStorage.setItem('use_id', res.data.use_id);
             sessionStorage.setItem('use_work_num', res.data.use_work_num);
             if(res.data.role===1){
+                 console.log(res.data);
                 history.push('/workplace'); //사장페이지
-            }else{
+            }else if(res.data.role===0){
+                console.log(res.data);
                 history.push('/staff'); //직원페이지
             } 
         }
