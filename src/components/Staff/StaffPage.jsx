@@ -109,7 +109,7 @@ const StaffPage = () => {
                       <h3 className='py-2 mb-3'>행사내용</h3>
                       <div>
                           {event.map(e=>(
-                            <div key={e.use_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
+                            <div key={e.event_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
                               <span>▶︎ {e.start}~{e.end}&nbsp;|</span>
                               <span><b>&nbsp;&nbsp;{e.event_name}</b></span>
                             </div>

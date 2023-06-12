@@ -23,18 +23,14 @@ import axios from 'axios';
 
 const StaffMenu = ({history}) => {
    //폼모달창
-
    const [show, setShow] = useState(false);
    const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
    const modalShow = () => setShow(true);
    const use_login_id = sessionStorage.getItem('use_login_id');
 
-
-
-
-
-
+  //알림모달
+  const {setBox} = useContext(AlertContext);
 
    const onLogout = (e) => {
     setBox({
