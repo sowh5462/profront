@@ -1,5 +1,8 @@
-import React, {useContext, useState} from 'react'
-import {Row,Col,Tab,Modal, Button} from 'react-bootstrap'
+
+
+import React, {useContext, useState, useEffect} from 'react'
+import {Row,Col,Tab, Modal, Button} from 'react-bootstrap'
+
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
@@ -13,16 +16,25 @@ import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import axios from 'axios';
-import { useEffect } from 'react';
+
+
+
 
 
 const StaffMenu = ({history}) => {
-   const {setBox} = useContext(AlertContext);
+   //폼모달창
+
    const [show, setShow] = useState(false);
    const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
    const modalShow = () => setShow(true);
    const use_login_id = sessionStorage.getItem('use_login_id');
+
+
+
+
+
+
 
    const onLogout = (e) => {
     setBox({
@@ -61,30 +73,39 @@ useEffect (()=>{
   onCheckStaff();
 },[])
 
-//  정보 입력 안했을 경우
- if(user==="") return (
-  <Modal
-    show={show}
-    onHide={modalClose}
-    backdrop="static"
-    keyboard={false}
-    >
-    <Modal.Header >
-      <Modal.Title>알림</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>
-      추가 정보를 입력하신 후 이용이 가능합니다.
-    </Modal.Body>
-    <Modal.Footer>
-      <Button variant="primary" onClick={onDirect}>
-        정보 입력하기
-      </Button>
-      <Button variant="secondary" onClick={onHome}>
-        홈으로 이동
-      </Button>
-    </Modal.Footer>
-  </Modal>
-)
+
+
+
+ useEffect(()=>{
+  onCheckStaff();
+ },[])
+
+ //정보 입력 안했을 경우
+  if(user==="") return (
+      <Modal
+        show={show}
+        onHide={modalClose}
+        backdrop="static"
+        keyboard={false}
+        >
+        <Modal.Header >
+          <Modal.Title>알림</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          추가 정보를 입력하신 후 이용이 가능합니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={onDirect}>
+            정보 입력하기
+          </Button>
+          <Button variant="secondary" onClick={onHome}>
+            홈으로 이동
+          </Button>
+        </Modal.Footer>
+      </Modal>
+  )
+
+
   return (
     <div className="content">
         <Tab.Container id="list-group-tabs-example" defaultActiveKey="#Info">

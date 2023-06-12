@@ -32,14 +32,14 @@ const WorkerList = () => {
 
     const result = await axios.get(`/schedule/list1.json?use_work_num=${worknum}`)
     setScheList(result.data);
-    console.log(result.data);
+    //console.log(result.data);
   }
 
   //날짜별 근무자 리스트
   const getDayScheList = async () => {
     const dayresult = await axios.get(`/schedule/schelist?sche_start=${date}&use_work_num=${worknum}`)
     setDayList(dayresult.data);
-    console.log(dayresult.data)
+   // console.log(dayresult.data)
   }
 
   //캘린더 날짜변수

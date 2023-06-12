@@ -26,7 +26,7 @@ const LoginPage2 = ({history}) => {
     const onSubmit = async(e) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);      
-        console.log(res.data);
+        //console.log(res.data);
         if(res.data.status===0) {
             setBox({
                 show: true,

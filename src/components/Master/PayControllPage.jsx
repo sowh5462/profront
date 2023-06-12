@@ -6,18 +6,22 @@ import PayStubPage from './PayStubPage';
 
 const PayControllPage = () => {
   return (
-    <Tabs
-      defaultActiveKey="PayRoll"
-      id="uncontrolled-tab-example"
-      className="mb-3"
-    >
-      <Tab eventKey="PayRoll" title="인건비관리">
-        <PayRollPage/>
-      </Tab>
-      <Tab eventKey="PayStub" title="급여명세서">
-        <PayStubPage/>
-      </Tab>
-    </Tabs>
+    <div className="back">
+      <div className="back2">
+        <Tabs
+          defaultActiveKey="PayRoll"
+          id="uncontrolled-tab-example"
+          className="pt-3 ps-2"
+        >
+          <Tab eventKey="PayRoll" title="인건비관리">
+            <PayRollPage/>
+          </Tab>
+          <Tab eventKey="PayStub" title="급여명세서">
+            <PayStubPage/>
+          </Tab>
+        </Tabs>
+      </div>
+    </div>
   )
 }
 
