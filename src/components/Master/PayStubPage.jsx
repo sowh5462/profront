@@ -121,7 +121,7 @@ const PayStubPage = () => {
         <select id='sta_name' style={{ width: "200px", fontSize: "20px", textAlign:"center" }} onChange={onChangeName} value={name}>
           <option>-----</option>
           {staffList.map(s =>
-            <option value={s.use_name}>{s.use_name}</option>
+            <option key={s.use_id} value={s.use_name}>{s.use_name}</option>
           )}
         </select>
 
