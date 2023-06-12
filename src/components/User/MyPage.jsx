@@ -39,11 +39,6 @@ const MyPage = ({history}) => {
         getUser();
     },[])
 
-    const onChangeUserImage = (e) => {
-        setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, file:e.target.files[0]});
-    }
-
     const onChangeFile = (e) => {
         setFileName(URL.createObjectURL(e.target.files[0]));
         setForm({...form, file:e.target.files[0]});
