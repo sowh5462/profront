@@ -30,7 +30,7 @@ const StaffPage = () => {
      
      //행사 리스트 출력
      const getEventList = async () => {
-       const result = await axios.get(`/event/?event_start=${date}`);
+       const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
        setEvent(result.data);
        console.log(date);
      };
