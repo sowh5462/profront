@@ -1,5 +1,5 @@
-import React, {useContext} from 'react'
-import {Row,Col,Tab} from 'react-bootstrap'
+import React, {useContext, useState, useEffect} from 'react'
+import {Row,Col,Tab, Modal, Button} from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
@@ -11,23 +11,80 @@ import { AlertContext } from './AlertContext'
 import StaffPage from './Staff/StaffPage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
+import MyPage from './User/MyPage';
+import axios from 'axios';
 
 
 const StaffMenu = ({history}) => {
+   //폼모달창
+   const [show, setShow] = useState(false);
+   const modalClose = () => setShow(false);
+   const modalShow = () => setShow(true);
    const {setBox} = useContext(AlertContext);
+
+   const use_login_id = sessionStorage.getItem("use_login_id"); 
+   const [user, setUser] = useState([]);
+
+   //사업장 등록 확인
+  const onCheckStaff = async() =>{
+    const result = await axios.get(`/user/sread/?use_login_id=${use_login_id}`);
+    setUser(result.data);
+    if(result.data.length===0){
+      modalShow(true);
+    }
+  }
+
+  //이동하기 버튼 클릭
+  const onDirect = () =>{
+    setShow(false);
+    history.push("/user/register/staff");
+  }
+
+  const onHome = () =>{
+    history.push("/");
+  }
+
    const onLogout = (e) => {
     setBox({
       show:true,
-      message:"로그이웃 하시겠습니까?",
+      message:"로그아웃 하시겠습니까?",
       action:()=>{
         sessionStorage.removeItem("use_login_id");
         sessionStorage.removeItem("use_id");
         sessionStorage.removeItem("use_work_num");
         history.push("/");
       }
-    })
-    
+    })   
  }
+
+ useEffect(()=>{
+  onCheckStaff();
+ },[])
+
+ //정보 입력 안했을 경우
+  if(user==="") return (
+      <Modal
+        show={show}
+        onHide={modalClose}
+        backdrop="static"
+        keyboard={false}
+        >
+        <Modal.Header >
+          <Modal.Title>알림</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          추가 정보를 입력하신 후 이용이 가능합니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={onDirect}>
+            정보 입력하기
+          </Button>
+          <Button variant="secondary" onClick={onHome}>
+            홈으로 이동
+          </Button>
+        </Modal.Footer>
+      </Modal>
+  )
 
   return (
     <div className="content">
@@ -67,7 +124,7 @@ const StaffMenu = ({history}) => {
                 <ListGroup.Item  className="py-3" style={{cursor:"pointer"}} onClick={onLogout}>
                   <BiLogOut/> 로그아웃
                 </ListGroup.Item>
-
+                
               </ListGroup>
             </Col>
             <Col sm={10}>
@@ -77,7 +134,7 @@ const StaffMenu = ({history}) => {
                 <Tab.Pane eventKey="#worktime"></Tab.Pane>
                 <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
-                <Tab.Pane eventKey="#mypage"></Tab.Pane>
+                <Tab.Pane eventKey="#mypage"><MyPage/></Tab.Pane>
               </Tab.Content>
             </Col>
         </Row>

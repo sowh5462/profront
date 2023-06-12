@@ -90,6 +90,8 @@ const MasterListPage = () => {
 
   }
 
+  
+
   //저장버튼을 누른경우
   const editUserInfo = async () => {
     try {
