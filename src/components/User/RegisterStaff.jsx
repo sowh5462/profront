@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Button, Card, Col, Form, InputGroup, Row, Image, OverlayTrigger , Tooltip } from 'react-bootstrap'
+import React, { useContext, useRef, useState } from 'react'
+import { Button, Col, Form, InputGroup, Row, Image, OverlayTrigger , Tooltip } from 'react-bootstrap'
 import { AlertContext } from '../AlertContext';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom';
 import logo from '../../images/로고.png';

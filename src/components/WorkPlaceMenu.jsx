@@ -95,7 +95,7 @@ const WorkPlaceMenu = ({history}) => {
           <Row>
             <Col sm={2}>
                 <div className="userbox">
-                    <img src="https://audition.hanbiton.com/images/common/img_default.jpg" className="user"/>
+                    <img alt="유저이미지" src="https://audition.hanbiton.com/images/common/img_default.jpg" className="user"/>
                     {sessionStorage.getItem("use_login_id")}님
                 </div>
               <ListGroup style={{textAlign:'left', fontSize:"18px"}}>

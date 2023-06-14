@@ -1,11 +1,10 @@
 import axios from 'axios';
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Button, Card, Col, Form, InputGroup, Row, Table } from 'react-bootstrap'
+import { Button, Card, Col, Form, InputGroup, Row} from 'react-bootstrap'
 import { AlertContext } from '../AlertContext';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom';
 
 const MyPage = ({history}) => {
-    const use_login_id = sessionStorage.getItem("use_login_id");
     const {setBox} = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
     const [userImage, setUserImage] = useState('');
@@ -24,8 +23,8 @@ const MyPage = ({history}) => {
         work_name:'',
         file: null
     });
-    const {use_id, use_name, use_email, use_birth, use_address,  use_join,  sta_bank, sta_account, sta_type,
-         sta_image, sta_contract, start, end, ujoin, work_address, work_name, file} = form;
+    const {use_id, use_name,  sta_bank, sta_account, sta_type,
+         sta_image, sta_contract, start, end,  work_address, work_name, file} = form;
 
     const getUser = async () => {
         const result = await axios.get(
@@ -42,11 +41,9 @@ const MyPage = ({history}) => {
         getUser();
     },[])
 
-    const onChangeUserImage = (e) => {
-        setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, file:e.target.files[0]});
-    }
+   
     //근로계약서
+
     const onChangeFile = (e) => {
         setFileName(URL.createObjectURL(e.target.files[0]));
         setForm({...form, file:e.target.files[0]});
@@ -108,7 +105,7 @@ const MyPage = ({history}) => {
                     <Card>
                         <Card.Title className='m-3'>
                         {sta_image ?
-                            <img src={userImage} width='10%' onClick={handleImageClick}/> : <img src="http://via.placeholder.com/50x50" 
+                            <img src={userImage} alt="유저이미지" width='10%' onClick={handleImageClick}/> : <img alt="유저이미지" src="http://via.placeholder.com/50x50" 
                                 onClick={handleImageClick} width='10%'/>}
                                 <Form.Control type='file'
                                     onChange={selectedFile}
@@ -150,7 +147,7 @@ const MyPage = ({history}) => {
                             </Card.Title>
                                 <Card.Body>
                                     <div>
-                                        <img className='my-3' src={fileName} width="20%"/>
+                                        <img alt="근로계약서" className='my-3' src={fileName} width="20%"/>
                                         <Form.Control type='file'
                                             onChange={onChangeFile}/>
                                     </div>

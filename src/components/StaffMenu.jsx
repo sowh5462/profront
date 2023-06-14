@@ -1,5 +1,8 @@
+
+
 import React, {useContext, useState, useEffect} from 'react'
 import {Row,Col,Tab, Modal, Button} from 'react-bootstrap'
+
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
@@ -15,34 +18,19 @@ import MyPage from './User/MyPage';
 import axios from 'axios';
 
 
+
+
+
 const StaffMenu = ({history}) => {
    //폼모달창
    const [show, setShow] = useState(false);
+   const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
    const modalShow = () => setShow(true);
-   const {setBox} = useContext(AlertContext);
+   const use_login_id = sessionStorage.getItem('use_login_id');
 
-   const use_login_id = sessionStorage.getItem("use_login_id"); 
-   const [user, setUser] = useState([]);
-
-   //사업장 등록 확인
-  const onCheckStaff = async() =>{
-    const result = await axios.get(`/user/sread/?use_login_id=${use_login_id}`);
-    setUser(result.data);
-    if(result.data.length===0){
-      modalShow(true);
-    }
-  }
-
-  //이동하기 버튼 클릭
-  const onDirect = () =>{
-    setShow(false);
-    history.push("/user/register/staff");
-  }
-
-  const onHome = () =>{
-    history.push("/");
-  }
+  //알림모달
+  const {setBox} = useContext(AlertContext);
 
    const onLogout = (e) => {
     setBox({
@@ -54,8 +42,35 @@ const StaffMenu = ({history}) => {
         sessionStorage.removeItem("use_work_num");
         history.push("/");
       }
-    })   
- }
+    })
+  }
+
+    
+    //직원 정보 확인
+  const onCheckStaff = async() =>{
+    const result = await axios.get(`/user/sread/?use_login_id=${use_login_id}`);
+    setUser(result.data);
+    if(result.data.length===0){
+      modalShow(false);
+    }
+  }
+    
+
+ //이동하기 버튼 클릭
+ const onDirect = () =>{
+  setShow(false);
+  history.push("/user/register/staff");
+}
+
+const onHome = () =>{
+  history.push("/");
+}
+useEffect (()=>{
+  onCheckStaff();
+},[])
+
+
+
 
  useEffect(()=>{
   onCheckStaff();
@@ -85,6 +100,7 @@ const StaffMenu = ({history}) => {
         </Modal.Footer>
       </Modal>
   )
+
 
   return (
     <div className="content">
