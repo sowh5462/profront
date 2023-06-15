@@ -8,15 +8,16 @@ import Pagination from "react-js-pagination";
 import "../css/Paging.css";
 import { AiOutlineSchedule } from "react-icons/ai";
 import { BsFillCaretRightSquareFill } from "react-icons/bs";
-import { AlertContext } from '../AlertContext';
 import Modal from 'react-bootstrap/Modal';
 import dayjs from 'dayjs';
 import WorkerList from './WorkerList';
-
+import { AlertContext } from '../AlertContext';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
 const AttendancePage = () => {
+  const {setBox} = useContext(AlertContext);
+
   //폼모달창
   const [show, setShow] = useState(false);
   const modalClose = () => setShow(false);
@@ -46,16 +47,23 @@ const AttendancePage = () => {
 
   //페이징하기 위한 직원수
   const staffCount = async () => {
-    const sresult = await axios.get(`/payroll/total?use_work_num=${worknum}`);
+    const sresult = await axios.get(`/check/count?use_work_num=${worknum}`);
     setCount(sresult.data);
   };
 
   //직원 리스트(연차정보)
   const getStaffList = async () => {
-    const result = await axios.get(`/check/list.json?use_work_num=${worknum}&page=${page}&size=${size}`);
-    setStaff(result.data); //직원리스트 정보
-    const id = result.data.map((item) => item.use_id); // 직원 ID만 추출하여 배열로 저장
-    await Promise.all(id.map(checkConfirm)); // 모든 직원 ID에 대해 결재 여부 확인
+    try{
+      const result = await axios.get(`/check/list.json?use_work_num=${worknum}&page=${page}&size=${size}`);
+      setStaff(result.data); //직원리스트 정보
+      const id = result.data.map((item) => item.use_id); // 직원 ID만 추출하여 배열로 저장
+      await Promise.all(id.map(checkConfirm)); // 모든 직원 ID에 대해 결재 여부 확인
+    }catch(err){
+      setBox({
+        show:true,
+        message:"직원 리스트를 가져오는데 실패했습니다"+err
+      })
+    }
   };
 
   //전체 결재내역
@@ -79,16 +87,16 @@ const AttendancePage = () => {
 
   //select박스 필터링
 	const onFilter = async(chk_confirm) =>{
+    setPage(1); //페이지 이동 후 select박스 선택했을 때 꼬임 방지
 		if(chk_confirm==="0"){ //전체보기
 			staffCount();
 			getStaffList();
-		}else{ //승인중
+		}else{ //승인중 
 			const fresult = await axios.get(`/check/filter?chk_confirm=${chk_confirm}&use_work_num=${worknum}`);
 			const id = fresult.data.map((item) => item.use_id);
       await Promise.all(id.map(checkConfirm));
       setStaff(fresult.data);
       setCount(fresult.data.length);
-      setPage(1);
 		}		
 	}
 
@@ -116,14 +124,21 @@ const AttendancePage = () => {
 		await axios.post(`/check/update`,{chk_confirm:2,chk_code:chk_code});
     setConfirm((prevConfirm) =>
     prevConfirm.filter((c) => c.id !== use_id)
-  );
+    );
     modalClose();
 		getStaffList();
    
 	} 
   //연차정보 업데이트
   const onUpdateAnnual = async() =>{
-    await axios.post(`/check/update/annual`,{sta_annual:check.chk_time, use_id:check.use_id});
+    try{
+        await axios.post(`/check/update/annual`,{sta_annual:check.chk_time, use_id:check.use_id});
+    }catch(err){
+        setBox({
+          show:true,
+          message:"연차 정보를 업데이트하는데 실패했습니다"+err
+        })
+    }
   }
 
 	//결재반려
@@ -291,7 +306,7 @@ const AttendancePage = () => {
 										<Row className="pb-3 text-secondary">
 											<Col>{check.start}</Col>
 											<Col>{check.end}</Col>
-											<Col>{dayjs(check.chk_end).diff(dayjs(check.chk_start), 'day') + 1}</Col>
+											<Col>{check.chk_time}</Col>
 										</Row>
 								</Row>
 								:

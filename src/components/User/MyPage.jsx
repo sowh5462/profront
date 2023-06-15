@@ -21,10 +21,11 @@ const MyPage = ({history}) => {
         use_email:'',
         work_address:'',
         work_name:'',
-        file: null
+        file: null,
+        sta_file:null
     });
     const {use_id, use_name,  sta_bank, sta_account, sta_type,
-         sta_image, sta_contract, start, end,  work_address, work_name, file} = form;
+         sta_image, sta_contract, start, end,  work_address, work_name, file, sta_file} = form;
 
     const getUser = async () => {
         const result = await axios.get(
@@ -43,7 +44,6 @@ const MyPage = ({history}) => {
 
    
     //근로계약서
-
     const onChangeFile = (e) => {
         setFileName(URL.createObjectURL(e.target.files[0]));
         setForm({...form, file:e.target.files[0]});
@@ -52,7 +52,7 @@ const MyPage = ({history}) => {
     //유저이미지 수정
     const selectedFile = (e) => {
         setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, sta_image:e.target.files[0].name});
+        setForm({...form, sta_image:e.target.files[0].name,  sta_file:e.target.files[0]});
         // console.log(e.target.files[0].name);
     }
 
@@ -77,6 +77,7 @@ const MyPage = ({history}) => {
         formData.append('sta_image', sta_image);
         formData.append('sta_contract', sta_contract);
         formData.append('file', file);
+        formData.append('sta_file', sta_file);
         const config = {
             headers: {"content-type":"multipart/form-data"}
         }
@@ -99,7 +100,7 @@ const MyPage = ({history}) => {
     
 
   return (
- <>
+        <>
          <Row className='justify-content-center'>
                 <Col>
                     <Card>
@@ -108,6 +109,7 @@ const MyPage = ({history}) => {
                             <img src={userImage} alt="유저이미지" width='10%' onClick={handleImageClick}/> : <img alt="유저이미지" src="http://via.placeholder.com/50x50" 
                                 onClick={handleImageClick} width='10%'/>}
                                 <Form.Control type='file'
+                                    name="sta_file"
                                     onChange={selectedFile}
                                     ref={fileInput}
                                     style={{display:'none'}}
@@ -149,6 +151,7 @@ const MyPage = ({history}) => {
                                     <div>
                                         <img alt="근로계약서" className='my-3' src={fileName} width="20%"/>
                                         <Form.Control type='file'
+                                            name="file"
                                             onChange={onChangeFile}/>
                                     </div>
                                 </Card.Body>   

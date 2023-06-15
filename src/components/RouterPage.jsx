@@ -15,8 +15,9 @@ import PayRollPage from './Master/PayRollPage';
 import MasterListPage from './Master/MasterListPage';
 import BossMyPage from './User/BossMyPage';
 import MyPage from './User/MyPage';
-
+import {Form , Nav, Navbar, Container} from 'react-bootstrap'
 import RegisterStaff from './User/RegisterStaff';
+import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
 
 
 
@@ -24,10 +25,8 @@ import RegisterStaff from './User/RegisterStaff';
 
 const RouterPage = ({ history }) => {
 
-
     return (
-
-
+            <>
             <Switch>
                 <Route path="/" component={Homepage} exact={true}/>
                 <Route path="/user/login" component={LoginPage}/>
@@ -44,9 +43,8 @@ const RouterPage = ({ history }) => {
                 <Route path="/staff/pay" component={PayPage}/>
                 <Route path="/staff/check" component={CheckPage}/>
                 <Route path="/master/list" component={MasterListPage}/>
-              
             </Switch>
-
+            </>
     )
 }
 

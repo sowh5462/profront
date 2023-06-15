@@ -58,21 +58,28 @@ const RegisterStaff = ({history}) => {
 
    
     const onUpdate = async() => {
-        const formData = new FormData();
-        formData.append('use_id',use_id);
-        formData.append('sta_bank', sta_bank);
-        formData.append('sta_account', sta_account);
-        formData.append('sta_image', sta_image);
-        formData.append('sta_contract', sta_contract);
-        formData.append('sta_employ', new Date(sta_employ))
-        formData.append('sta_end', new Date(sta_end))
-        formData.append('file', file);
-        const config = {
-            headers: {"content-type":"multipart/form-data"}
+        try{
+            const formData = new FormData();
+            formData.append('use_id',use_id);
+            formData.append('sta_bank', sta_bank);
+            formData.append('sta_account', sta_account);
+            formData.append('sta_image', sta_image);
+            formData.append('sta_contract', sta_contract);
+            formData.append('sta_employ', new Date(sta_employ))
+            formData.append('sta_end', new Date(sta_end))
+            formData.append('file', file);
+            const config = {
+                headers: {"content-type":"multipart/form-data"}
+            }
+            await axios.post('/user/sinsert', formData, config);
+            history.push('/staff');
+            //console.log(form);
+        }catch(err){
+            setBox({
+                show:true,
+                message:"정보 입력 오류!"+err
+            })
         }
-        await axios.post('/user/sinsert', formData, config);
-        history.push('/staff');
-        console.log(form);
     }
 
     const onClickUpdate = () => {

@@ -15,7 +15,7 @@ const WorkerList = () => {
   //데이터 저장할 변수
 
   const [scheList, setScheList] = useState([]); //근무자리스트
-  const [worknum, setWorknum] = useState(1288663802);
+  const [worknum, setWorknum] = useState(sessionStorage.getItem("use_work_num"));
   const [dayList, setDayList] = useState([]); //날짜별 근무내역
   const [show, setShow] = useState(false);
   const [uList, setUList] = useState([]);

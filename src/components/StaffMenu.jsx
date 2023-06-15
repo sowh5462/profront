@@ -2,7 +2,6 @@
 
 import React, {useContext, useState, useEffect} from 'react'
 import {Row,Col,Tab, Modal, Button} from 'react-bootstrap'
-
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
@@ -16,8 +15,6 @@ import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import axios from 'axios';
-
-
 
 
 
