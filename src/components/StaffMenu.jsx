@@ -14,8 +14,9 @@ import StaffPage from './Staff/StaffPage';
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
-import axios from 'axios';
+import SchedulePage from './Staff/SchedulePage';
 
+import axios from 'axios';
 
 
 const StaffMenu = ({history}) => {
@@ -144,7 +145,7 @@ useEffect (()=>{
               <Tab.Content>
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><StaffPage/></Tab.Pane>
-                <Tab.Pane eventKey="#worktime"></Tab.Pane>
+                <Tab.Pane eventKey="#worktime"><SchedulePage/></Tab.Pane>
                 <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
                 <Tab.Pane eventKey="#mypage"><MyPage/></Tab.Pane>
