@@ -32,7 +32,6 @@ const StaffPage = () => {
      const getEventList = async () => {
        const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
        setEvent(result.data);
-       console.log(date)
      };
  
      //사업장 정보 출력

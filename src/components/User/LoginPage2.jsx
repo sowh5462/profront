@@ -26,7 +26,7 @@ const LoginPage2 = ({history}) => {
     const onSubmit = async(e) => {
         e.preventDefault();
         const res = await axios.post('/user/login', form);      
-        console.log(res.data);
+        //console.log(res.data);
         if(res.data.status===0) {
             setBox({
                 show: true,
@@ -42,10 +42,10 @@ const LoginPage2 = ({history}) => {
             sessionStorage.setItem('use_id', res.data.use_id);
             sessionStorage.setItem('use_work_num', res.data.use_work_num);
             if(res.data.role===1){
-                 console.log(res.data);
+                 //console.log(res.data);
                 history.push('/workplace'); //사장페이지
             }else if(res.data.role===0){
-                console.log(res.data);
+                //console.log(res.data);
                 history.push('/staff'); //직원페이지
             } 
         }
@@ -73,7 +73,7 @@ const LoginPage2 = ({history}) => {
                             <Form.Control 
                               name="use_login_pass" value={use_login_pass} onChange={onChange}
                               type="password" className='mb-4 py-3'
-                              placeholder='password'/>
+                              placeholder='password' />
                             <button type="submit" className='w-100 py-3 '><b>로그인</b></button>                                             
                         </Form>
                         <div className="jbox">
