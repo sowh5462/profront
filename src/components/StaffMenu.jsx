@@ -1,5 +1,7 @@
-import React, {useContext} from 'react'
-import {Row,Col,Tab} from 'react-bootstrap'
+
+
+import React, {useContext, useState, useEffect} from 'react'
+import {Row,Col,Tab, Modal, Button} from 'react-bootstrap'
 import ListGroup from 'react-bootstrap/ListGroup';
 import {BiHomeAlt2, BiLogOut} from "react-icons/bi";
 import {BsPeople} from "react-icons/bs";
@@ -14,9 +16,20 @@ import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import SchedulePage from './Staff/SchedulePage';
 
+import axios from 'axios';
+
 
 const StaffMenu = ({history}) => {
-   const {setBox} = useContext(AlertContext);
+   //폼모달창
+   const [show, setShow] = useState(false);
+   const [user,setUser] = useState('');
+   const modalClose = () => setShow(false);
+   const modalShow = () => setShow(true);
+   const use_login_id = sessionStorage.getItem('use_login_id');
+
+  //알림모달
+  const {setBox} = useContext(AlertContext);
+
    const onLogout = (e) => {
     setBox({
       show:true,
@@ -28,8 +41,64 @@ const StaffMenu = ({history}) => {
         history.push("/");
       }
     })
+  }
+
     
- }
+    //직원 정보 확인
+  const onCheckStaff = async() =>{
+    const result = await axios.get(`/user/sread/?use_login_id=${use_login_id}`);
+    setUser(result.data);
+    if(result.data.length===0){
+      modalShow(false);
+    }
+  }
+    
+
+ //이동하기 버튼 클릭
+ const onDirect = () =>{
+  setShow(false);
+  history.push("/user/register/staff");
+}
+
+const onHome = () =>{
+  history.push("/");
+}
+useEffect (()=>{
+  onCheckStaff();
+},[])
+
+
+
+
+ useEffect(()=>{
+  onCheckStaff();
+ },[])
+
+ //정보 입력 안했을 경우
+  if(user==="") return (
+      <Modal
+        show={show}
+        onHide={modalClose}
+        backdrop="static"
+        keyboard={false}
+        >
+        <Modal.Header >
+          <Modal.Title>알림</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          추가 정보를 입력하신 후 이용이 가능합니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={onDirect}>
+            정보 입력하기
+          </Button>
+          <Button variant="secondary" onClick={onHome}>
+            홈으로 이동
+          </Button>
+        </Modal.Footer>
+      </Modal>
+  )
+
 
   return (
     <div className="content">

@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
 .App {
   text-align: center;
+  font-family: 'Pretendard-Regular';
 }
 
 * {
@@ -202,3 +209,22 @@ input::-webkit-inner-spin-button {
   font-weight: bold;
 }
 
+
+/* 선택된 탭의 스타일 */
+.nav-link.active {
+  color: rgb(68, 68, 255) !important;
+}
+
+/* 선택되지 않은 탭의 스타일 */
+.nav-link:not(.active) {
+  color: rgb(110, 110, 110) !important;
+}
+
+/*회원가입 타입 구분버튼*/
+.master.active {
+  color: rgb(255, 255, 255) !important;
+}
+
+.master:not(.active) {
+  color: rgb(110, 110, 110) !important;
+}
