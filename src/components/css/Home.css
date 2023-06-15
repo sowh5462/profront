@@ -3,6 +3,7 @@
     height: 100vh; 
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 /* 요소 높이 뷰포트 100%로 설정, 자식요소 수직정렬 */
   .home-page .row{
