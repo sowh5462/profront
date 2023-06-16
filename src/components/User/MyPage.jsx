@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Button, Card, Col, Form, InputGroup, Row} from 'react-bootstrap'
+import { Button, Card, Col, Container, Form, InputGroup, Row} from 'react-bootstrap'
 import { AlertContext } from '../AlertContext';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const MyPage = ({history}) => {
     const {setBox} = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
     const [userImage, setUserImage] = useState('');
+    const [isEditMode, setIsEditMode] = useState(false);
     const fileInput = useRef(null);
     const [form, setForm] = useState({
         use_name:'',
@@ -15,7 +17,9 @@ const MyPage = ({history}) => {
         sta_account:'',
         sta_type:'',
         sta_image:'',
+        sta_file:null,
         sta_contract:'',
+        sta_cFile:null,
         start:'',
         end: '',
         use_email:'',
@@ -23,69 +27,85 @@ const MyPage = ({history}) => {
         use_address:'',
         work_address:'',
         work_name:'',
-        file: null,
-        sta_file:null
+        use_email:'',
+        use_address:'',
+        use_phone:''
     });
-    const {use_id, use_name,  sta_bank, sta_account, sta_type,
-         sta_image, sta_contract, start, end,  work_address, work_name, file, sta_file} = form;
+    const {use_name,  sta_bank, sta_account, sta_type, sta_file, sta_cFile,
+         sta_image, sta_contract, start, end,  work_address, work_name, use_email, use_address, use_phone} = form;
 
+    const use_id = sessionStorage.getItem('use_id');
+
+    const storage = getStorage();
     const getUser = async () => {
         const result = await axios.get(
         `/user/sread?use_login_id=${sessionStorage.getItem('use_login_id')}`);
 
         setForm(result.data);
         setFileName(result.data.sta_contract ?
-            `/images/photos/${result.data.sta_contract}`:"https://via.placeholder.com/50x50");
+            result.data.sta_contract:"https://via.placeholder.com/50x50");
             // console.log(fileName);
-        setUserImage(result.data.sta_image ? `/images/photos/${result.data.sta_image}`:"https://via.placeholder.com/50x50" );
+        setUserImage(result.data.sta_image ? result.data.sta_image:"https://via.placeholder.com/50x50" );
     }
       useEffect(() => {
         getUser();
     },[])
 
    
-    //근로계약서
-    const onChangeFile = (e) => {
-        setFileName(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, file:e.target.files[0]});
-    }
+
 
     //유저이미지 수정
     const selectedFile = (e) => {
         setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, sta_image:e.target.files[0].name,  sta_file:e.target.files[0]});
+        setForm({...form, sta_file:e.target.files[0]});
         // console.log(e.target.files[0].name);
-    }
+    };
+
+    //근로계약서
+    const onChangeFile = (e) => {
+        setFileName(URL.createObjectURL(e.target.files[0]));
+        setForm({...form, sta_cFile:e.target.files[0]});
+    };
+
+    const onUpdate = async () => {
+        const profileRef = ref(storage, 'profiles/' + use_id + use_name + 'profileImage');
+        const contractRef = ref(storage, 'contracts/' + use_id + use_name + 'contractImage');
+        const metadata = {contentType : 'image/jpeg'};
+        if(sta_file){
+            uploadBytes(profileRef, sta_file, metadata).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    setForm({...form, sta_image:url});
+                  })
+            });
+        };
+        if(sta_cFile){
+            uploadBytes(contractRef, sta_cFile, metadata).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    setForm({...form, sta_contract:url});
+                  })
+            });
+        };
+        await axios.post('/user/supdate', form)
+    };
 
     //폼 수정
     const onChange = (e) => {
         setForm({...form, [e.target.name]:e.target.value});
     }
-
+    
     //취소버튼
-    const onReset = () => {
+    const onReset2 = () => {
         setBox({
             show:true,
-            message:'수정한 내용을 취소할까요?',
-            action: getUser
+            message:'수정을 취소할까요?',
+            action: onResete
         });
     }
-    const onUpdate = async() => {
-        const formData = new FormData();
-        formData.append('use_id',use_id);
-        formData.append('sta_bank', sta_bank);
-        formData.append('sta_account', sta_account);
-        formData.append('sta_image', sta_image);
-        formData.append('sta_contract', sta_contract);
-        formData.append('file', file);
-        formData.append('sta_file', sta_file);
-        const config = {
-            headers: {"content-type":"multipart/form-data"}
-        }
-        await axios.post('/user/supdate', formData, config);
-        history.push('/staff');
-        console.log(form);
-    }
+    const onResete = () => {
+        getUser();
+        setIsEditMode(false);
+    };
+
 
     const onClickUpdate = () => {
         setBox({
@@ -95,111 +115,143 @@ const MyPage = ({history}) => {
         });
     }
 
+    const onClickEidt = () => {
+        setIsEditMode(true);
+    };
+
+    const onClickSave = () => {
+        onClickUpdate();
+        setIsEditMode(false);
+    };
+
     const handleImageClick = () => {
+        if (fileInput.current) {
         fileInput.current.click();
+        }
     };
     
 
   return (
         <>
-         <Row className='justify-content-center'>
+
+         <Row className='justify-content-center mt-5 px-5'>
+            <Col md={6}>
                 <Col>
-                    <Card>
-                        <Card.Title className='m-3'>
+                    <Card className="py-3 px-3">
+                        <Card className='m-2 p-3'>
+                            <div className='d-flex m-3'>
                         {sta_image ?
-                            <img src={userImage} alt="유저이미지" width='10%' onClick={handleImageClick}/> : <img alt="유저이미지" src="http://via.placeholder.com/50x50" 
-                                onClick={handleImageClick} width='10%'/>}
+                            <img  style={{borderRadius:"50%"}} src={userImage} alt="유저이미지" width='100px' onClick={handleImageClick}/> 
+                            : 
+                            <img alt="유저이미지" src="http://via.placeholder.com/100x100" onClick={handleImageClick} width='100px'/>}
+                            {isEditMode && (
                                 <Form.Control type='file'
                                     name="sta_file"
                                     onChange={selectedFile}
                                     ref={fileInput}
                                     style={{display:'none'}}
-                                />
-                        <h3><b>{use_name}</b>님의 정보</h3>
-                        <Form>
-                            <InputGroup className='my-2'>
-                            <InputGroup.Text className='px-5'>이메일</InputGroup.Text>
-                            <Form.Control value={use_email}
-                                name="use_email" onChange={onChange}/>
-                        </InputGroup>
-                            <InputGroup className='my-2'>
-                            <InputGroup.Text className='px-5'>주소</InputGroup.Text>
+                                    />
+                                )}
+                                <div className="m-3">
+                                    <h3><b>{use_name}</b>님의 정보</h3>
+                                    <h5>{use_email}</h5>
+                                </div>
+                            </div>
+                        </Card>
+                        <Card className='m-2'>
+                        <Form className='text-start m-2 pt-2 px-2'>
+                            <h4 className='mx-2'>주소</h4>
                             <Form.Control value={use_address}
-                                name="use_address" onChange={onChange}/>
-                        </InputGroup>
-                            <InputGroup className='my-2'>
-                            <InputGroup.Text className='px-5'>전화번호</InputGroup.Text>
-                            <Form.Control value={use_phone}
-                                name="use_phone" onChange={onChange}/>
-                        </InputGroup>
+                                name="use_address"
+                                onChange={onChange}
+                                readOnly={!isEditMode}
+                                />
                         </Form>
-                        </Card.Title>
-                        <Card.Body>
-                            <h5 className='text-start mx-2'>계좌정보</h5>
-                            <Form>
-                            <InputGroup className='my-2'>
-                            <InputGroup.Text className='px-5'>은행</InputGroup.Text>
-                            <Form.Control value={sta_bank}
-                                name="sta_bank" onChange={onChange}/>
-                        </InputGroup>
-                        <InputGroup className='my-2'>
-                            <InputGroup.Text className='px-5'>계좌</InputGroup.Text>
-                            <Form.Control value={sta_account}
-                                name="sta_account" onChange={onChange}/>
-                        </InputGroup>
+                        <Form className='text-start m-2 pb-2 px-2'>
+                            <h4 className='mx-2'>전화번호</h4>
+                            <Form.Control value={use_phone}
+                                name="use_phone"
+                                onChange={onChange}
+                                readOnly={!isEditMode}
+                                />
+
+                        </Form>
+                        </Card>
+                        <Card className='m-2 py-2 px-2'>
+                            <h5 className='text-start m-2'>계좌정보</h5>
+                            <Form className='mx-3'>
+                                <InputGroup className='my-2'>
+                                    <InputGroup.Text className='px-5'>은행</InputGroup.Text>
+                                    <Form.Control value={sta_bank}
+                                        name="sta_bank" onChange={onChange}
+                                        readOnly={!isEditMode}/>
+                                </InputGroup>
+                                <InputGroup className='my-2'>
+                                    <InputGroup.Text className='px-5'>계좌</InputGroup.Text>
+                                    <Form.Control value={sta_account}
+                                        name="sta_account" onChange={onChange}
+                                        readOnly={!isEditMode}/>
+                                </InputGroup>
                             </Form>
-                        </Card.Body>
+                        </Card>
                     </Card>
                 </Col>
-            </Row>
-            <Row className='justify-content-center m-5'>
-                <Card>
-                    <h4 className='text-start'>직장관리</h4>
-                        <Row>
-                    <Col md={6}>
+            </Col>
+            
+            <Col md={6}>
+                <Card className="py-2 px-3">
+                    <Col>
+                        <Card className='m-2 mt-3 px-2'>
+                            <div className='text-start m-2 fs-5'>💼 근무지정보</div>
+                            <h3>[{work_name}]</h3>
+                            <div className='mb-4 fs-'>{work_address}</div>
+                        </Card>
+                        <Card className='m-2 mt-3 fs-5'>
+                            <div className='text-start m-2 px-2'>👤 근로형태 
+                             <span className='p-2' name='sta_type'>{sta_type===0 ? '[정규직]' : sta_type===1 ? '[계약직]': sta_type===2 ? '[일용직]':''}</span>
+                            </div>                         
+                            <div className='p-2'>입사일 : {start}</div>
+                            <div className='pb-3'>퇴사일 : {end}</div>
+                        </Card>
+                    </Col>
+                    <Col>
                         <Form>
-                            <Card>  
-                                <Button className='m-2 text-start'>[{work_name}]</Button>
-                            </Card>
-                        <Card>
+                        <Card className='m-2'>
                             <Card.Title>
-                                <div>근로계약서</div>
+                                <div className='mt-3 text-start px-3 fs-5'>📄 근로계약서</div>
                             </Card.Title>
                                 <Card.Body>
                                     <div>
-                                        <img alt="근로계약서" className='my-3' src={fileName} width="20%"/>
+                                        <img className='pb-2' alt="근로계약서"  src={fileName} width="150px"/>
                                         <Form.Control type='file'
                                             name="file"
-                                            onChange={onChangeFile}/>
+                                            onChange={onChangeFile}
+                                            style={{display: isEditMode ? 'block' : 'none'}}
+                                            />
                                     </div>
-                                </Card.Body>   
+                                </Card.Body>
                         </Card>
                         </Form>
                     </Col>
-                    <Col>
-                        <Card>
-                            <h1>{work_name}</h1>
-                            {work_address}
-                        </Card>
-                        <Card>
-                            <Button className='btn btn-secondary' name='sta_type'>{sta_type===0 ? '정규직' : sta_type===1 ? '계약직': sta_type===2 ? '일용직':'아르바이트'}</Button>
-                        </Card>
-                        <Card>
-                            <Button>가입일 : {start}</Button>
-                        </Card>
-                        <Card>
-                            <Button>퇴사일 : {end}</Button>
-                        </Card>
-                    </Col>
-                    </Row>
+                    
+                    
                 </Card>
-                <div>
-                    <Button onClick={onClickUpdate}
-                        className='me-2'>저장</Button>
-                    <Button onClick={onReset}
-                        className='me-2'>취소</Button>
-                </div>
+                
+                </Col>
             </Row>
+            <div className='m-3'>
+                    {isEditMode ? (
+                    <Button onClick={onClickSave}
+                        className='me-2'>저장</Button>
+                    ) : (
+                    <Button onClick={onClickEidt} className='me-2'>
+                        수정
+                    </Button>
+                    )}
+                    <Button onClick={onReset2}
+                        className='me-2 btn-secondary'>취소</Button>
+                </div>
+     
           </>
   )
 }

@@ -131,7 +131,6 @@ const WorkPlaceMenu = ({ history }) => {
         <Tab.Content>
           <Tab.Pane eventKey="#link1"></Tab.Pane>
           <Tab.Pane eventKey="#Info"><WorkplaceInfotPage /></Tab.Pane>
-          <Tab.Pane eventKey="#staff"></Tab.Pane>
 
           <Tab.Pane eventKey="#payroll"><PayControllPage /></Tab.Pane>
 

@@ -9,6 +9,7 @@ const PayPage = () => {
     const [todayPay, setTodayPay] = useState([]);
     const [untill, setUntill] = useState(0);
     const use_id = sessionStorage.getItem("use_id");
+    
     const getStubs = async() => {
         const res = await axios.get(`/payroll/staff/stub/list.json?use_id=${use_id}`);
         setStubs(res.data);

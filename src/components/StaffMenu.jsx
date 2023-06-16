@@ -16,12 +16,11 @@ import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import SchedulePage from './Staff/SchedulePage';
 import axios from 'axios';
-import SchedulePage from './Staff/SchedulePage';
+import TimeCheckPage from './Staff/TimeCheckPage';
 
 
 const StaffMenu = ({history}) => {
    //폼모달창
-   const {box, setBox} = useContext(AlertContext);
    const [show, setShow] = useState(false);
    const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
@@ -29,7 +28,7 @@ const StaffMenu = ({history}) => {
    const use_login_id = sessionStorage.getItem('use_login_id');
 
   //알림모달
-  const {setBox} = useContext(AlertContext);
+   const {setBox} = useContext(AlertContext);
 
    const onLogout = (e) => {
     setBox({
@@ -141,11 +140,10 @@ useEffect (()=>{
               </ListGroup>
       </div>
             <div className="work-container">
-
               <Tab.Content>
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><StaffPage/></Tab.Pane>
-                <Tab.Pane eventKey="#worktime"><SchedulePage/></Tab.Pane>
+                <Tab.Pane eventKey="#worktime"><TimeCheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
                 <Tab.Pane eventKey="#mypage"><MyPage/></Tab.Pane>
