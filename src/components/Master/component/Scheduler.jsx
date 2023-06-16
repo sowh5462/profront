@@ -321,9 +321,11 @@ export default class Demo extends React.PureComponent {
       this.setState({ currentViewName });
     };
     this.currentDateChange = (currentDate) => {
-      let date = new Date(currentDate)
-      let beforeDate = new Date(date.setDate(date.getDay() - 7))
-      appointments = currentDate ? orgAppointments.filter(el => new Date(el.startDate) <= new Date(currentDate) && new Date(el.startDate) >= beforeDate) : orgAppointments;
+      // let date = new Date(currentDate)
+      // let beforeDate = new Date(date.setDate(date.getDate() - 7))
+      // console.log(date, beforeDate)
+      // appointments = currentDate ? orgAppointments.filter(el => new Date(el.startDate) <= new Date(currentDate) && new Date(el.startDate) >= beforeDate) : orgAppointments;
+      console.log(appointments)
       this.setState({ currentDate });
     };
 
