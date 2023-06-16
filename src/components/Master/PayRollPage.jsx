@@ -61,7 +61,7 @@ const PayRollPage = () => {
         <>
             <Row className='ms-5 mt-5'>
                 <Col md={8}>
-                    <Card className='py-3'>
+                    <Card className='py-4'>
                         <Row>
                             <Col className='mb-2'>
                                 <h4>인건비</h4>
@@ -81,7 +81,7 @@ const PayRollPage = () => {
                                 <h2>{temp}원</h2>
                             </Col>
                             <Col>
-                                <Button className='mt-4' onClick={handleShow}>급여상세보기</Button>
+                                <Button className='mt-4 fw-bold' onClick={handleShow}>급여상세보기</Button>
                             </Col>
                         </Row>
                     </Card>

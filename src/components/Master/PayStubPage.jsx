@@ -160,8 +160,8 @@ const PayStubPage = () => {
 
   if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
   return (
-    <Row>
-      <Col md={4}>
+    <Row className="py-4">
+      <Col md={3}>
         <select id='sta_name' style={{ width: "200px", fontSize: "20px", textAlign: "center" }} onChange={onChangeName} value={name}>
           <option>-----</option>
           {staffList.map(s =>
@@ -178,9 +178,9 @@ const PayStubPage = () => {
 
       </Col>
       <Col md={7} className='border border-4 py-3' id='bill'>
-        <h4>급여명세서</h4>
+        <h3 className="py-3">급여명세서</h3>
         <div className='my-2'>
-          <div className='text-end'>지급일:{timestring}</div>
+          <div className='text-end pe-2'>지급일:{timestring}</div>
           <InputGroup className='w-25' data-html2canvas-ignore="true">
             <Form.Control type='number' className='text-end' id='regular' placeholder='급여' />
             <Button onClick={onClickCalc}>계산</Button>
