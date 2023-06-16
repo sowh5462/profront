@@ -19,6 +19,8 @@ const MyPage = ({history}) => {
         start:'',
         end: '',
         use_email:'',
+        use_birth:'',
+        use_address:'',
         work_address:'',
         work_name:'',
         file: null,
@@ -37,7 +39,6 @@ const MyPage = ({history}) => {
             // console.log(fileName);
         setUserImage(result.data.sta_image ? `/images/photos/${result.data.sta_image}`:"https://via.placeholder.com/50x50" );
     }
-    
       useEffect(() => {
         getUser();
     },[])
@@ -115,6 +116,23 @@ const MyPage = ({history}) => {
                                     style={{display:'none'}}
                                 />
                         <h3><b>{use_name}</b>님의 정보</h3>
+                        <Form>
+                            <InputGroup className='my-2'>
+                            <InputGroup.Text className='px-5'>이메일</InputGroup.Text>
+                            <Form.Control value={use_email}
+                                name="use_email" onChange={onChange}/>
+                        </InputGroup>
+                            <InputGroup className='my-2'>
+                            <InputGroup.Text className='px-5'>주소</InputGroup.Text>
+                            <Form.Control value={use_address}
+                                name="use_address" onChange={onChange}/>
+                        </InputGroup>
+                            <InputGroup className='my-2'>
+                            <InputGroup.Text className='px-5'>전화번호</InputGroup.Text>
+                            <Form.Control value={use_phone}
+                                name="use_phone" onChange={onChange}/>
+                        </InputGroup>
+                        </Form>
                         </Card.Title>
                         <Card.Body>
                             <h5 className='text-start mx-2'>계좌정보</h5>
