@@ -119,18 +119,18 @@ const MyPage = ({history}) => {
                         <Form>
                             <InputGroup className='my-2'>
                             <InputGroup.Text className='px-5'>이메일</InputGroup.Text>
-                            <Form.Control value={use_email}
-                                name="use_email" onChange={onChange}/>
+                            <Form.Control
+                                name="use_email" />
                         </InputGroup>
                             <InputGroup className='my-2'>
                             <InputGroup.Text className='px-5'>주소</InputGroup.Text>
-                            <Form.Control value={use_address}
-                                name="use_address" onChange={onChange}/>
+                            <Form.Control 
+                                name="use_address" />
                         </InputGroup>
                             <InputGroup className='my-2'>
                             <InputGroup.Text className='px-5'>전화번호</InputGroup.Text>
-                            <Form.Control value={use_phone}
-                                name="use_phone" onChange={onChange}/>
+                            <Form.Control 
+                                name="use_phone" />
                         </InputGroup>
                         </Form>
                         </Card.Title>

@@ -29,11 +29,14 @@ const PayPage = () => {
     const getPay = async() => {
         const res = await axios.get(`/payroll/today?use_id=${use_id}`);
         setTodayPay(res.data);
+        console.log(res.data);
         const res2 = await axios.get(`/payroll/untill?use_id=${use_id}&date=${timestring}`);
         setUntill(res2.data);
     };
 
-    const selectedPay = todayPay.length > 0 ? todayPay.find(item => item.sche_day === dayOfWeek) : {sche_day : 0};
+    const selectedPay = todayPay.length > 0 ? todayPay.find(item => item.sche_day === dayOfWeek) || { sche_day: 9 } : {sche_day: 0};
+
+
     const untillPay = untill * 9620;
 
     useEffect(()=>{
