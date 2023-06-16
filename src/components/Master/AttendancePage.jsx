@@ -47,8 +47,12 @@ const AttendancePage = () => {
 
   //페이징하기 위한 직원수
   const staffCount = async () => {
-    const sresult = await axios.get(`/check/count?use_work_num=${worknum}`);
-    setCount(sresult.data);
+    try {
+      const sresult = await axios.get(`/check/count?use_work_num=${worknum}`); 
+      setCount(sresult.data);
+    } catch(e) {
+      console.log(e.response.data.msg)
+    }
   };
 
   //직원 리스트(연차정보)
