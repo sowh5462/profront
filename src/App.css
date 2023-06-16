@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 500;
+  font-family: 'Dovemayo_gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+  font-weight: normal;
   font-style: normal;
 }
 .App {
   text-align: center;
-  font-family: 'Pretendard-Regular';
+  font-family: 'Dovemayo_gothic';
 }
 
 * {
@@ -248,4 +248,14 @@ input::-webkit-inner-spin-button {
 .master:not(.active) {
   color: rgb(110, 110, 110) !important;
 
+}
+.user-image {
+  width: 300px; /* 이미지 크기를 조정하고자 할 경우 너비와 높이 값을 조정하세요 */
+  height: 300px;
+  border-radius: 100%; /* 동그란 모양을 만들기 위해 반지름 값을 50%로 설정합니다 */
+  border: 2px solid #000; /* 선의 스타일과 색상을 설정합니다 */
+  overflow: hidden; /* 넘치는 부분을 숨기기 위해 overflow 속성을 사용합니다 */
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
 }

@@ -164,6 +164,7 @@ const MyPage = ({history}) => {
                                 onChange={onChange}
                                 readOnly={!isEditMode}
                                 />
+
                         </Form>
                         </Card>
                         <Card className='m-2'>
