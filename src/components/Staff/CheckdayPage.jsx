@@ -8,10 +8,7 @@ import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 const CheckdayPage = ({history}) => {
     const {setBox} = useContext(AlertContext);
     const [chk, setChk] = useState(''); //신청여부
-    const [day, setDay] = useState(''); //근무일
-    const [sta, setSta] = useState('');
-    const [end, setEnd] = useState('');
-
+    const [start, setStart] = useState('');
     const [form, setForm] = useState({
         use_id: sessionStorage.getItem("use_id"),
         chk_upday:"",
@@ -29,8 +26,15 @@ const CheckdayPage = ({history}) => {
      const [user,setUser] = useState("");
      const id = sessionStorage.getItem("use_login_id")
      const getUser = async() =>{
-         const result = await axios.get(`/user/uread?use_login_id=${id}`);
-         setUser(result.data);
+        try{
+            const result = await axios.get(`/user/uread?use_login_id=${id}`);
+            setUser(result.data);
+        }catch(err){
+            setBox({
+                show:true,
+                message:"유저 정보를 불러오는데 실패했습니다!"+err
+            })
+        }
      }
 
     //신청중인 결재내역 확인
@@ -39,30 +43,61 @@ const CheckdayPage = ({history}) => {
         setChk(result.data);
     }
 
-    //폼 변경 - 시작
-    const onChangeSta = (e) =>{
-        setForm({
-          ...form, chk_start: e.target.value
-        });
-        setSta(moment(chk_start, "HH:mm"));
-    }
-
-    //폼 변경 - 종료
-    const onChangeEnd = (e) =>{
-        setForm({
-            ...form, chk_end: e.target.value
-        })
-        setEnd(moment(chk_end, "HH:mm"))
-    }
-
-    //폼 변경 - 날짜
+    //근무일 변경
     const onChangeDay = (e) =>{
         setForm({
-            ...form, chk_upday: e.target.value
-        })
-        setDay(chk_upday);
+          ...form,
+          chk_upday:e.target.value
+        });
     }
 
+    //시작시간 변경
+    const onChangeSta = (e) =>{
+        if(chk_upday===""){
+            setBox({
+                show:true,
+                message:"근무일을 먼저 선택해 주세요!"
+            })
+        }else{
+            const startTime = moment(e.target.value, "HH:mm:ss");
+            const statime = moment(chk_upday).set({ hour: startTime.hours(), minute: startTime.minutes(),second: startTime.seconds()});
+            const chk_statime = statime.format("YYYY-MM-DD HH:mm:ss")
+            setForm({
+                ...form,
+                chk_start: new Date(chk_statime)
+            });
+            setStart(startTime);
+        }      
+    }
+
+    //종료시간 변경
+    const onChangeEnd = (e) =>{
+        if(chk_upday===""){
+            setBox({
+                show:true,
+                message:"근무일을 먼저 선택해 주세요!"
+            })
+        }else if(chk_start===""){
+            setBox({
+                show:true,
+                message:"시작시간을 먼저 선택해 주세요!"
+            })
+        }else{
+            const endTime = moment(e.target.value, "HH:mm:ss"); //시간포맷
+            const endtime = moment(chk_upday).set({ hour: endTime.hours(), 
+            minute: endTime.minutes(),second: endTime.seconds()}); // 근무일+시간
+            const chk_endtime = endtime.format("YYYY-MM-DD HH:mm:ss"); //날짜 형식으로 변환
+
+            const duration = moment.duration(endTime.diff(start)); //종료시간 - 시작시간
+            const hours = Math.round(duration.asHours()); //반올림
+            setForm({
+                ...form,
+                chk_end: new Date(chk_endtime), //데이터 타입 날짜
+                chk_time: parseInt(hours)
+            });
+        }       
+    }
+    
     //체크박스 - 하나만 선택
     const [selectedCheckbox, setSelectedCheckbox] = useState(null);
     const handleCheckboxChange = (e) => {
@@ -72,60 +107,66 @@ const CheckdayPage = ({history}) => {
         })
     };
 
-
     //결재신청
-     const onInsert = async() =>{
-        console.log(form);
-        // await axios.post(`/check/insert`,form);
-        // history.push("/staff");
+     const onInsert = async() =>{   
+        try{
+            await axios.post(`/check/insert`,form);   
+            setBox({
+                show:true,
+                message:"결재가 성공적으로 신청되었습니다."
+            })
+        }catch(err){
+            setBox({
+                show:true,
+                message:"결재 신청오류"+err
+            })
+        }
     }
 
     //결재 신청하기
     const onInsertCheck = async() =>{
+     
         if(chk > 0){
             setBox({
                 show:true,
-                message:"신청중인 결재내역이 존재합니다."
+                message:"신청 중인 결재 내역이 존재합니다."
             })
             return;
-        }else if(chk_type==="" || chk_start==="" || chk_end === ""){
+        }else if(chk_type===""){
             setBox({
                 show:true,
-                message:"항목을 빠짐없이 작성해주세요!"
+                message:"신청서 구분을 선택해 주세요"
             })
             return;
-        }else{     
-            console.log(day);    
-            console.log(sta);      
-            console.log(end);    
-            // const duration = moment.duration(end.diff(sta));
-            // const hours = Math.round(duration.asHours());
-
-            // setForm({
-            // ...form,
-            // chk_time: hours,
-            // chk_start: moment(`${chk_upday} ${chk_start}`).format("YYYY-MM-DD HH:mm"),
-            // chk_end: moment(`${chk_upday} ${chk_end}`).format("YYYY-MM-DD HH:mm"),
-            // });
-
-          
-            // setBox({
-            // show: true,
-            // message: "결재를 올리시겠습니까?",
-            // action: onInsert,
-            // });
+        }else if(chk_start==="" || chk_end === "" || chk_upday === ""){
+            setBox({
+                show:true,
+                message:"항목을 빠짐없이 작성해 주세요!"
+            })
+            return;
+        }else if(chk_start >= chk_end){
+            setBox({
+                show:true,
+                message:"종료시간은 시작시간 이후로 선택해 주세요!"
+            })
+            return;
+        }else{ 
+            setBox({
+            show: true,
+            message:`${chk_type} ${chk_time}시간에 대한 결재를 신청하시겠습니까?` ,
+            action: onInsert
+            });                  
         }
     }
-   
-  
 
     useEffect(()=>{
         getUser();
         onCheck();
-    },[form])
+    },[])
 
+    
   return (
-    <>
+    <div>
         <Row>
             <Col>
             <Form className="text-start">
@@ -216,7 +257,7 @@ const CheckdayPage = ({history}) => {
             </Form>             
             </Col>
         </Row>
-    </>
+    </div>
   )
 }
 

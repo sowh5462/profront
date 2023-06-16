@@ -1,10 +1,18 @@
 import React, {  useState ,useContext, useEffect} from 'react';
-import { Button, Col, Form, Tab, InputGroup, Row, Nav } from 'react-bootstrap';
+import { Button, Col, Form, Tab, InputGroup, Row, Nav, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { AlertContext } from '../AlertContext';
 import logo from '../../images/로고.png';
+import DaumPostcode from 'react-daum-postcode';
+
 
 const RegisterPage = ({history}) => {
+  //주소 모달
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const {setBox} = useContext(AlertContext);
 
   const [idCheck, setIdCheck] = useState(false); //아이디 체크
@@ -12,6 +20,7 @@ const RegisterPage = ({history}) => {
 
   const [id,setId] = useState(""); //바뀐 아이디 비교
   const [worknum, setWorkNum] = useState(""); //바뀐 사업자번호 비교
+  const [address, setAddress] = useState("");
 
  //10자리 숫자만 입력 - 사업자번호
   const num = /^\d{10}$/; 
@@ -112,6 +121,28 @@ const RegisterPage = ({history}) => {
     }    
   }
 
+  //주소검색
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+    
+    const {addressType, bname, buildingName} = data
+    if (addressType === 'R') {
+        if (bname !== '') {
+            extraAddress += bname;
+        }
+        if (buildingName !== '') {
+            extraAddress += `${extraAddress !== '' && ', '}${buildingName}`;
+        }
+        fullAddress += `${extraAddress !== '' ? ` ${extraAddress}` : ''}`;
+    }
+    //fullAddress -> 전체 주소반환
+    setForm({
+      ...form,
+      use_address:fullAddress
+    })
+    handleClose();
+}
  
 
   //아이디 중복체크
@@ -199,21 +230,21 @@ const RegisterPage = ({history}) => {
     }       
 
   useEffect(()=>{
- 
-  },[use_type])
+  
+  },[])
 
   return (
-   <>
+   <div style={{paddingLeft:"750px"}}>
     <Row className="justify-content-center my-5">
-      <Col lg={3} md={5} xs={8}>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <Col lg={12} md={5} xs={8}>
+      <Tab.Container  defaultActiveKey="first">
       <Row>     
           <Nav variant="pills" className="mb-3" >
             <Nav.Item>
-              <Nav.Link  eventKey="first" value={1} onClick={()=>onChageType(1)} >사업자</Nav.Link>
+              <Nav.Link className="master" eventKey="first" value={1} onClick={()=>onChageType(1)} >사업자</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="second" value={0} onClick={()=>onChageType(0)}>근로자</Nav.Link>
+              <Nav.Link className="master" eventKey="second" value={0} onClick={()=>onChageType(0)}>근로자</Nav.Link>
             </Nav.Item>
           </Nav>   
         <Col >
@@ -227,7 +258,7 @@ const RegisterPage = ({history}) => {
                   <Form.Label className="mt-2">아이디</Form.Label>
                   <InputGroup>
                   <Form.Control name='use_login_id' value={use_login_id} onChange={onChange} />
-                  <Button className="btn-secondary" onClick={onIdCheck} >중복체크</Button>  
+                  <Button className="btn-primary" onClick={onIdCheck} >중복체크</Button>  
                   </InputGroup>
 
                   <Form.Label className="mt-2">비밀번호</Form.Label>
@@ -263,7 +294,8 @@ const RegisterPage = ({history}) => {
 
                   <Form.Label className="mt-2">주소</Form.Label>
                   <InputGroup>
-                    <Form.Control name='use_address' value={use_address} onChange={onChange} />     
+                    <Form.Control name='use_address' value={use_address} onChange={onChange} /> 
+                    <Button className="btn-secondary" onClick={handleShow}>검색</Button>   
                   </InputGroup>
 
                   <Form.Label className="mt-2">생년월일</Form.Label>
@@ -288,8 +320,8 @@ const RegisterPage = ({history}) => {
               <Form className="text-start text-muted">
                   <Form.Label className="mt-2">아이디</Form.Label>
                   <InputGroup>
-                  <Form.Control name='use_login_id' value={use_login_id} onChange={onChange} />
-                  <Button className="btn-secondary" onClick={onIdCheck} >중복체크</Button>  
+                  <Form.Control  name='use_login_id' value={use_login_id} onChange={onChange} />
+                  <Button className="btn-primary" onClick={onIdCheck} >중복체크</Button>  
                   </InputGroup>
 
                   <Form.Label className="mt-2">비밀번호</Form.Label>
@@ -325,7 +357,8 @@ const RegisterPage = ({history}) => {
 
                   <Form.Label className="mt-2">주소</Form.Label>
                   <InputGroup>
-                    <Form.Control name='use_address' value={use_address} onChange={onChange} />     
+                    <Form.Control name='use_address' value={use_address} onChange={onChange} />
+                    <Button className="btn-secondary" onClick={handleShow}>검색</Button>    
                   </InputGroup>
 
                   <Form.Label className="mt-2">생년월일</Form.Label>
@@ -343,12 +376,23 @@ const RegisterPage = ({history}) => {
           </Tab.Content>
         </Col>
       </Row>
-    </Tab.Container>
-
-            
+    </Tab.Container>          
       </Col>
     </Row>
-   </>
+
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>주소검색</Modal.Title>
+        </Modal.Header>
+        <Modal.Body> <DaumPostcode onComplete={handleComplete} /></Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            확인
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+   </div>
      
   )
 }

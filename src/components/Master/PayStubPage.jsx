@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 import { Button, Col, Form, InputGroup, Row, Spinner, Table } from 'react-bootstrap'
 import html2canvas from 'html2canvas';
 import { firebase } from '../../Firebase'
-import { getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
+import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage'
+import { useContext } from 'react';
+import { AlertContext } from '../AlertContext';
 
 const PayStubPage = () => {
   const [loading, setLoading] = useState(false);
@@ -12,6 +14,7 @@ const PayStubPage = () => {
   const [staff, setStaff] = useState({
     sta_bank: "",
     sta_account: "",
+    sta_type: 0,
     pay_regular: 0,
     pay_hour: 0,
     use_id: 0
@@ -19,9 +22,10 @@ const PayStubPage = () => {
   const [name, setName] = useState("");
   const [stub, setStub] = useState([]);
   const [more, setMore] = useState(0);
-  const [pay_regular, setPay_regular] = useState(2000000);
+  const [pay_regular, setPay_regular] = useState(0);
+  const { setBox } = useContext(AlertContext);
 
-  const { sta_bank, sta_account } = staff;
+  const { sta_bank, sta_account, sta_type } = staff;
 
   const pay_more = 9620 * more * 1.5; //연장수당
   const pay_night = 0;
@@ -29,12 +33,29 @@ const PayStubPage = () => {
   const pay_meal = 10000; //식대
   const pay_all = pay_regular + pay_more + pay_meal + pay_night + pay_holiday; //지급액 합계
 
-  const tax = 115530;
-  const ens1 = Math.round((pay_regular * 0.045) / 10) * 10; //국민연금
-  const ens2 = Math.round((pay_regular * 0.009) / 10) * 10;  //고용보험
-  const ens3 = Math.round((pay_regular * 0.03545) / 10) * 10;  //건강보험
-  const ens4 = Math.round((ens3 * 0.1281) / 10) * 10; //장기요양보험
-  const union = 10000;
+  let tax;
+  let ens1;
+  let ens2;
+  let ens3;
+  let ens4;
+  let union;
+
+  if (sta_type === 2) {
+    tax = 0;
+    ens1 = 0;
+    ens2 = 0;
+    ens3 = 0;
+    ens4 = 0;
+    union = 0;
+  } else {
+    tax = 115530;
+    ens1 = Math.round((pay_regular * 0.045) / 10) * 10; //국민연금
+    ens2 = Math.round((pay_regular * 0.009) / 10) * 10; //고용보험
+    ens3 = Math.round((pay_regular * 0.03545) / 10) * 10; //건강보험
+    ens4 = Math.round((ens3 * 0.1281) / 10) * 10; //장기요양보험
+    union = 10000;
+  }
+
   const pay_not = tax + ens1 + ens2 + ens3 + ens4 + union;
 
   let today = new Date(); // today 객체에 Date()의 결과를 넣어줬다
@@ -84,8 +105,15 @@ const PayStubPage = () => {
   }, []);
 
   const onClickDownload = () => {
+    if (pay_regular === 0 || Number.isNaN(pay_regular)) {
+      setBox({ show: true, message: '급여를 계산해주세요' });
+      return;
+    } else if (name === "") {
+      setBox({ show: true, message: '직원을 선택해주세요' });
+      return;
+    }
     const bill = document.getElementById('bill');
-    html2canvas(bill, {letterRendering : 1}).then(canvas => {
+    html2canvas(bill, { letterRendering: 1 }).then(canvas => {
       const image = canvas.toDataURL();
       const storage = getStorage();
       const stubName = `Bills/${year_month} ${name}.jpg`;
@@ -98,27 +126,43 @@ const PayStubPage = () => {
           const stub_url = url;
           axios.post(`/payroll/stub/insert`,
             { "use_id": use_id, "use_work_num": use_work_num, "stub_name": stub_name, "stub_url": stub_url });
-          axios.post('/payroll/pay/insert', {"use_id" : use_id, "pay_regular" : pay_regular})
+          axios.post('/payroll/pay/insert', { "use_id": use_id, "pay_regular": pay_regular, "pay_name": stub_name })
         })
       })
     })
+    setBox({ show: true, message: '성공적으로 저장되었습니다.' });
   };
 
   const handleButtonClick = async (url) => {
     window.open(url, '_blank');
   };
 
-  const onClickCalc = () => {
+  const onClickCalc = async() => {
     const regular = document.getElementById('regular');
     setPay_regular(parseInt(regular.value));
-  }
+  };
+
+  const onClickDelete = (stub_name, stub_id) => {
+    const storage = getStorage();
+    const deleteRef = ref(storage, `Bills/${stub_name}`);
+
+    deleteObject(deleteRef).then(() => {
+      // File deleted successfully
+    }).catch((error) => {
+      // Uh-oh, an error occurred!
+    });
+
+    axios.get(`/payroll/stub/delete?stub_id=${stub_id}`);
+    axios.get(`/payroll/pay/delete?pay_name=${stub_name}`);
+    setBox({show: true, message: '삭제되었습니다.'});
+  };
 
 
   if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
   return (
-    <Row>
-      <Col md={4}>
-        <select id='sta_name' style={{ width: "200px", fontSize: "20px", textAlign:"center" }} onChange={onChangeName} value={name}>
+    <Row className="py-4">
+      <Col md={3}>
+        <select id='sta_name' style={{ width: "200px", fontSize: "20px", textAlign: "center" }} onChange={onChangeName} value={name}>
           <option>-----</option>
           {staffList.map(s =>
             <option key={s.use_id} value={s.use_name}>{s.use_name}</option>
@@ -126,17 +170,19 @@ const PayStubPage = () => {
         </select>
 
         {stub.map(s =>
-          <h4 key={s.stub_id} onClick={() => handleButtonClick(s.stub_url)}
-           className='border border-4 rounded-4 py-2 my-2' style={{cursor:"pointer"}}>{s.stub_name}</h4>
+          <div key={s.stub_id} className='border border-4 rounded-4 py-2 my-2'>
+            <span onClick={() => handleButtonClick(s.stub_url)} style={{ cursor: "pointer" }}>{s.stub_name}</span>
+            <Button className='btn-sm ms-3' onClick={()=>onClickDelete(s.stub_name, s.stub_id)}>삭제</Button>  
+          </div>
         )}
 
       </Col>
       <Col md={7} className='border border-4 py-3' id='bill'>
-        <h4>급여명세서</h4>
+        <h3 className="py-3">급여명세서</h3>
         <div className='my-2'>
-          <div className='text-end'>지급일:{timestring}</div>
+          <div className='text-end pe-2'>지급일:{timestring}</div>
           <InputGroup className='w-25' data-html2canvas-ignore="true">
-            <Form.Control type='number' className='text-end' id='regular' />
+            <Form.Control type='number' className='text-end' id='regular' placeholder='급여' />
             <Button onClick={onClickCalc}>계산</Button>
           </InputGroup>
         </div>
@@ -175,9 +221,15 @@ const PayStubPage = () => {
               <td rowSpan={6} className='align-middle border-end border-start border-1'>매월지급</td>
               <td>기본급</td>
 
-              <td className='border-end border-1'>
-                {pay_regular.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </td>
+              {sta_type === 2 ?
+                <td className='border-end border-1'>
+                  0
+                </td>
+                :
+                <td className='border-end border-1'>
+                  {pay_regular.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </td>
+              }
 
               <td>소득세</td>
               <td>{tax.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
@@ -218,7 +270,7 @@ const PayStubPage = () => {
             </tr>
             <tr>
               <td width={"86px"} className='border-start border-end border-1'><span>격월<br />또는<br />부정기 지급</span></td>
-              <td colSpan={4}></td>
+              {sta_type === 2 ? <td colSpan={4} className='align-middle'>{pay_regular.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td> : <td colSpan={4}></td>}
             </tr>
             <tr className='border-top border-1'>
               <td colSpan={2}>지급액 계</td>
@@ -229,7 +281,7 @@ const PayStubPage = () => {
             <tr>
               <td colSpan={3}></td>
               <td>실수령액</td>
-              <td>{(pay_all-pay_not).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+              <td>{(pay_all - pay_not).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
             </tr>
           </tbody>
         </Table>

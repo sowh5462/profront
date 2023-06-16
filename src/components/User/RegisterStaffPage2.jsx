@@ -48,21 +48,28 @@ const RegisterStaffPage2 = ({ history }) => {
     }
 
     const onInsert = async () => {
-        const formData = new FormData();
-        formData.append('use_id', use_id);
-        formData.append('sta_bank', sta_bank);
-        formData.append('sta_image', sta_image);
-        formData.append('sta_account', sta_account);
-        formData.append('sta_type', sta_type);
-        formData.append('sta_employ', sta_employ);
-        formData.append('sta_end', sta_end);
-        formData.append('sta_contract', sta_contract);
-        formData.append('file', file);
-        const config = {
-            headers: { "content-type": "multipart/form-data" }
-        }
-        await axios.post('/user/register/staff', formData, config);
-        history.push("/");
+        try{
+            const formData = new FormData();
+            formData.append('use_id', use_id);
+            formData.append('sta_bank', sta_bank);
+            formData.append('sta_image', sta_image);
+            formData.append('sta_account', sta_account);
+            formData.append('sta_type', sta_type);
+            formData.append('sta_employ', sta_employ);
+            formData.append('sta_end', sta_end);
+            formData.append('sta_contract', sta_contract);
+            formData.append('file', file);
+            const config = {
+                headers: { "content-type": "multipart/form-data" }
+            }
+            await axios.post('/user/register/staff', formData, config);
+            history.push("/");
+        }catch(err){
+            setBox({
+                show:true,
+                message:"회원가입에 실패했습니다!"+err
+            })
+        }       
     }
 
     //등록버튼

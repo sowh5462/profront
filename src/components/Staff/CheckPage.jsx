@@ -1,9 +1,8 @@
-import React,{ useState, useEffect , useContext} from 'react'
-import { Col, Row, Card, Tab, Tabs, Button, Form} from "react-bootstrap";
-import { AlertContext } from '../AlertContext';
-import axios from 'axios';
+import React from 'react'
+import { Tab, Tabs} from "react-bootstrap";
 import CheckdayPage from './CheckdayPage';
 import CheckannualPage from './CheckannualPage';
+import CheckListPage from './CheckListPage';
 
 const CheckPage = () => {
     /*
@@ -20,6 +19,9 @@ const CheckPage = () => {
                     </Tab>
                     <Tab eventKey="tab2" title="연차신청" className="p-5">
                         <CheckannualPage/>
+                    </Tab>
+                    <Tab eventKey="tab3" title="신청내역" className="p-5">
+                        <CheckListPage/>
                     </Tab>
                 </Tabs>
                 </div>

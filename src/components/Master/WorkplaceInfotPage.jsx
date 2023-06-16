@@ -44,8 +44,15 @@ const WorkplaceInfotPage = () => {
     
     //행사 리스트 출력
     const getEventList = async () => {
-      const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
-      setEvent(result.data);
+     try{
+        const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
+        setEvent(result.data);
+     }catch(err){
+        setBox({
+          show:true,
+          message:"행사 리스트를 가져오는데 실패했습니다!"+err
+        })
+     }
     };
 
     //사업장 정보 출력
@@ -105,16 +112,26 @@ const WorkplaceInfotPage = () => {
   }
 
     //행사삭제버튼
-    const onDelete = (event_id) =>{
+    const onDeleteClick = (event_id) =>{
       setBox({
         show:true,
         message:"해당 이벤트를 삭제하시겠습니까?",
-        action: async()=>{
+        action: ()=>onDelete(event_id)
+      })   
+    }
+
+    //삭제
+    const onDelete = async(event_id) =>{
+      try{
           await axios.get("/event/delete?event_id="+event_id);
           getEventList();
           setDate(moment(new Date()).format("YYYY-MM-DD"));
-        }
-      })   
+      }catch(err){
+          setBox({
+            show:true,
+            message:"행사 삭제 오류"+err
+          })
+      }
     }
   
   useEffect(() => {
@@ -182,7 +199,7 @@ const WorkplaceInfotPage = () => {
                           <div key={e.event_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
                             <span>▶︎ {e.start}~{e.end}&nbsp;|</span>
                             <span><b>&nbsp;&nbsp;{e.event_name}</b></span>
-                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDelete(e.event_id)}><FaRegTrashAlt/></span>
+                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDeleteClick(e.event_id)}><FaRegTrashAlt/></span>
                           </div>
                         ))}
                     </div>
