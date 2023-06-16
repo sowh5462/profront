@@ -28,7 +28,7 @@ const MasterListPage = () => {
 
   //유저정보
   const getUser = async () => {
-    const workNum = '1288663802'
+    const workNum = sessionStorage.getItem("use_work_num")
     const result = await axios.get(`/staff/list.json?use_work_num=${workNum}`)
     setUserList(result.data);
     setForm(result.data);

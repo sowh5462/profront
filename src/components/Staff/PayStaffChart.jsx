@@ -1,43 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { ResponsiveBar } from '@nivo/bar'
+import { ResponsiveBar } from '@nivo/bar';
 import axios from 'axios';
-import { Spinner } from 'react-bootstrap';
+import React from 'react'
+import { useEffect } from 'react';
+import { useState } from 'react'
 
-const PayChart2 = () => {
-    const [sum, setSum] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-    const getSum = async () => {
-        setLoading(true);
-        const use_work_num = sessionStorage.getItem("use_work_num");
-        const result = await axios.get(`/payroll/month?use_work_num=${use_work_num}`);
-        setSum(result.data);
-        setLoading(false);
-        // console.log(sum);
+const PayStaffChart = () => {
+    const [data, setData] = useState([]);
+    const use_id = sessionStorage.getItem('use_id');
+    const getData = async() => {
+        const res = await axios.get(`/payroll/chart?use_id=${use_id}`);
+        setData(res.data);
     };
-
     useEffect(()=>{
-        getSum();
-    },[]);
-
-
-    if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
+        getData();
+    }, []);
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '400px', height: '400px', margin: '0 auto' }}>
+        <div style={{ width: '600px', height: '600px', margin: '0 auto' }}>
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
                  */
-                data={sum}
+                data={data}
                 /**
                  * chart에 보여질 데이터 key (측정되는 값)
                  */
-                keys={['월별통계']}
+                keys={['월별 급여']}
                 /**
                  * keys들을 그룹화하는 index key (분류하는 값)
                  */
-                indexBy="pay_month"
+                indexBy="fmt_date"
                 /**
                  * chart margin
                  */
@@ -49,7 +41,7 @@ const PayChart2 = () => {
                 /**
                  * chart 색상
                  */
-                colors={['skyblue']} // 커스터하여 사용할 때
+                colors={['rgba(51, 84, 244, 1)']} // 커스터하여 사용할 때
                 // colors={{ scheme: 'nivo' }} // nivo에서 제공해주는 색상 조합 사용할 때
                 /**
                  * color 적용 방식
@@ -62,7 +54,7 @@ const PayChart2 = () => {
                      */
                     labels: {
                         text: {
-                            fontSize: 14,
+                            fontSize: 0,
                             fill: '#000000',
                         },
                     },
@@ -81,7 +73,7 @@ const PayChart2 = () => {
                          */
                         legend: {
                             text: {
-                                fontSize: 10,
+                                fontSize: 14,
                                 fill: '#000000',
                             },
                         },
@@ -90,7 +82,7 @@ const PayChart2 = () => {
                          */
                         ticks: {
                             text: {
-                                fontSize: 10,
+                                fontSize: 8,
                                 fill: '#000000',
                             },
                         },
@@ -136,7 +128,7 @@ const PayChart2 = () => {
                 
             />
         </div>
-    );
-};
+    )
+}
 
-export default PayChart2
+export default PayStaffChart

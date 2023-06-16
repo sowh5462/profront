@@ -16,37 +16,31 @@ const WorkerList = () => {
 
 	//데이터 저장할 변수
 
-	const [scheList, setScheList] = useState([]); //근무자리스트
-	const [worknum, setWorknum] = useState(1288663802);
-	const [dayList, setDayList] = useState([]); //날짜별 근무내역
-	const [show, setShow] = useState(false);
-	const [uList, setUList] = useState([]);
-	const { setBox } = useContext(AlertContext);
-	//로딩바
-	const [loading, setLoding] = useState(false);
+  const [scheList, setScheList] = useState([]); //근무자리스트
+  const [worknum, setWorknum] = useState(1288663802);
+  const [dayList, setDayList] = useState([]); //날짜별 근무내역
+  const [show, setShow] = useState(false);
+  const [uList, setUList] = useState([]);
+  const { setBox } = useContext(AlertContext);
 
 	let [form, setForm] = useState([])
 
 	const { use_id, sche_start, sche_end, sche_day } = form;
 
-	//근무자 리스트
-	const getList = async () => {
-		
-		const res = await axios.get(`/schedule/list1.json?use_work_num=${worknum}`)
-		
-		setScheList(res.data)
-		console.log(scheList)
-		
-	}
+  //근무자리스트
+  const getScheduleList = async () => {
 
-	//날짜별 근무자 리스트
-	const getDayScheList = async () => {
-		setLoding(true);
-		const dayresult = await axios.get(`/schedule/schelist?sche_start=${date}&use_work_num=${worknum}`)
-		console.log(date, dayresult.data)
-		setDayList(dayresult.data)
-		setLoding(false);
-	}
+    const result = await axios.get(`/schedule/list1.json?use_work_num=${worknum}`)
+    setScheList(result.data);
+    console.log(result.data);
+  }
+
+  //날짜별 근무자 리스트
+  const getDayScheList = async () => {
+    const dayresult = await axios.get(`/schedule/schelist?sche_start=${date}&use_work_num=${worknum}`)
+    setDayList(dayresult.data);
+    console.log(dayresult.data)
+  }
 
 	//캘린더 날짜변수
 	const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));

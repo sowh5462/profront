@@ -1,10 +1,17 @@
 import React, {  useState ,useContext, useEffect} from 'react';
-import { Button, Col, Form, Tab, InputGroup, Row, ToggleButton, ToggleButtonGroup, Nav } from 'react-bootstrap';
+import { Button, Col, Form, Tab, InputGroup, Row, Nav, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { AlertContext } from '../AlertContext';
 import logo from '../../images/로고.png';
+import DaumPostcode from 'react-daum-postcode';
 
 const RegisterPage = ({history}) => {
+  //주소 모달
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const {setBox} = useContext(AlertContext);
 
   const [idCheck, setIdCheck] = useState(false); //아이디 체크
@@ -12,6 +19,7 @@ const RegisterPage = ({history}) => {
 
   const [id,setId] = useState(""); //바뀐 아이디 비교
   const [worknum, setWorkNum] = useState(""); //바뀐 사업자번호 비교
+  const [address, setAddress] = useState("");
 
  //10자리 숫자만 입력 - 사업자번호
   const num = /^\d{10}$/; 
@@ -58,12 +66,12 @@ const RegisterPage = ({history}) => {
     
   }
 
-  //사업자 API조회
+  //사업자 API조회 - 사업자
   const getWorkNum = async () => {
     if(!num.test(use_work_num)){
       setBox({
         show:true,
-        message:"사업자번호는 10자리수 숫자로만 입력이 가능합니다."
+        message:"사업자 번호는 10자릿수 숫자로만 입력이 가능합니다."
       })
     }else{
         const res = await fetch(`https://bizno.net/api/fapi?key=d2tkdGtna2VrMTZAZ21haWwuY29t&gb=1&q=${use_work_num}&type=json`).
@@ -86,25 +94,25 @@ const RegisterPage = ({history}) => {
     }
   }
 
-  //사업장 확인(사업자 존재)
+  //사업장 확인(사업자 존재) - 직원
   const getCheckWork = async() =>{
     if(!num.test(use_work_num)){
       setBox({
         show:true,
-        message:"사업자번호는 10자리수 숫자로만 입력이 가능합니다."
+        message:"사업자 번호는 10자릿수 숫자로만 입력이 가능합니다."
       })
     }else{
       const result = await axios.get(`/workplace/about?use_work_num=${use_work_num}`);
       if(result.data.length===0){
         setBox({
           show:true,
-          message:"등록되어있지 않은 사업장입니다."
+          message:"등록되어 있지 않은 사업장입니다."
         })
         setWorkCheck(false);
       }else{
         setBox({
           show:true,
-          message: result.data.work_name+"사업장이 맞다면 확인버튼을 눌러주세요"
+          message: result.data.work_name
         })
         setWorkCheck(true);
         setWorkNum(use_work_num);
@@ -112,6 +120,28 @@ const RegisterPage = ({history}) => {
     }    
   }
 
+  //주소검색
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+    
+    const {addressType, bname, buildingName} = data
+    if (addressType === 'R') {
+        if (bname !== '') {
+            extraAddress += bname;
+        }
+        if (buildingName !== '') {
+            extraAddress += `${extraAddress !== '' && ', '}${buildingName}`;
+        }
+        fullAddress += `${extraAddress !== '' ? ` ${extraAddress}` : ''}`;
+    }
+    //fullAddress -> 전체 주소반환
+    setForm({
+      ...form,
+      use_address:fullAddress
+    })
+    handleClose();
+}
  
 
   //아이디 중복체크
@@ -122,10 +152,10 @@ const RegisterPage = ({history}) => {
     }else{
         const result = await axios.post(`/user/uread?use_login_id=${use_login_id}`);
         if(result.data !== ''){
-          setBox({ show: true, message: '이미 사용중인 아이디입니다' });
+          setBox({ show: true, message: '이미 사용 중인 아이디입니다' });
           return;
         }else{
-          setBox({ show: true, message: '사용가능한 아이디입니다' });
+          setBox({ show: true, message: '사용 가능한 아이디입니다' });
           setIdCheck(true);
           setId(use_login_id);
           return;
@@ -140,7 +170,7 @@ const RegisterPage = ({history}) => {
       use_phone==="" || use_name === "" || use_birth==="" || use_address==='' || use_email==='' ) {
         setBox({
           show:true,
-          message:"필수항목을 모두 채워주세요!"
+          message:"필수 항목을 모두 채워주세요!"
         })
         return;
     }else if(!idCheck){
@@ -171,7 +201,7 @@ const RegisterPage = ({history}) => {
     }else if(worknum!==use_work_num){ //조회 후 사업자 번호변경
       setBox({
         show:true,
-        message:"444사업자 번호를 조회해주세요!"
+        message:"사업자 번호를 조회해주세요!"
       })
       setWorkCheck(false);
       return;
@@ -179,7 +209,7 @@ const RegisterPage = ({history}) => {
       if(use_type===1){
         setBox({
           show:true,
-          message:"사업자 회원으로 가입하시겠습니끼?",
+          message:"사업자 회원으로 가입하시겠습니까?",
           action: async()=>{
             await axios.post("/user/register",form);
             history.push("/user/login");
@@ -188,9 +218,10 @@ const RegisterPage = ({history}) => {
       }else{
         setBox({
           show:true,
-          message:"근로자 회원으로 가입하시겠습니끼?",
+          message:"근로자 회원으로 가입하시겠습니까?",
           action: async()=>{
             await axios.post("/user/register",form);
+            history.push("/user/login");
           }
         })
       }       
@@ -198,8 +229,8 @@ const RegisterPage = ({history}) => {
     }       
 
   useEffect(()=>{
- 
-  },[use_type])
+  
+  },[])
 
   return (
    <>
@@ -209,10 +240,10 @@ const RegisterPage = ({history}) => {
       <Row>     
           <Nav variant="pills" className="mb-3" >
             <Nav.Item>
-              <Nav.Link  eventKey="first" value={1} onClick={()=>onChageType(1)} >사업자</Nav.Link>
+              <Nav.Link className="master" eventKey="first" value={1} onClick={()=>onChageType(1)} >사업자</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="second" value={0} onClick={()=>onChageType(0)}>근로자</Nav.Link>
+              <Nav.Link className="master" eventKey="second" value={0} onClick={()=>onChageType(0)}>근로자</Nav.Link>
             </Nav.Item>
           </Nav>   
         <Col >
@@ -226,7 +257,7 @@ const RegisterPage = ({history}) => {
                   <Form.Label className="mt-2">아이디</Form.Label>
                   <InputGroup>
                   <Form.Control name='use_login_id' value={use_login_id} onChange={onChange} />
-                  <Button className="btn-secondary" onClick={onIdCheck} >중복체크</Button>  
+                  <Button className="btn-primary" onClick={onIdCheck} >중복체크</Button>  
                   </InputGroup>
 
                   <Form.Label className="mt-2">비밀번호</Form.Label>
@@ -262,7 +293,8 @@ const RegisterPage = ({history}) => {
 
                   <Form.Label className="mt-2">주소</Form.Label>
                   <InputGroup>
-                    <Form.Control name='use_address' value={use_address} onChange={onChange} />     
+                    <Form.Control name='use_address' value={use_address} onChange={onChange} /> 
+                    <Button className="btn-secondary" onClick={handleShow}>검색</Button>   
                   </InputGroup>
 
                   <Form.Label className="mt-2">생년월일</Form.Label>
@@ -287,20 +319,20 @@ const RegisterPage = ({history}) => {
               <Form className="text-start text-muted">
                   <Form.Label className="mt-2">아이디</Form.Label>
                   <InputGroup>
-                  <Form.Control name='use_login_id' value={use_login_id} onChange={onChange} />
-                  <Button className="btn-secondary" onClick={onIdCheck} >중복체크</Button>  
+                  <Form.Control  name='use_login_id' value={use_login_id} onChange={onChange} />
+                  <Button className="btn-primary" onClick={onIdCheck} >중복체크</Button>  
                   </InputGroup>
 
                   <Form.Label className="mt-2">비밀번호</Form.Label>
                   <InputGroup>
-                  <Form.Control name='use_login_pass' value={use_login_pass} onChange={onChange} />     
+                  <Form.Control type="password" name='use_login_pass' value={use_login_pass} onChange={onChange} />     
                   </InputGroup>
 
                   <Form.Label className="mt-2"> • 비밀번호 확인</Form.Label>
                   <InputGroup>
-                    <Form.Control name='passcheck' value={passcheck} onChange={onChange} />                
+                    <Form.Control type="password" name='passcheck' value={passcheck} onChange={onChange} />                
                   </InputGroup>
-                {passcheck=== "" ? <div style={{fontSize:"12px"}} className="pt-1">&nbsp; 비밀번호를 입력해주세요</div> 
+                {passcheck=== "" ? <div style={{fontSize:"12px"}} className="pt-1">&nbsp; 비밀번호를 입력해 주세요</div> 
                 : passcheck!==use_login_pass ?  
                 <div className="pt-1" style={{fontSize:"12px", color:'red'}}>&nbsp; 비밀번호가 틀립니다!</div> 
                 : <div className="pt-1" style={{fontSize:"12px", color:'blue'}}>&nbsp; 비밀번호 일치</div>
@@ -324,7 +356,8 @@ const RegisterPage = ({history}) => {
 
                   <Form.Label className="mt-2">주소</Form.Label>
                   <InputGroup>
-                    <Form.Control name='use_address' value={use_address} onChange={onChange} />     
+                    <Form.Control name='use_address' value={use_address} onChange={onChange} />
+                    <Button className="btn-secondary" onClick={handleShow}>검색</Button>    
                   </InputGroup>
 
                   <Form.Label className="mt-2">생년월일</Form.Label>
@@ -342,11 +375,22 @@ const RegisterPage = ({history}) => {
           </Tab.Content>
         </Col>
       </Row>
-    </Tab.Container>
-
-            
+    </Tab.Container>          
       </Col>
     </Row>
+
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>주소검색</Modal.Title>
+        </Modal.Header>
+        <Modal.Body> <DaumPostcode onComplete={handleComplete} /></Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleClose}>
+            확인
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
    </>
      
   )

@@ -1,10 +1,10 @@
-import React, {  useState ,useContext, useEffect} from 'react';
-import { Button, Col, Form, Tab, InputGroup, Row} from 'react-bootstrap';
+import React, {  useState ,useContext} from 'react';
+import { Button, Col, Form, InputGroup, Row} from 'react-bootstrap';
 import { AlertContext } from '../AlertContext';
 import logo from '../../images/illhaeyo_logo.png';
 import axios from 'axios';
 
-const RegisterBossPage = ({history}) => {
+const RegisterBossPage2 = ({history}) => {
   const {setBox} = useContext(AlertContext);
 
   //회원폼 - default(사장)
@@ -30,7 +30,7 @@ const RegisterBossPage = ({history}) => {
     if(work_address==="" || work_name===""){
       setBox({
         show:true,
-        message:"정보를 빠짐없이 작성해주세요!"
+        message:"정보를 빠짐없이 작성해 주세요!"
       })
     }else{
       setBox({
@@ -61,7 +61,7 @@ const RegisterBossPage = ({history}) => {
                     </InputGroup>
                     <Form.Label className="mt-2">사업장명</Form.Label>
                     <InputGroup>
-                      <Form.Control name='work_name' value={work_name} readOnly />     
+                      <Form.Control name='work_name' value={work_name} onChange={onChange} />     
                     </InputGroup>
                     <Form.Label className="mt-2">사업자주소</Form.Label>
                     <InputGroup>
@@ -77,4 +77,4 @@ const RegisterBossPage = ({history}) => {
   )
 }
 
-export default RegisterBossPage
+export default RegisterBossPage2
