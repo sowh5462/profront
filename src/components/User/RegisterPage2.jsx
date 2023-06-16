@@ -5,6 +5,7 @@ import { AlertContext } from '../AlertContext';
 import logo from '../../images/로고.png';
 import DaumPostcode from 'react-daum-postcode';
 
+
 const RegisterPage = ({history}) => {
   //주소 모달
   const [show, setShow] = useState(false);
@@ -233,10 +234,10 @@ const RegisterPage = ({history}) => {
   },[])
 
   return (
-   <>
+   <div style={{paddingLeft:"750px"}}>
     <Row className="justify-content-center my-5">
-      <Col lg={3} md={5} xs={8}>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <Col lg={12} md={5} xs={8}>
+      <Tab.Container  defaultActiveKey="first">
       <Row>     
           <Nav variant="pills" className="mb-3" >
             <Nav.Item>
@@ -391,7 +392,7 @@ const RegisterPage = ({history}) => {
         </Modal.Footer>
       </Modal>
 
-   </>
+   </div>
      
   )
 }

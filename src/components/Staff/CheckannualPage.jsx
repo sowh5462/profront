@@ -43,14 +43,28 @@ const CheckannualPage = () => {
 
     //연차개수
     const getAnnual = async() =>{
-        const result = await axios.get(`/staff/annual?use_id=${use_id}`);
-        setAnnual(result.data);
+       try{
+            const result = await axios.get(`/staff/annual?use_id=${use_id}`);
+            setAnnual(result.data);
+       }catch(err){
+            setBox({
+                show:true,
+                message:"연차개수 조회 오류"+err
+            })
+       }
     }
 
     //신청중인 결재내역 확인
     const onCheck = async() =>{
-        const result = await axios.get(`/check/confirm?use_id=${use_id}`);
-        setChk(result.data);
+        try{
+            const result = await axios.get(`/check/confirm?use_id=${use_id}`);
+            setChk(result.data);
+        }catch(err){
+            setBox({
+                show:true,
+                message:"신청중인 결재내역을 불러오는데 실패했습니다"+err
+            })
+        }
     }
 
     //시작일 변경
@@ -173,8 +187,8 @@ const CheckannualPage = () => {
                 <div>
                     <b>잔여연차</b> 
                     <br/>
-                    <div className="mt-2">
-                        {annual}개
+                    <div className="mt-2 text-danger">
+                        {annual ? annual +"개" : "없음"}
                     </div>
                 </div>
             </Col>                       

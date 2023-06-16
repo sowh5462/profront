@@ -28,7 +28,7 @@ const StaffMenu = ({history}) => {
    const use_login_id = sessionStorage.getItem('use_login_id');
 
   //알림모달
-  // const {setBox} = useContext(AlertContext);
+   const {setBox} = useContext(AlertContext);
 
    const onLogout = (e) => {
     setBox({
