@@ -1,12 +1,12 @@
 @font-face {
-  font-family: 'Dovemayo_gothic';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-  font-weight: normal;
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
   font-style: normal;
 }
 .App {
   text-align: center;
-  font-family: 'Dovemayo_gothic';
+  font-family: 'Pretendard-Regular';
 }
 
 * {
@@ -19,11 +19,11 @@
 }
 
 .title {
- width :100%;
- text-align: center;
- margin:0 auto;
-}
-
+  width :100%;
+  text-align: center;
+  margin:0 auto;
+ }
+ 
 
 .highlight {
   background: #16abab;
@@ -193,10 +193,12 @@ input::-webkit-inner-spin-button {
 * {
   box-sizing: border-box;
 }
+
 .App {
   width: 100%;
   display: flex;
 }
+
 .App .sidebar {
   width: 250px;
   height: 100vh;

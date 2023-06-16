@@ -24,7 +24,7 @@ const PayChart2 = () => {
     if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '400px', height: '400px', margin: '0 auto' }}>
+        <div style={{ width: '600px', height: '400px', margin: '0 auto' }}>
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
@@ -81,7 +81,7 @@ const PayChart2 = () => {
                          */
                         legend: {
                             text: {
-                                fontSize: 10,
+                                fontSize: 15,
                                 fill: '#000000',
                             },
                         },
@@ -103,9 +103,9 @@ const PayChart2 = () => {
                     tickSize: 5, // 값 설명하기 위해 튀어나오는 점 크기
                     tickPadding: 5, // tick padding
                     tickRotation: 0, // tick 기울기
-                    legend: 'month', // bottom 글씨
+                    legend: '월별통계', // bottom 글씨
                     legendPosition: 'middle', // 글씨 위치
-                    legendOffset: 30, // 글씨와 chart간 간격
+                    legendOffset: 40, // 글씨와 chart간 간격
                 }}
                 /**
                  * axis left 설정
@@ -114,14 +114,14 @@ const PayChart2 = () => {
                     tickSize: 5, // 값 설명하기 위해 튀어나오는 점 크기
                     tickPadding: 5, // tick padding
                     tickRotation: 0, // tick 기울기
-                    legend: 'pay', // left 글씨
+                    legend: '급여', // left 글씨
                     legendPosition: 'middle', // 글씨 위치
-                    legendOffset: -60, // 글씨와 chart간 간격
+                    legendOffset: -70, // 글씨와 chart간 간격
                 }}
                 /**
                  * label 안보이게 할 기준 width
                  */
-                labelSkipWidth={36}
+                labelSkipWidth={200}
                 /**
                  * label 안보이게 할 기준 height
                  */
