@@ -19,10 +19,8 @@ import axios from 'axios';
 import TimeCheckPage from './Staff/TimeCheckPage';
 
 
-
 const StaffMenu = ({history}) => {
    //폼모달창
-   const {box, setBox} = useContext(AlertContext);
    const [show, setShow] = useState(false);
    const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
@@ -142,7 +140,6 @@ useEffect (()=>{
               </ListGroup>
       </div>
             <div className="work-container">
-
               <Tab.Content>
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><StaffPage/></Tab.Pane>
