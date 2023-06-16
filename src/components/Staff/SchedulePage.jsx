@@ -1,68 +1,92 @@
-import moment from 'moment/moment';
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Card, Row, Table } from 'react-bootstrap';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Container, Col, Row } from 'react-bootstrap';
 
 const SchedulePage = () => {
-  moment.locale('ko-KR');
+  const [schedule, setSchedule] = useState([]);
+
   const localizer = momentLocalizer(moment);
-  const [view, setView] = useState(Views.WEEK);
 
-  const handleViewChange = view => {
-    setView(view);
+  const getSchedule = async () => {
+    const result = await axios.get(
+      `/schedule/listStaff.json?use_id=${sessionStorage.getItem('use_id')}`
+    );
+      // console.log(result.data);
+      setSchedule(result.data);
   };
 
-  const onView = view => {
-    const startHour = 8; // 시작 시간 (오전 8시)
-    const endHour = 23; // 종료 시간 (오후 11시)
+  useEffect(() => {
+    getSchedule();
+  }, []);
 
-    const newStart = new Date(view.start);
-    newStart.setHours(startHour, 0, 0, 0);
-
-    const newEnd = new Date(view.end);
-    newEnd.setHours(endHour, 0, 0, 0);
-
-    return {
-      start: newStart,
-      end: newEnd
-    };
+  const getEventList = () => {
+    return schedule.map((s)=>({
+      title:`${s.start}-${s.work_name} `,
+      start: moment(s.start).toDate(),
+      end: moment(s.end).toDate(),
+    }));
   };
+
+
 
   return (
-    <Container>
-      <Row className='justify-content-center'>
-        <Col md={10}>
+    <div>
+      <Row className="justify-content-center m-3">
+        <Card className='m-3'>
+          <Card.Title>
+            <h3>근무내역</h3>
+          </Card.Title>
+          <Card.Body>
+            <Table>
+              <thead>
+                <tr>
+                  <td>요일</td>
+                  <td>시작시간</td>
+                  <td>종료시간</td>
+                </tr>
+              </thead>
+              <tbody>
+                {schedule.map((s) => (
+                  <tr key={s.sche_id}>
+                    <td>
+                      {s.sche_day === 0
+                        ? '월'
+                        : s.sche_day === 1
+                        ? '화'
+                        : s.sche_day === 2
+                        ? '수'
+                        : s.sche_day === 3
+                        ? '목'
+                        : s.sche_day === 4
+                        ? '금'
+                        : s.sche_day === 5
+                        ? '토'
+                        : s.sche_day === 6
+                        ? '일'
+                        : ''}
+                    </td>
+                    <td>{s.start}</td>
+                    <td>{s.end}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Card.Body>
+        </Card>
+      </Row>
+        <div className='justify-content-center m-3'>
           <Calendar
             localizer={localizer}
-            events={[
-              {
-                id: 1,
-                title: '롯데리아',
-                start: new Date(2023, 5, 15, 8, 0),
-                end: new Date(2023, 5, 15, 16, 0)
-              },
-              {
-                id: 1,
-                title: '롯데리아',
-                start: new Date(2023, 5, 16, 8, 0),
-                end: new Date(2023, 5, 16, 16, 0)
-              }
-            ]}
-            style={{ height: 800 }}
-            view={view}
-            onView={handleViewChange}
-            views={['week']}
-            min={new Date(2023, 5, 15, 8, 0)}
-            max={new Date(2023, 5, 15, 23, 59)} // 11시 이전까지 표시되도록 설정
-            toolbar={true}
-            getDrilldownView={onView}
+            events={getEventList()}
             startAccessor="start"
             endAccessor="end"
+            style={{ height: 500 }}
           />
-        </Col>
-      </Row>
-    </Container>
+        </div>
+    </div>
   );
 };
 

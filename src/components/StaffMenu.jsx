@@ -16,10 +16,12 @@ import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import SchedulePage from './Staff/SchedulePage';
 import axios from 'axios';
+import SchedulePage from './Staff/SchedulePage';
 
 
 const StaffMenu = ({history}) => {
    //폼모달창
+   const {box, setBox} = useContext(AlertContext);
    const [show, setShow] = useState(false);
    const [user,setUser] = useState('');
    const modalClose = () => setShow(false);
