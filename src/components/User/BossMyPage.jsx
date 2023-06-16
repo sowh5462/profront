@@ -39,7 +39,7 @@ const BossMyPage = ({history}) => {
     }
 
 
-  return (
+return (
     <div>
         <div>
             <h4 className="text-start">마이페이지</h4>

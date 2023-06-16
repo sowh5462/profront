@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
 .App {
   text-align: center;
+  font-family: 'Pretendard-Regular';
 }
 
 * {
@@ -22,10 +29,6 @@
   background: #16abab;
 }
 
-.content{
-  padding-left: 20px;
-}
-
 .user{
   width:50px;
   border-radius: 50%;
@@ -45,22 +48,6 @@
   font-size: 20px;
   padding-bottom: 20px;
   padding-top: 30px;
-}
-
-.back{
-  width: 100%;
-  height: 100%;
-  border-left: solid 3px rgb(232, 232, 232);
-  background-color: #F9FAFB;
-  padding-bottom: 400px;
-}
-
-.back2{
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  margin-left: 20px;
-  padding-bottom: 300px;
 }
 
 input::-webkit-inner-spin-button {
@@ -202,3 +189,63 @@ input::-webkit-inner-spin-button {
   font-weight: bold;
 }
 
+
+* {
+  box-sizing: border-box;
+}
+.App {
+  width: 100%;
+  display: flex;
+}
+.App .sidebar {
+  width: 250px;
+  height: 100vh;
+  padding: 0 20px;
+  border-right: 1px solid rgb(232, 232, 232);
+}
+.work-container {
+  width: calc(100% - 250px);
+  padding: 0 20px;
+  overflow-y: auto;
+  height: 100vh;
+}
+.work-container > .tab-content {
+  height: inherit;
+}
+.work-container > .tab-content > .tab-pane {
+  height: inherit;
+}
+.back{
+  background-color: #F9FAFB;
+  height: inherit;
+}
+
+.back2{
+  background-color: white;
+  width: 100%;
+  height: inherit;
+}
+
+.home-page {
+  overflow: hidden;
+}
+
+/* 선택된 탭의 스타일 */
+.nav-link.active {
+  color: rgb(68, 68, 255) !important;
+}
+
+/* 선택되지 않은 탭의 스타일 */
+.nav-link:not(.active) {
+  color: rgb(110, 110, 110) !important;
+}
+
+/*회원가입 타입 구분버튼*/
+.master.active {
+  color: rgb(255, 255, 255) !important;
+}
+
+.master:not(.active) {
+  color: rgb(110, 110, 110) !important;
+
+}

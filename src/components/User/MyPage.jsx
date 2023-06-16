@@ -1,11 +1,10 @@
 import axios from 'axios';
 import React, { useContext, useRef, useEffect, useState } from 'react'
-import { Button, Card, Col, Form, InputGroup, Row, Table } from 'react-bootstrap'
+import { Button, Card, Col, Form, InputGroup, Row} from 'react-bootstrap'
 import { AlertContext } from '../AlertContext';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom';
 
 const MyPage = ({history}) => {
-    const use_login_id = sessionStorage.getItem("use_login_id");
     const {setBox} = useContext(AlertContext);
     const [fileName, setFileName] = useState('');
     const [userImage, setUserImage] = useState('');
@@ -24,11 +23,11 @@ const MyPage = ({history}) => {
         use_address:'',
         work_address:'',
         work_name:'',
-        use_phone:'',
-        file: null
+        file: null,
+        sta_file:null
     });
-    const {use_id, use_name, use_email, use_birth, use_address,  use_join,  sta_bank, sta_account, sta_type,
-         sta_image, sta_contract, start, end, ujoin, use_phone, work_address, work_name, file} = form;
+    const {use_id, use_name,  sta_bank, sta_account, sta_type,
+         sta_image, sta_contract, start, end,  work_address, work_name, file, sta_file} = form;
 
     const getUser = async () => {
         const result = await axios.get(
@@ -46,7 +45,6 @@ const MyPage = ({history}) => {
 
    
     //근로계약서
-
     const onChangeFile = (e) => {
         setFileName(URL.createObjectURL(e.target.files[0]));
         setForm({...form, file:e.target.files[0]});
@@ -55,7 +53,7 @@ const MyPage = ({history}) => {
     //유저이미지 수정
     const selectedFile = (e) => {
         setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, sta_image:e.target.files[0].name});
+        setForm({...form, sta_image:e.target.files[0].name,  sta_file:e.target.files[0]});
         // console.log(e.target.files[0].name);
     }
 
@@ -80,6 +78,7 @@ const MyPage = ({history}) => {
         formData.append('sta_image', sta_image);
         formData.append('sta_contract', sta_contract);
         formData.append('file', file);
+        formData.append('sta_file', sta_file);
         const config = {
             headers: {"content-type":"multipart/form-data"}
         }
@@ -102,15 +101,16 @@ const MyPage = ({history}) => {
     
 
   return (
- <>
+        <>
          <Row className='justify-content-center'>
                 <Col>
                     <Card>
                         <Card.Title className='m-3'>
                         {sta_image ?
-                            <img src={userImage} width='10%' onClick={handleImageClick}/> : <img src="http://via.placeholder.com/50x50" 
+                            <img src={userImage} alt="유저이미지" width='10%' onClick={handleImageClick}/> : <img alt="유저이미지" src="http://via.placeholder.com/50x50" 
                                 onClick={handleImageClick} width='10%'/>}
                                 <Form.Control type='file'
+                                    name="sta_file"
                                     onChange={selectedFile}
                                     ref={fileInput}
                                     style={{display:'none'}}
@@ -167,8 +167,9 @@ const MyPage = ({history}) => {
                             </Card.Title>
                                 <Card.Body>
                                     <div>
-                                        <img className='my-3' src={fileName} width="20%"/>
+                                        <img alt="근로계약서" className='my-3' src={fileName} width="20%"/>
                                         <Form.Control type='file'
+                                            name="file"
                                             onChange={onChangeFile}/>
                                     </div>
                                 </Card.Body>   
