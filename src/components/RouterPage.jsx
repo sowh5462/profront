@@ -44,6 +44,7 @@ const RouterPage = ({ history }) => {
                 <Route path="/staff/pay" component={PayPage}/>
                 <Route path="/staff/check" component={CheckPage}/>
                 <Route path="/master/list" component={MasterListPage}/>
+                <Route path="/staff/weekschedule" component={SchedulePage}/>
               
             </Switch>
 
