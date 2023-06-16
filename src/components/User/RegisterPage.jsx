@@ -86,9 +86,9 @@ const RegisterPage = ({history}) => {
   return (
     <>
       <div>
-        <Row className='my-5 justify-content-center'>
-          <Col md={5} className=''>
-            <h1 className='text-center mb-5'>회원가입</h1>
+        <Row>
+          <Col md={8}>
+            <h1>회원가입</h1>
             <Form>
               <Row>
               <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
@@ -117,8 +117,8 @@ const RegisterPage = ({history}) => {
                 </ToggleButtonGroup>
             
                 <Col>
-                  <InputGroup className='my-4'>
-                    <Form.Control size="lg" placeholder='아이디' name='use_login_id' value={use_login_id} className=' square border border-3 py-1' onChange={onCheck} />
+                  <InputGroup>
+                    <Form.Control size="lg" placeholder='아이디' name='use_login_id' value={use_login_id} onChange={onCheck} />
                   </InputGroup>
                   <InputGroup>
                     <Button type="button" style={{backgroundColor: '#5272E9', color:'white'}} onClick={onIdCheck} >중복체크</Button>  
@@ -127,35 +127,35 @@ const RegisterPage = ({history}) => {
                 </Col>
               </Row> 
 
-                  <InputGroup className='my-4'>
+                  <InputGroup>
                       <Form.Control size="lg" placeholder='비밀번호' type='password' name='use_login_pass' value={use_login_pass} className=' square border border-3 py-1' onChange={onCheck}/>
                   </InputGroup>
-                  <InputGroup className='my-4'>
+                  <InputGroup>
                     <Form.Control size="lg" placeholder='비밀번호확인'  name='passCheck' value={passCheck} onChange={(e) => setPassCheck(e.target.value)} type='password'
                       className=' square border border-3 py-1' />
                   </InputGroup>
-                  <InputGroup className='my-4'>
+                  <InputGroup>
                     <Form.Control size="lg" placeholder='사업자번호' name='use_work_num' value={use_work_num} className='square border border-3 py-1' onChange={onCheck}/>
                   </InputGroup>
                   <InputGroup>
                     <Button type="button" className="btn" style={{ backgroundColor: '#5272E9', color: 'white' }}>번호확인</Button>
                   </InputGroup>
                   
-                  <InputGroup className='my-4'>
-                      <Form.Control size="lg" placeholder='이름' name='use_name' value={use_name}  className=' square border border-3 py-1' onChange={onCheck}/>
+                  <InputGroup>
+                      <Form.Control size="lg" placeholder='이름' name='use_name' value={use_name} onChange={onCheck}/>
                   </InputGroup>
-                  <InputGroup className='my-4'>
-                      <Form.Control size="lg" placeholder='전화번호' name='use_phone' value={use_phone}  className=' square border border-3 py-1' onChange={onCheck}/>
+                  <InputGroup>
+                      <Form.Control size="lg" placeholder='전화번호' name='use_phone' value={use_phone} onChange={onCheck}/>
                   </InputGroup>
-                  <InputGroup className='my-4'>
-                      <Form.Control size="lg" placeholder='이메일주소' name='use_email' value={use_email}  className=' square border border-3 py-1' onChange={onCheck}/>
+                  <InputGroup>
+                      <Form.Control size="lg" placeholder='이메일주소' name='use_email' value={use_email} onChange={onCheck}/>
                   </InputGroup>
-                  <InputGroup className='my-4'>
-                      <Form.Control size="lg" placeholder='생년월일' name='use_birth' value={use_birth}  className=' square border border-3 py-1' onChange={onCheck} />
+                  <InputGroup>
+                      <Form.Control size="lg" placeholder='생년월일' name='use_birth' value={use_birth} onChange={onCheck} />
                   </InputGroup>
                 
               
-              <div className='mt-3 d-flex justify-content-end'>
+              <div>
               <Button
                 style={{ backgroundColor: 'white', border: 'none', color:'#5272E9',  fontWeight: 'bold'}}
                 onClick={onNext}>다음</Button>
