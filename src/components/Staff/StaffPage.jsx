@@ -1,14 +1,16 @@
 import axios from 'axios';
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 import {Row, Col} from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import { AlertContext } from '../AlertContext';
 
 
 const StaffPage = () => {
+    const {setBox} = useContext(AlertContext);
  
      //사업장 정보 - use_id로 조회
      const [workplace, setWorkplace] = useState("");
@@ -30,14 +32,28 @@ const StaffPage = () => {
      
      //행사 리스트 출력
      const getEventList = async () => {
-       const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
-       setEvent(result.data);
+       try{
+          const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
+          setEvent(result.data);
+       }catch(err){
+          setBox({
+            show:true,
+            message:"행사리스트 출력 오류"+err
+          })
+       }
      };
  
      //사업장 정보 출력
      const getWorkPlace = async () =>{
-       const result2 = await axios.get(`/workplace/about?use_work_num=${use_work_num}`);
-       setWorkplace(result2.data);
+      try{
+        const result2 = await axios.get(`/workplace/about?use_work_num=${use_work_num}`);
+        setWorkplace(result2.data);
+      }catch(err){
+        setBox({
+          show:true,
+          message:"사업장 정보 출력 오류"+err
+        })
+      }
      };
      
      //캘린터 날짜 변경

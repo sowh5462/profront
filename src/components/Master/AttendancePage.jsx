@@ -72,8 +72,15 @@ const AttendancePage = () => {
 
   //전체 결재내역
   const getCheckList = async() =>{
-    const lresult = await axios.get(`/check/about?use_work_num=${worknum}`);
-    setList(lresult.data);
+    try{
+      const lresult = await axios.get(`/check/about?use_work_num=${worknum}`);
+      setList(lresult.data);
+    }catch(err){
+      setBox({
+        show:true,
+        message:"전체 결재내역을 불러오는데 실패했습니다"+err
+      })
+    }
   }
 
   //결재내역 오프캔버스
@@ -106,17 +113,29 @@ const AttendancePage = () => {
 
   //유저별 결재상세내역 - 버튼클릭
   const checkUser = async(use_id) =>{
-    const uresult = await axios.get(`/check/user?use_id=${use_id}`);
-    setCheck(uresult.data[0]);
-    modalShow();
+   try{
+      const uresult = await axios.get(`/check/user?use_id=${use_id}`);
+      setCheck(uresult.data[0]);
+      modalShow();
+   }catch(err){
+      setBox({
+        show:true,
+        message:"유저의 결재 상세내역을 불러오는데 실패했습니다"+err
+      })
+   }
   }
 
   //날짜별 결재 내역
   const getDayCheckList = async () => {
-    const dayresult = await axios.get(
-      `/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
-
-    setDayList(dayresult.data);    
+    try{
+      const dayresult = await axios.get(`/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
+      setDayList(dayresult.data);    
+    }catch(err){
+      setBox({
+        show:true,
+        message:"날짜별 결재내역을 불러오는데 실패했습니다"+err
+      })
+    }
 
   };
 
