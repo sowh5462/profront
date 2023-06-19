@@ -1,7 +1,7 @@
 import React, {  useState ,useContext} from 'react';
 import { Button, Col, Form, InputGroup, Row} from 'react-bootstrap';
 import { AlertContext } from '../AlertContext';
-import logo from '../../images/illhaeyo_logo.png';
+import logo from '../../images/로고.png';
 import axios from 'axios';
 
 const RegisterBossPage2 = ({history}) => {
@@ -45,17 +45,15 @@ const RegisterBossPage2 = ({history}) => {
   }
 
   return (
-    <>
-    <Row className="justify-content-center my-5">
-      <Col lg={3} md={5} xs={8}>   
-          <Row>             
-            <Col>       
-                <h3 className="py-3">
-                <img src={logo} width='43px' alt="일해요로고"/>
+    <div className='join'>
+    <Row className="justify-content-center my-5">  
+                <h3 className="py-3" style={{color:"black"}}>
+                <img src={logo} style={{width:"40px"}}alt="일해요로고"/>
                   <b>사업장 정보입력</b>
-                </h3>
+                </h3>      
+            <Col md={10} xs={8}>                     
                   <Form className="text-start text-muted">
-                  <Form.Label className="mt-2">사업자번호</Form.Label>
+                    <Form.Label className="mt-2">사업자번호</Form.Label>
                     <InputGroup>
                       <Form.Control name='use_work_num' value={use_work_num} readOnly/>     
                     </InputGroup>
@@ -70,10 +68,9 @@ const RegisterBossPage2 = ({history}) => {
                 </Form>      
             <Button className="my-5 px-3" onClick={onRegister}>등록하기</Button>        
           </Col>
-        </Row>           
-      </Col>
+   
     </Row>
-   </>
+   </div>
   )
 }
 

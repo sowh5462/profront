@@ -234,7 +234,7 @@ const RegisterPage = ({history}) => {
   },[])
 
   return (
-   <div style={{paddingLeft:"750px"}}>
+   <div style={{ display: 'flex', justifyContent: 'center' }} className="join">
     <Row className="justify-content-center my-5">
       <Col lg={12} md={5} xs={8}>
       <Tab.Container  defaultActiveKey="first">
@@ -250,7 +250,7 @@ const RegisterPage = ({history}) => {
         <Col >
           <Tab.Content>
             <Tab.Pane eventKey="first">
-              <h3 className="py-3">
+              <h3 className="py-3" style={{color:"black"}}>
               <img src={logo} width='40px' alt="일해요로고"/>
                 <b> 사업자 회원가입</b>
               </h3>
@@ -313,7 +313,7 @@ const RegisterPage = ({history}) => {
 
             </Tab.Pane>
               <Tab.Pane eventKey="second">
-                <h3 className="py-3">
+                <h3 className="py-3" style={{color:"black"}}>
                   <img src={logo} width='40px' alt="일해요로고"/>
                     <b> 근로자 회원가입</b>
                 </h3>
