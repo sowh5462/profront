@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import {Col, Row} from 'react-bootstrap'
 
 const SchedulePage = () => {
   const [schedule, setSchedule] = useState([]);
@@ -33,15 +34,19 @@ const SchedulePage = () => {
 
   return (
     <div>
-        <div className='justify-content-center m-3'>
-          <Calendar
-            localizer={localizer}
-            events={getEventList()}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-          />
-        </div>
+        <Row className='ps-5 py-4'>
+          <h2 className="text-start pb-4 fw-normal">주간 근무표</h2>
+          <Col md={10}>
+            <Calendar
+              localizer={localizer}
+              events={getEventList()}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 500, width: "100%" }} 
+              min={8}
+            />
+          </Col>
+        </Row>
     </div>
   );
 };

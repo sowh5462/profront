@@ -81,7 +81,7 @@ const LoginPage2 = ({history}) => {
                               <Link to="/user/register" className="text-decoration-none join">회원가입</Link>
                             </span>
                             <span className="float-end">
-                              <Link to="/login/find" className="text-decoration-none join">아이디 / 비밀번호 찾기</Link>
+                              <Link to="/find/id" className="text-decoration-none join">아이디 / 비밀번호 찾기</Link>
                             </span>
                         </div>      
                     </div>               

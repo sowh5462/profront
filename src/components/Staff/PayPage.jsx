@@ -35,7 +35,7 @@ const PayPage = () => {
         setUntill(res2.data);
     };
 
-    const selectedPay = todayPay.length > 0 ? todayPay.find(item => item.sche_day === dayOfWeek) || { sche_day: 9 } : {sche_day: 0};
+    const selectedPay = todayPay.length > 0 ? todayPay.find(item => item.sche_day === dayOfWeek) || { sche_day: 9 } : {sche_day: 9};
 
 
     const untillPay = untill * 9620;
@@ -47,10 +47,10 @@ const PayPage = () => {
 
     return (
         <Row className='my-5 px-5'>
-            <Col md={6}>
+            <Col md={5}>
                 <Row>
                     <Col>
-                        <Card>
+                        <Card className="py-5">
                             <h1>{untillPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</h1>
                             {selectedPay.sche_day === dayOfWeek ? 
                             <h4 className='text-primary'>당일 예정 수입은 {(parseInt(selectedPay.work_time) * 9620).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 입니다.</h4>
@@ -65,9 +65,9 @@ const PayPage = () => {
                     </Col>
                 </Row>
             </Col>
-            <Col>
+            <Col md={5}>
                 <Card>
-                    <Card.Header className='fs-2'>급여명세서</Card.Header>
+                    <Card.Header className='fs-3'>급여명세서</Card.Header>
                     <Card.Body>
                         {stubs.map(s => 
                             <h4 key={s.stub_id} onClick={()=>{window.open(s.stub_url, '_blank')}} className='my-3 border-top border-bottom border-3 py-3'>

@@ -85,7 +85,8 @@ const MyPage = ({history}) => {
                   })
             });
         };
-        await axios.post('/user/supdate', form)
+        await axios.post('/user/supdate', form);
+        await axios.post(`/user/wupdate`,form);
     };
 
     //폼 수정
@@ -242,7 +243,7 @@ const MyPage = ({history}) => {
             <div className='m-3'>
                     {isEditMode ? (
                     <Button onClick={onClickSave}
-                        className='me-2'>저장</Button>
+                        className='me-2 btn-warning'>저장</Button>
                     ) : (
                     <Button onClick={onClickEidt} className='me-2'>
                         수정
