@@ -46,10 +46,10 @@ const MyPage = ({history}) => {
             result.data.sta_contract:"https://via.placeholder.com/50x50");
             // console.log(fileName);
         setUserImage(result.data.sta_image ? result.data.sta_image:"https://via.placeholder.com/50x50" );
-    }
+    };
       useEffect(() => {
         getUser();
-    },[])
+    },[]);
 
    
 
@@ -68,8 +68,8 @@ const MyPage = ({history}) => {
     };
 
     const onUpdate = async () => {
-        const profileRef = ref(storage, 'profiles/' + use_id + use_name + 'profileImage');
-        const contractRef = ref(storage, 'contracts/' + use_id + use_name + 'contractImage');
+        const profileRef = ref(storage, 'profiles/' + use_id + 'profileImage');
+        const contractRef = ref(storage, 'contracts/' + use_id + 'contractImage');
         const metadata = {contentType : 'image/jpeg'};
         if(sta_file){
             uploadBytes(profileRef, sta_file, metadata).then((snapshot) => {
@@ -86,6 +86,7 @@ const MyPage = ({history}) => {
             });
         };
         await axios.post('/user/supdate', form)
+        await axios.post(`/user/wupdate`, form)
     };
 
     //폼 수정
