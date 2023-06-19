@@ -103,7 +103,7 @@ const RegisterStaffPage2 = ({ history }) => {
     return (
         <>
             <div>
-                <Row className='my-5 justify-content-center'>
+                <Row className='my-5 justify-content-center join'>
                     <Col md={5} className=''>
                         <h1 className='text-center mb-5'>직원 회원가입</h1>
                         <Form>

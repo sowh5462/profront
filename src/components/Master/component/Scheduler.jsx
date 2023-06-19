@@ -38,6 +38,7 @@ import Close from '@mui/icons-material/Close';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Create from '@mui/icons-material/Create';
 import moment from "moment";
+import LoadingPage from '../../LoadingPage';
 
 const PREFIX = 'Demo';
 // #FOLD_BLOCK
@@ -289,6 +290,7 @@ class AppointmentFormContainerBasic extends React.PureComponent {
       </AppointmentForm.Overlay>
     );
   }
+  
 }
 
 /* eslint-disable-next-line react/no-multi-comp */
@@ -445,6 +447,7 @@ export default class Demo extends React.PureComponent {
 
     return (
       <Paper>
+        
         <Scheduler
           data={appointments}
           height={700}
@@ -481,7 +484,7 @@ export default class Demo extends React.PureComponent {
           />
           <DragDropProvider />
         </Scheduler>
-
+        
         <Dialog
           open={confirmationVisible}
           onClose={this.cancelDelete}
