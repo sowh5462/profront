@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Row, Col, Card } from 'react-bootstrap'
+import { Row, Col, Card, Spinner } from 'react-bootstrap'
 import PayStaffChart from './PayStaffChart';
 
 const PayPage = () => {
+    const [loading, setLoading] = useState(false);
     const [stubs, setStubs] = useState([]);
     const [todayPay, setTodayPay] = useState([]);
     const [untill, setUntill] = useState(0);
@@ -28,11 +29,13 @@ const PayPage = () => {
     let timestring = `${time.year}-${time.month}-${time.date}`;
 
     const getPay = async() => {
+        setLoading(true)
         const res = await axios.get(`/payroll/today?use_id=${use_id}`);
         setTodayPay(res.data);
         console.log(res.data);
         const res2 = await axios.get(`/payroll/untill?use_id=${use_id}&date=${timestring}`);
         setUntill(res2.data);
+        setLoading(false);
     };
 
     const selectedPay = todayPay.length > 0 ? todayPay.find(item => item.sche_day === dayOfWeek) || { sche_day: 9 } : {sche_day: 9};
@@ -45,6 +48,7 @@ const PayPage = () => {
         getPay();
     }, []);
 
+    if(loading) return <Spinner/>
     return (
         <Row className='my-5 px-5'>
             <Col md={5}>
