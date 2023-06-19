@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Col, Row, Card, Tab, Tabs, Button, Table} from "react-bootstrap";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import '../css/Calendar.css'
 import moment from "moment";
 import Pagination from "react-js-pagination";
 import "../css/Paging.css";
@@ -70,7 +70,15 @@ const AttendancePage = () => {
     }
   };
 
-  //전체 결재내역
+   //유저별 승인중 조회 - 버튼출력
+   const checkConfirm = async (use_id) => {
+    const conresult = await axios.get(`/check/confirm?use_id=${use_id}`);
+    if (conresult.data >= 1) {
+      setConfirm((prevConfirm) => [...prevConfirm, { id: use_id, ok: 1 }]);
+    }
+  };
+
+  //전체 결재내역 - offcanvas
   const getCheckList = async() =>{
     try{
       const lresult = await axios.get(`/check/about?use_work_num=${worknum}`);
@@ -88,14 +96,7 @@ const AttendancePage = () => {
     offShow();
   }
 
-  //유저별 승인중 조회 - 버튼출력
-  const checkConfirm = async (use_id) => {
-    const conresult = await axios.get(`/check/confirm?use_id=${use_id}`);
-    if (conresult.data >= 1) {
-      setConfirm((prevConfirm) => [...prevConfirm, { id: use_id, ok: 1 }]);
-    }
-  };
-
+ 
   //select박스 필터링
 	const onFilter = async(chk_confirm) =>{
     setPage(1); //페이지 이동 후 select박스 선택했을 때 꼬임 방지

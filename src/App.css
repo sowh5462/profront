@@ -261,3 +261,7 @@ input::-webkit-inner-spin-button {
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
 }
+
+.join{
+  margin: 0px auto;
+}

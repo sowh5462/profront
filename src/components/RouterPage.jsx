@@ -19,6 +19,7 @@ import {Form , Nav, Navbar, Container} from 'react-bootstrap'
 import RegisterStaff from './User/RegisterStaff';
 import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
 import WorkTimePage from './Staff/WorkTimePage';
+import FindPage from './User/FindPage';
 
 
 
@@ -45,6 +46,7 @@ const RouterPage = ({ history }) => {
                 <Route path="/staff/check" component={CheckPage}/>
                 <Route path="/master/list" component={MasterListPage}/>
                 <Route path="/time" component={WorkTimePage}/>
+                <Route path="/find/id" component={FindPage}/>
             </Switch>
             </>
     )
