@@ -7,7 +7,7 @@ import {Row, Col} from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { AlertContext } from '../AlertContext';
-import WorkerList from '../Master/WorkerList'
+import WorkerList from '../Master/WorkerList';
 
 
 const StaffPage = () => {
@@ -136,7 +136,7 @@ const StaffPage = () => {
             </Row>
           </Tab>
           <Tab eventKey="tab2" title="매장스케줄" className="my-4">
-              <WorkerList></WorkerList>
+            <WorkerList/>
           </Tab>                  
       </Tabs>
           

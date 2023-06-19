@@ -35,7 +35,7 @@ const WorkerList = () => {
 		const res = await axios.get(`/schedule/list1.json?use_work_num=${worknum}`)
 		
 		setScheList(res.data)
-		console.log(scheList)
+		// console.log(scheList)
 		
 	}
 
@@ -43,7 +43,7 @@ const WorkerList = () => {
 	const getDayScheList = async () => {
 		setLoding(true);
 		const dayresult = await axios.get(`/schedule/schelist?sche_start=${date}&use_work_num=${worknum}`)
-		console.log(date, dayresult.data)
+		// console.log(date, dayresult.data)
 		setDayList(dayresult.data)
 		setLoding(false);
 	}
@@ -104,7 +104,7 @@ const WorkerList = () => {
 	}
 	useEffect(() => {
 		getList();
-		console.log(scheList)
+		// console.log(scheList)
 	}, [])
 
 	//렌더링 분리
@@ -116,9 +116,9 @@ const WorkerList = () => {
 		userList();
 	}, [])
 
-	if (loading) return <Loading />
+	if (scheList.length < 0) return <Loading />
 	return (
-		<div id="attendance">
+		<div id="attendance" className="mt-3 ms-3">
 			<div className="calendar">
 				<Calendar
 					onChange={onDayChange}
@@ -140,9 +140,11 @@ const WorkerList = () => {
 					</ul>
 				</div>
 			</div>
-			<div className="schedule">
+			{Array.isArray(scheList) && scheList.length > 0 && (
+			<div className="schedule ms-5" style={{width:'850px'}}>
 				<Schedule setContent={scheList}></Schedule>
 			</div>
+			)}
 
 			<Modal
 				size="xl"
