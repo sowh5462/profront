@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Col, Form, Row, Table, Modal } from 'react-bootstrap'
+import { Button, Col, Row, Modal } from 'react-bootstrap'
 
 
 import { AlertContext } from '../AlertContext';
@@ -38,7 +38,7 @@ const MasterListPage = () => {
   //search. 검색 기능
   const onSearch = e => {
     let keyword = document.getElementById('input-search').value
-    if (e.key === 'Enter' || e.type == 'click') {
+    if (e.key === 'Enter' || e.type === 'click') {
       let result = orgUserList.filter(el => el.use_name.includes(keyword))
       setUserList(keyword ? result : orgUserList)
     }
@@ -56,9 +56,9 @@ const MasterListPage = () => {
   //근로형태 필터
   let setFilter = (e) => {
     let selected = document.querySelector('.search-select').value;
-    console.log(selected)
-    let result = orgUserList.filter(el => el.sta_type == selected)
-    setUserList(selected != 'all' ? result : orgUserList)
+    //console.log(selected)
+    let result = orgUserList.filter(el => el.sta_type === selected)
+    setUserList(selected !== 'all' ? result : orgUserList)
     setSelected(selected)
   }
 
@@ -95,7 +95,7 @@ const MasterListPage = () => {
   //저장버튼을 누른경우
   const editUserInfo = async () => {
     try {
-      console.log(userInfo)
+      //console.log(userInfo)
 
       setBox({
         show: true,
