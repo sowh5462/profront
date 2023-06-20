@@ -193,7 +193,7 @@ const WorkplaceInfotPage = () => {
                           <div key={e.event_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
                             <span>▶︎ {e.start}~{e.end}&nbsp;|</span>
                             <span><b>&nbsp;&nbsp;{e.event_name}</b></span>
-                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDeleteClick(e.event_id)}><FaRegTrashAlt/></span>
+                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDeleteClick(e.event_id)}><FaRegTrashAlt style={{color:"gray"}}/></span>
                           </div>
                         ))}
                     </div>

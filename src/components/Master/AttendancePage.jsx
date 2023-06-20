@@ -242,11 +242,17 @@ const AttendancePage = () => {
                                         <Row>
                                             <Col md={3}>
                                                 <div>
-                                                  <img
-                                                    src="https://audition.hanbiton.com/images/common/img_default.jpg"
+                                                  {s.sta_image ? <img
+                                                    src={s.sta_image}
                                                     className="checkUser"
                                                     alt="직원이미지"
                                                   />
+                                                  : <img
+                                                  src="https://audition.hanbiton.com/images/common/img_default.jpg"
+                                                  className="checkUser"
+                                                  alt="직원이미지"
+                                                  />
+                                                }
                                                 </div>
                                             </Col>
                                             <Col>
