@@ -27,7 +27,7 @@ const RegisterPage = ({history}) => {
 
   //회원폼 - type default(사장)
   const [form, setForm] = useState({
-    use_work_num:'',
+    use_work_num: '',
     use_login_id:'',
     use_login_pass:'',
     use_phone:'',
