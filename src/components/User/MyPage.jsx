@@ -56,15 +56,18 @@ const MyPage = ({history}) => {
 
     //유저이미지 수정
     const selectedFile = (e) => {
-        setUserImage(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, sta_file:e.target.files[0]});
+        const file = e.target.files[0];
+        const filesName = e.target.files[0].name;
+        setUserImage(URL.createObjectURL(file));
+        setForm({ ...form,  sta_file: file, sta_image:filesName});
         // console.log(e.target.files[0].name);
     };
 
     //근로계약서
     const onChangeFile = (e) => {
-        setFileName(URL.createObjectURL(e.target.files[0]));
-        setForm({...form, sta_cFile:e.target.files[0]});
+        const file = e.target.files[0];
+        setFileName(URL.createObjectURL(file));
+        setForm({ ...form, sta_cFile: file });
     };
 
     const onUpdate = async () => {
