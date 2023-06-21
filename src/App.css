@@ -1,9 +1,267 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 .App {
   text-align: center;
+  font-family: 'Pretendard-Regular';
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0 0;
+  margin: 0 0;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
 }
 
 .title {
- width :100%;
- text-align: center;
- margin:0 auto;
+  width :100%;
+  text-align: center;
+  margin:0 auto;
+ }
+ 
+
+.highlight {
+  background: #16abab;
+}
+
+.user{
+  width:50px;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.checkUser{
+  width: 60px;
+  border-radius: 20%;
+}
+
+.userbox{
+  text-align: left;
+  padding-left: 30px;
+  font-size: 20px;
+  padding-bottom: 20px;
+  padding-top: 30px;
+}
+
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+/*MasterListpage*/
+#staff-list .search-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+#staff-list .search-wrap select {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #eee;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+#staff-list .search-wrap .search-box {
+  width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  box-shadow: 2px 5px 5px rgba(0,0,0,0.05);
+  margin-left: 10px;
+  position: relative;
+}
+#staff-list .search-box input {
+  border: 0;
+  font-size: 0.875rem;
+  width: 100%;
+  padding: 0 10px;
+}
+#staff-list .search-box svg {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  fill: #666;
+}
+#staff-list input:focus {
+  outline: 0;
+}
+#staff-list {
+  width: 100%;
+}
+#staff-list h1 {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 20px;
+}
+#staff-list table {
+  width: 100%;
+  text-align: center;
+  font-size: 0.875rem;
+  margin-top: 20px;
+}
+#staff-list table th {
+  height: 40px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  color: #666;
+}
+#staff-list table tr {
+  height: 40px;
+  border-bottom: 1px solid #eee;
+}
+#staff-list table td {
+  vertical-align: middle;
+}
+#staff-list table button {
+  background-color: dodgerblue;
+  color: white;
+  border-radius: 5px;
+  padding: 0 10px;
+  height: 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+}
+#staff-list table button.btn-delete {
+  background-color: firebrick;
+  margin-left: 5px;
+}
+
+#edit-modal .form-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+#edit-modal .form-content p {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+#edit-modal .input-form {
+  width: 50%;
+  padding: 0 5px;
+  margin-top: 10px;
+}
+
+#edit-modal input, #edit-modal select {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 0 5px;
+  margin-top: 5px;
+  font-size: 0.875rem;
+  height: 30px;
+}
+
+.chkBtn{
+  margin-left: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 2px 8px;
+  border: none;
+  background-color: #88B5F9;
+  color:white;
+  font-weight: bold;
+}
+
+.event{
+  font-weight: 500;
+}
+
+.type{
+  background-color: white;
+  color: gray;
+  border: none;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100%;
+  display: flex;
+}
+
+.App .sidebar {
+  width: 250px;
+  height: 100vh;
+  padding: 0 20px;
+  border-right: 1px solid rgb(232, 232, 232);
+}
+.work-container {
+  width: calc(100% - 250px);
+  padding: 0 20px;
+  overflow-y: auto;
+  height: 100vh;
+}
+.work-container > .tab-content {
+  height: inherit;
+}
+.work-container > .tab-content > .tab-pane {
+  height: inherit;
+}
+.back{
+  background-color: #F9FAFB;
+  height: inherit;
+}
+
+.back2{
+  background-color: white;
+  width: 100%;
+  height: inherit;
+}
+
+.home-page {
+  overflow: hidden;
+}
+
+/* 선택된 탭의 스타일 */
+.nav-link.active {
+  color: rgb(68, 68, 255) !important;
+}
+
+/* 선택되지 않은 탭의 스타일 */
+.nav-link:not(.active) {
+  color: rgb(110, 110, 110) !important;
+}
+
+/*회원가입 타입 구분버튼*/
+.master.active {
+  color: rgb(255, 255, 255) !important;
+}
+
+.master:not(.active) {
+  color: rgb(110, 110, 110) !important;
+
+}
+.user-image {
+  width: 300px; /* 이미지 크기를 조정하고자 할 경우 너비와 높이 값을 조정하세요 */
+  height: 300px;
+  border-radius: 100%; /* 동그란 모양을 만들기 위해 반지름 값을 50%로 설정합니다 */
+  border: 2px solid #000; /* 선의 스타일과 색상을 설정합니다 */
+  overflow: hidden; /* 넘치는 부분을 숨기기 위해 overflow 속성을 사용합니다 */
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.join{
+  margin: 0px auto;
 }
