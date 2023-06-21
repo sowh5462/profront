@@ -105,7 +105,11 @@ useEffect (()=>{
     <Tab.Container className="content" defaultActiveKey={activeKey}>
     <div className="sidebar">
         <div className="userbox">
+          {user.sta_image ? 
+          <img src={user.sta_image} className="user" />
+          :
           <img src="https://audition.hanbiton.com/images/common/img_default.jpg" className="user" />
+          }
           {sessionStorage.getItem("use_login_id")}님
         </div> 
               <ListGroup style={{textAlign:'left', fontSize:"18px"}}>
