@@ -56,11 +56,11 @@ const MyPage = ({history}) => {
 
     //유저이미지 수정
     const selectedFile = (e) => {
-        const file = e.target.files[0];
+        const file1 = e.target.files[0];
         const filesName = e.target.files[0].name;
-        setUserImage(URL.createObjectURL(file));
-        setForm({ ...form,  sta_file: file, sta_image:filesName});
-        // console.log(e.target.files[0].name);
+        setUserImage(URL.createObjectURL(file1));
+        setForm({ ...form,  sta_file: file1});
+        // console.log(sta_file);
     };
 
     //근로계약서
@@ -73,24 +73,39 @@ const MyPage = ({history}) => {
     const onUpdate = async () => {
         const profileRef = ref(storage, 'profiles/' + use_id + 'profileImage');
         const contractRef = ref(storage, 'contracts/' + use_id + 'contractImage');
-        const metadata = {contentType : 'image/jpeg'};
-        if(sta_file){
-            uploadBytes(profileRef, sta_file, metadata).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setForm({...form, sta_image:url});
-                  })
-            });
-        };
-        if(sta_cFile){
-            uploadBytes(contractRef, sta_cFile, metadata).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setForm({...form, sta_contract:url});
-                  })
-            });
-        };
-        await axios.post('/user/supdate', form);
-        await axios.post(`/user/wupdate`,form);
-    };
+        const metadata = { contentType: 'image/jpeg' };
+      
+        let updatedForm = { ...form }; // 상태 업데이트를 위한 임시 변수
+      
+        if (sta_file) {
+          try {
+            const snapshot = await uploadBytes(profileRef, sta_file, metadata);
+            const url = await getDownloadURL(snapshot.ref);
+            updatedForm = { ...updatedForm, sta_image: url };
+          } catch (error) {
+            console.log('Error uploading profile image:', error);
+          }
+        }
+      
+        if (sta_cFile) {
+          try {
+            const contractSnapshot = await uploadBytes(contractRef, sta_cFile, metadata);
+            const contractUrl = await getDownloadURL(contractSnapshot.ref);
+            updatedForm = { ...updatedForm, sta_contract: contractUrl };
+          } catch (error) {
+            console.log('Error uploading contract image:', error);
+          }
+        }
+      
+        // 상태 업데이트가 완료된 후 서버로 데이터 업데이트 요청
+        try {
+          await axios.post('/user/supdate', updatedForm);
+          await axios.post('/user/wupdate', updatedForm);
+          setForm(updatedForm); // 업데이트된 상태로 최종 업데이트
+        } catch (error) {
+          console.log('Error updating form:', error);
+        }
+      };
 
     //폼 수정
     const onChange = (e) => {
@@ -144,7 +159,7 @@ const MyPage = ({history}) => {
                     <Card className="py-3 px-3">
                         <Card className='m-2 p-3'>
                             <div className='d-flex m-3'>
-                        {sta_image ?
+                        {userImage ?
                             <img  style={{borderRadius:"50%"}} src={userImage} alt="유저이미지" width='100px' onClick={handleImageClick}/> 
                             : 
                             <img alt="유저이미지" src="http://via.placeholder.com/100x100" onClick={handleImageClick} width='100px'/>}

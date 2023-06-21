@@ -48,14 +48,14 @@ const PayPage = () => {
         getPay();
     }, []);
 
-    if(loading) return <Spinner/>
+    if(loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
     return (
         <Row className='my-5 px-5'>
             <Col md={5}>
                 <Row>
                     <Col>
                         <Card className="py-5">
-                            <h1>{untillPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원</h1>
+                            <h1>당월 예정 수입은 {untillPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 입니다.</h1>
                             {selectedPay.sche_day === dayOfWeek ? 
                             <h4 className='text-primary'>당일 예정 수입은 {(parseInt(selectedPay.work_time) * 9620).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원 입니다.</h4>
                             : <h4>당일 예정 수입은 0원 입니다.</h4>

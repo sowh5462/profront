@@ -20,7 +20,7 @@ const PayRollPage = () => {
     const getPayRoll = async () => {
         setLoading(true);
         const use_work_num = sessionStorage.getItem("use_work_num");
-        setTimeout(async () => {
+        
             try {
               const result3 = await axios.get(`/payroll/temp?use_work_num=${use_work_num}`);
               setTemp(result3.data);
@@ -30,7 +30,7 @@ const PayRollPage = () => {
               // 오류 처리 로직 추가
               setLoading(false);
             }
-          }, 3000);
+        
         const result = await axios.get(`/payroll/sum?use_work_num=${use_work_num}`);
         setPay(result.data);
         const result2 = await axios.get(`/payroll/total?use_work_num=${use_work_num}`);
