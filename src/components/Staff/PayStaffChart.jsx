@@ -6,6 +6,8 @@ import { useState } from 'react'
 
 const PayStaffChart = () => {
     const [data, setData] = useState([]);
+    const [showChart, setShowChart] = useState(false);
+
     const use_id = sessionStorage.getItem('use_id');
     const getData = async() => {
         const res = await axios.get(`/payroll/chart?use_id=${use_id}`);
@@ -14,9 +16,18 @@ const PayStaffChart = () => {
     useEffect(()=>{
         getData();
     }, []);
+
+    useEffect(() => {
+        if (data.length > 0) {
+            setShowChart(true);
+        }
+    }, [data]);
+
     return (
         // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
-        <div style={{ width: '600px', height: '600px', margin: '0 auto' }}>
+        <div style={{ width: '500px', height: '600px', margin: '0 auto' }}>
+             {showChart ? (
+
             <ResponsiveBar
                 /**
                  * chart에 사용될 데이터
@@ -125,8 +136,16 @@ const PayStaffChart = () => {
                 /**
                  * legend 설정 (default로 우측 하단에 있는 색상별 key 표시)
                  */
+                />
+                ):(
+                    <div className='my-5 py-5'>
+                    <br/><br/><br/><br/><br/>
+                    <div>급여명세서 관련 기록이 없습니다.</div>
+                </div>
                 
-            />
+                )}
+
+            
         </div>
     )
 }

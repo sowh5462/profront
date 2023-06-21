@@ -5,6 +5,7 @@ import { AlertContext } from '../AlertContext';
 import logo from '../../images/로고.png';
 import DaumPostcode from 'react-daum-postcode';
 
+
 const RegisterPage = ({history}) => {
   //주소 모달
   const [show, setShow] = useState(false);
@@ -26,7 +27,7 @@ const RegisterPage = ({history}) => {
 
   //회원폼 - type default(사장)
   const [form, setForm] = useState({
-    use_work_num:'',
+    use_work_num: '',
     use_login_id:'',
     use_login_pass:'',
     use_phone:'',
@@ -233,10 +234,10 @@ const RegisterPage = ({history}) => {
   },[])
 
   return (
-   <>
+   <div style={{ display: 'flex', justifyContent: 'center' }} className="join">
     <Row className="justify-content-center my-5">
-      <Col lg={3} md={5} xs={8}>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+      <Col lg={12} md={5} xs={8}>
+      <Tab.Container  defaultActiveKey="first">
       <Row>     
           <Nav variant="pills" className="mb-3" >
             <Nav.Item>
@@ -249,7 +250,7 @@ const RegisterPage = ({history}) => {
         <Col >
           <Tab.Content>
             <Tab.Pane eventKey="first">
-              <h3 className="py-3">
+              <h3 className="py-3" style={{color:"black"}}>
               <img src={logo} width='40px' alt="일해요로고"/>
                 <b> 사업자 회원가입</b>
               </h3>
@@ -312,7 +313,7 @@ const RegisterPage = ({history}) => {
 
             </Tab.Pane>
               <Tab.Pane eventKey="second">
-                <h3 className="py-3">
+                <h3 className="py-3" style={{color:"black"}}>
                   <img src={logo} width='40px' alt="일해요로고"/>
                     <b> 근로자 회원가입</b>
                 </h3>
@@ -391,7 +392,7 @@ const RegisterPage = ({history}) => {
         </Modal.Footer>
       </Modal>
 
-   </>
+   </div>
      
   )
 }

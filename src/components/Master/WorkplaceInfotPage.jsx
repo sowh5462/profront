@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext} from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import '../css/Calendar.css'
 import moment from 'moment';
 import {Row, Col, Form} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -44,15 +44,8 @@ const WorkplaceInfotPage = () => {
     
     //행사 리스트 출력
     const getEventList = async () => {
-     try{
         const result = await axios.get(`/event/?event_start=${date}&use_work_num=${use_work_num}`);
         setEvent(result.data);
-     }catch(err){
-        setBox({
-          show:true,
-          message:"행사 리스트를 가져오는데 실패했습니다!"+err
-        })
-     }
     };
 
     //사업장 정보 출력
@@ -187,7 +180,8 @@ const WorkplaceInfotPage = () => {
                     <Calendar
                       onChange={onDayChange}
                       value={value}
-                      locale="en-EN"                                                             
+                      locale="en-EN" 
+                      style={{border:"none"}}                                                           
                       />  
                 </div>               
               </Col>
@@ -199,7 +193,7 @@ const WorkplaceInfotPage = () => {
                           <div key={e.event_id} style={{borderBottom:"solid 1px lightgray",padding:'5px'}}>
                             <span>▶︎ {e.start}~{e.end}&nbsp;|</span>
                             <span><b>&nbsp;&nbsp;{e.event_name}</b></span>
-                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDeleteClick(e.event_id)}><FaRegTrashAlt/></span>
+                            <span style={{float:'right',cursor:"pointer"}} onClick={()=>onDeleteClick(e.event_id)}><FaRegTrashAlt style={{color:"gray"}}/></span>
                           </div>
                         ))}
                     </div>

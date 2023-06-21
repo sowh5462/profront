@@ -23,15 +23,16 @@ const PayStubPage = () => {
   const [stub, setStub] = useState([]);
   const [more, setMore] = useState(0);
   const [pay_regular, setPay_regular] = useState(0);
+  const [work_time, setWork_time] = useState(0);
   const { setBox } = useContext(AlertContext);
-
+  const [pay_all, setPay_all] = useState(0);
   const { sta_bank, sta_account, sta_type } = staff;
 
   const pay_more = 9620 * more * 1.5; //연장수당
   const pay_night = 0;
   const pay_holiday = 0;
   const pay_meal = 10000; //식대
-  const pay_all = pay_regular + pay_more + pay_meal + pay_night + pay_holiday; //지급액 합계
+  
 
   let tax;
   let ens1;
@@ -97,6 +98,11 @@ const PayStubPage = () => {
     //연장근무 시간
     const res3 = await axios.get(`/payroll/more?use_work_num=${use_work_num}&use_name=${staffName}`);
     setMore(res3.data);
+
+    //현재까지 급여
+    const res4 = await axios.get(`/payroll/untill?use_id=${res2.data.use_id}&date=${timestring}`);
+    setWork_time(res4.data);
+
     setLoading(false);
   };
 
@@ -140,6 +146,7 @@ const PayStubPage = () => {
   const onClickCalc = async() => {
     const regular = document.getElementById('regular');
     setPay_regular(parseInt(regular.value));
+    setPay_all(parseInt(pay_regular) + parseInt(pay_more) + parseInt(pay_meal) + parseInt(pay_night) + parseInt(pay_holiday))
   };
 
   const onClickDelete = (stub_name, stub_id) => {
@@ -160,8 +167,8 @@ const PayStubPage = () => {
 
   if (loading) return <Spinner animation='border' className='position-absolute top-50 start-50' />
   return (
-    <Row>
-      <Col md={4}>
+    <Row className="py-4">
+      <Col md={3}>
         <select id='sta_name' style={{ width: "200px", fontSize: "20px", textAlign: "center" }} onChange={onChangeName} value={name}>
           <option>-----</option>
           {staffList.map(s =>
@@ -178,11 +185,11 @@ const PayStubPage = () => {
 
       </Col>
       <Col md={7} className='border border-4 py-3' id='bill'>
-        <h4>급여명세서</h4>
+        <h3 className="py-3">급여명세서</h3>
         <div className='my-2'>
-          <div className='text-end'>지급일:{timestring}</div>
+          <div className='text-end pe-2'>지급일:{timestring}</div>
           <InputGroup className='w-25' data-html2canvas-ignore="true">
-            <Form.Control type='number' className='text-end' id='regular' placeholder='급여' />
+            <Form.Control type='number' className='text-end' id='regular' placeholder={`${(work_time * 9620).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`} onChange={(e)=>setPay_regular(e.target.value)} />
             <Button onClick={onClickCalc}>계산</Button>
           </InputGroup>
         </div>

@@ -1,68 +1,53 @@
-import moment from 'moment/moment';
-import React, { useState } from 'react';
-import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Calendar, Views, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Container, Col, Row } from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap'
 
 const SchedulePage = () => {
-  moment.locale('ko-KR');
+  const [schedule, setSchedule] = useState([]);
+
   const localizer = momentLocalizer(moment);
-  const [view, setView] = useState(Views.WEEK);
 
-  const handleViewChange = view => {
-    setView(view);
+  const getSchedule = async () => {
+    const result = await axios.get(
+      `/schedule/listStaff.json?use_id=${sessionStorage.getItem('use_id')}`
+    );
+      // console.log(result.data);
+      setSchedule(result.data);
   };
 
-  const onView = view => {
-    const startHour = 8; // 시작 시간 (오전 8시)
-    const endHour = 23; // 종료 시간 (오후 11시)
+  useEffect(() => {
+    getSchedule();
+  }, []);
 
-    const newStart = new Date(view.start);
-    newStart.setHours(startHour, 0, 0, 0);
-
-    const newEnd = new Date(view.end);
-    newEnd.setHours(endHour, 0, 0, 0);
-
-    return {
-      start: newStart,
-      end: newEnd
-    };
+  const getEventList = () => {
+    return schedule.map((s)=>({
+      title:`${s.start}-${s.work_name} `,
+      start: moment(s.start).toDate(),
+      end: moment(s.end).toDate(),
+    }));
   };
+
+
 
   return (
-    <Container>
-      <Row className='justify-content-center'>
-        <Col md={10}>
-          <Calendar
-            localizer={localizer}
-            events={[
-              {
-                id: 1,
-                title: '롯데리아',
-                start: new Date(2023, 5, 15, 8, 0),
-                end: new Date(2023, 5, 15, 16, 0)
-              },
-              {
-                id: 1,
-                title: '롯데리아',
-                start: new Date(2023, 5, 16, 8, 0),
-                end: new Date(2023, 5, 16, 16, 0)
-              }
-            ]}
-            style={{ height: 800 }}
-            view={view}
-            onView={handleViewChange}
-            views={['week']}
-            min={new Date(2023, 5, 15, 8, 0)}
-            max={new Date(2023, 5, 15, 23, 59)} // 11시 이전까지 표시되도록 설정
-            toolbar={true}
-            getDrilldownView={onView}
-            startAccessor="start"
-            endAccessor="end"
-          />
-        </Col>
-      </Row>
-    </Container>
+    <div>
+        <Row className='ps-5 py-4'>
+          <h2 className="text-start pb-4 fw-normal">주간 근무표</h2>
+          <Col md={10}>
+            <Calendar
+              localizer={localizer}
+              events={getEventList()}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: 500, width: "100%" }} 
+              min={8}
+            />
+          </Col>
+        </Row>
+    </div>
   );
 };
 

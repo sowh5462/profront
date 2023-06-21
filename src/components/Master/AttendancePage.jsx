@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Col, Row, Card, Tab, Tabs, Button, Table} from "react-bootstrap";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import '../css/Calendar.css'
 import moment from "moment";
 import Pagination from "react-js-pagination";
 import "../css/Paging.css";
@@ -70,10 +70,25 @@ const AttendancePage = () => {
     }
   };
 
-  //전체 결재내역
+   //유저별 승인중 조회 - 버튼출력
+   const checkConfirm = async (use_id) => {
+    const conresult = await axios.get(`/check/confirm?use_id=${use_id}`);
+    if (conresult.data >= 1) {
+      setConfirm((prevConfirm) => [...prevConfirm, { id: use_id, ok: 1 }]);
+    }
+  };
+
+  //전체 결재내역 - offcanvas
   const getCheckList = async() =>{
-    const lresult = await axios.get(`/check/about?use_work_num=${worknum}`);
-    setList(lresult.data);
+    try{
+      const lresult = await axios.get(`/check/about?use_work_num=${worknum}`);
+      setList(lresult.data);
+    }catch(err){
+      setBox({
+        show:true,
+        message:"전체 결재내역을 불러오는데 실패했습니다"+err
+      })
+    }
   }
 
   //결재내역 오프캔버스
@@ -81,14 +96,7 @@ const AttendancePage = () => {
     offShow();
   }
 
-  //유저별 승인중 조회 - 버튼출력
-  const checkConfirm = async (use_id) => {
-    const conresult = await axios.get(`/check/confirm?use_id=${use_id}`);
-    if (conresult.data >= 1) {
-      setConfirm((prevConfirm) => [...prevConfirm, { id: use_id, ok: 1 }]);
-    }
-  };
-
+ 
   //select박스 필터링
 	const onFilter = async(chk_confirm) =>{
     setPage(1); //페이지 이동 후 select박스 선택했을 때 꼬임 방지
@@ -106,17 +114,29 @@ const AttendancePage = () => {
 
   //유저별 결재상세내역 - 버튼클릭
   const checkUser = async(use_id) =>{
-    const uresult = await axios.get(`/check/user?use_id=${use_id}`);
-    setCheck(uresult.data[0]);
-    modalShow();
+   try{
+      const uresult = await axios.get(`/check/user?use_id=${use_id}`);
+      setCheck(uresult.data[0]);
+      modalShow();
+   }catch(err){
+      setBox({
+        show:true,
+        message:"유저의 결재 상세내역을 불러오는데 실패했습니다"+err
+      })
+   }
   }
 
   //날짜별 결재 내역
   const getDayCheckList = async () => {
-    const dayresult = await axios.get(
-      `/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
-
-    setDayList(dayresult.data);    
+    try{
+      const dayresult = await axios.get(`/check/daylist?chk_day=${date}&use_work_num=${worknum}`);
+      setDayList(dayresult.data);    
+    }catch(err){
+      setBox({
+        show:true,
+        message:"날짜별 결재내역을 불러오는데 실패했습니다"+err
+      })
+    }
 
   };
 
@@ -222,11 +242,17 @@ const AttendancePage = () => {
                                         <Row>
                                             <Col md={3}>
                                                 <div>
-                                                  <img
-                                                    src="https://audition.hanbiton.com/images/common/img_default.jpg"
+                                                  {s.sta_image ? <img
+                                                    src={s.sta_image}
                                                     className="checkUser"
                                                     alt="직원이미지"
                                                   />
+                                                  : <img
+                                                  src="https://audition.hanbiton.com/images/common/img_default.jpg"
+                                                  className="checkUser"
+                                                  alt="직원이미지"
+                                                  />
+                                                }
                                                 </div>
                                             </Col>
                                             <Col>

@@ -15,8 +15,8 @@ import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import MyPage from './User/MyPage';
 import SchedulePage from './Staff/SchedulePage';
-
 import axios from 'axios';
+import TimeCheckPage from './Staff/TimeCheckPage';
 
 
 const StaffMenu = ({history}) => {
@@ -28,7 +28,7 @@ const StaffMenu = ({history}) => {
    const use_login_id = sessionStorage.getItem('use_login_id');
 
   //알림모달
-  const {setBox} = useContext(AlertContext);
+   const {setBox} = useContext(AlertContext);
 
    const onLogout = (e) => {
     setBox({
@@ -98,19 +98,21 @@ useEffect (()=>{
         </Modal.Footer>
       </Modal>
   )
-
+  
+  let activeKey = history?.location?.hash ? history.location.hash : '#Info'
 
   return (
-    <div className="content">
-        <Tab.Container id="list-group-tabs-example" defaultActiveKey="#Info">
-          <Row>
-            <Col sm={2}>
-                <div className="userbox">
-                    <img src="https://audition.hanbiton.com/images/common/img_default.jpg" className="user"/>
-                    {sessionStorage.getItem("use_login_id")}님
-                </div>
+    <Tab.Container className="content" defaultActiveKey={activeKey}>
+    <div className="sidebar">
+        <div className="userbox">
+          {user.sta_image ? 
+          <img src={user.sta_image} className="user" />
+          :
+          <img src="https://audition.hanbiton.com/images/common/img_default.jpg" className="user" />
+          }
+          {sessionStorage.getItem("use_login_id")}님
+        </div> 
               <ListGroup style={{textAlign:'left', fontSize:"18px"}}>
-
                 <ListGroup.Item action href="/" className="py-3">
                   <BiHomeAlt2/> 홈화면
                 </ListGroup.Item>
@@ -140,20 +142,19 @@ useEffect (()=>{
                 </ListGroup.Item>
                 
               </ListGroup>
-            </Col>
-            <Col sm={10}>
+      </div>
+            <div className="work-container">
               <Tab.Content>
                 <Tab.Pane eventKey="#link1"></Tab.Pane>
                 <Tab.Pane eventKey="#Info"><StaffPage/></Tab.Pane>
-                <Tab.Pane eventKey="#worktime"><SchedulePage/></Tab.Pane>
+                <Tab.Pane eventKey="#worktime"><TimeCheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#check"><CheckPage/></Tab.Pane>
                 <Tab.Pane eventKey="#payroll"><PayPage/></Tab.Pane>
                 <Tab.Pane eventKey="#mypage"><MyPage/></Tab.Pane>
               </Tab.Content>
-            </Col>
-        </Row>
+           </div>
     </Tab.Container>
-    </div>
+   
     
   )
 }

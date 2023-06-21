@@ -8,7 +8,7 @@ import Homepage from './HomePage';
 import WorkplaceMenu from './WorkPlaceMenu';
 import StaffMenu from './StaffMenu';
 import SchedulePage from './Staff/SchedulePage';
-import TimePage from './Staff/TimePage';
+
 import PayPage from './Staff/PayPage';
 import CheckPage from './Staff/CheckPage';
 import PayRollPage from './Master/PayRollPage';
@@ -18,6 +18,8 @@ import MyPage from './User/MyPage';
 import {Form , Nav, Navbar, Container} from 'react-bootstrap'
 import RegisterStaff from './User/RegisterStaff';
 import WorkplaceInfotPage from './Master/WorkplaceInfotPage';
+import WorkTimePage from './Staff/WorkTimePage';
+import FindPage from './User/FindPage';
 
 
 
@@ -39,10 +41,12 @@ const RouterPage = ({ history }) => {
                 <Route path="/workplace/payroll" component={PayRollPage}/>
                 <Route path="/staff" component={StaffMenu} exact={true}/>
                 <Route path="/staff/schedule" component={SchedulePage}/>
-                <Route path="/staff/time" component={TimePage}/>
+    
                 <Route path="/staff/pay" component={PayPage}/>
                 <Route path="/staff/check" component={CheckPage}/>
                 <Route path="/master/list" component={MasterListPage}/>
+                <Route path="/time" component={WorkTimePage}/>
+                <Route path="/find/id" component={FindPage}/>
             </Switch>
             </>
     )
